@@ -1,4 +1,4 @@
-import { Github, Twitter, Mail, Heart } from "lucide-react";
+import { Github, Mail, Heart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 

@@ -11,8 +11,8 @@ export function FinalCTA() {
         </h2>
         <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
           Join students worldwide who are already using Paideia to create
-          smarter study materials. It's free, open-source, and ready to use with
-          your AI API token.
+          smarter study materials. It&apos;s free, open-source, and ready to use
+          with your AI API token.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
