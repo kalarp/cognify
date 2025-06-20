@@ -1,16 +1,28 @@
+"use client";
+
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
-    <header className="border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 sticky top-0 z-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center space-x-2">
-            <BookOpen className="h-8 w-8 text-emerald-600" />
-            <span className="text-2xl font-bold text-gray-900">Paideia</span>
+            <Image
+              src="/favicon.svg"
+              alt="Paideia Logo"
+              width={32}
+              height={32}
+              className="w-8 h-8"
+            />
+            <span className="text-xl font-bold text-gray-900">Paideia</span>
           </div>
 
           {/* Desktop Navigation */}
@@ -22,38 +34,66 @@ export function Header() {
               Features
             </Link>
             <Link
-              href="#pricing"
+              href="#how-it-works"
               className="text-gray-600 hover:text-gray-900 transition-colors"
             >
-              Pricing
+              How it Works
             </Link>
             <Link
-              href="#about"
+              href="https://github.com/chaosweasl/paideia"
               className="text-gray-600 hover:text-gray-900 transition-colors"
             >
-              About
+              GitHub
             </Link>
-            <Link
-              href="#contact"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              Contact
-            </Link>
-          </nav>
-
-          {/* CTA Buttons */}
-          <div className="flex items-center space-x-4">
-            <Button variant="ghost" className="hidden sm:inline-flex">
-              Sign In
-            </Button>
-            <Button className="bg-emerald-600 hover:bg-emerald-700">
+            <Button className="bg-emerald-600 hover:bg-emerald-700 text-white">
               Get Started
             </Button>
-            <Button variant="ghost" size="icon" className="md:hidden">
-              <Menu className="h-5 w-5" />
+          </nav>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </Button>
           </div>
         </div>
+
+        {/* Mobile Navigation */}
+        {isMenuOpen && (
+          <div className="md:hidden py-4 border-t border-gray-200">
+            <div className="flex flex-col space-y-4">
+              <Link
+                href="#features"
+                className="text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                Features
+              </Link>
+              <Link
+                href="#how-it-works"
+                className="text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                How it Works
+              </Link>
+              <Link
+                href="https://github.com/chaosweasl/paideia"
+                className="text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                GitHub
+              </Link>
+              <Button className="bg-emerald-600 hover:bg-emerald-700 text-white w-full">
+                Get Started
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );
