@@ -34,7 +34,7 @@ export function Header() {
               Features
             </Link>
             <Link
-              href="#how-it-works"
+              href="https://github.com/chaosweasl/paideia#readme"
               className="text-gray-600 hover:text-gray-900 transition-colors"
             >
               How it Works

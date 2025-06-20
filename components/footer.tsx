@@ -31,12 +31,7 @@ export function Footer() {
               >
                 <Github className="h-6 w-6" />
               </Link>
-              <Link
-                href="https://twitter.com/paideia"
-                className="text-gray-400 hover:text-gray-600 transition-colors"
-              >
-                <Twitter className="h-6 w-6" />
-              </Link>
+
               <Link
                 href="mailto:17daniel.dev@gmail.com"
                 className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -109,22 +104,6 @@ export function Footer() {
                   Community
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="https://github.com/chaosweasl/paideia/blob/main/CONTRIBUTING.md"
-                  className="text-gray-600 hover:text-gray-900 transition-colors"
-                >
-                  Contributing
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/privacy"
-                  className="text-gray-600 hover:text-gray-900 transition-colors"
-                >
-                  Privacy Policy
-                </Link>
-              </li>
             </ul>
           </div>
         </div>
@@ -132,22 +111,16 @@ export function Footer() {
         <div className="border-t border-gray-200 pt-8 mt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-600 text-sm">
-              © 2024 Paideia. Open source and made with{" "}
+              © 2025 Paideia. Open source and made with{" "}
               <Heart className="inline h-4 w-4 text-red-500" /> for students
               everywhere.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <Link
-                href="/terms"
+                href="https://github.com/chaosweasl/paideia/blob/main/LICENSE"
                 className="text-gray-600 hover:text-gray-900 text-sm transition-colors"
               >
-                Terms of Service
-              </Link>
-              <Link
-                href="/privacy"
-                className="text-gray-600 hover:text-gray-900 text-sm transition-colors"
-              >
-                Privacy Policy
+                License
               </Link>
             </div>
           </div>
