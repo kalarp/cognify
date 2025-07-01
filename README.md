@@ -73,12 +73,12 @@ docs/               # Documentation and TODOs
 ## Roadmap
 
 - [x] Email/password authentication
-- [x] Flashcard creation and storage
-- [x] AI-powered flashcard generation (bring your own API key)
-- [x] Spaced repetition reminders
 - [ ] OAuth login (Google, GitHub, etc.)
 - [ ] User profile management (avatars, usernames)
+- [ ] Flashcard creation and storage
+- [ ] AI-powered flashcard generation (bring your own API key)
 - [ ] PDF parsing and import
+- [ ] Spaced repetition reminders
 - [ ] Mobile-friendly UI
 - [ ] Community/shared decks
 
