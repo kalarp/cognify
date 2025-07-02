@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { login, signup } from "./actions";
-import { Plus, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 
 export default function LoginPage() {
