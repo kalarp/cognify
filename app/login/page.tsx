@@ -2,6 +2,10 @@
 
 import { login, signup } from "./actions";
 
+{
+  /* TODO: style and tell the user to confirm via email + link to gmail */
+}
+
 export default function LoginPage() {
   return (
     <form>
