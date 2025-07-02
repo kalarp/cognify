@@ -58,7 +58,13 @@
    yarn dev
    ```
 
-5. **Open [http://localhost:3000](http://localhost:3000) in your browser.**
+5. **Update Supabase Authentication Settings:**
+
+   In your [Supabase](https://supabase.com/) project dashboard, go to **Authentication → URL Configuration**.  
+   Set the **Site URL** to `http://localhost:3000` (or the URL you use for local testing).  
+   This ensures authentication redirects work correctly during development.
+
+6. **Open [http://localhost:3000](http://localhost:3000) in your browser.**
 
 ## Project Structure
 
