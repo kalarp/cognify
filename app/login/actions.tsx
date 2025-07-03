@@ -66,3 +66,20 @@ export async function signup(formData: FormData) {
 
   return { success: true };
 }
+
+export async function signInWithGithub() {
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "github",
+    options: {
+      redirectTo: process.env.NEXT_PUBLIC_SITE_URL + "/auth/callback",
+    },
+  });
+  if (data?.url) {
+    // Use Next.js redirect to send the user to the GitHub OAuth URL
+    redirect(data.url);
+  }
+  if (error) {
+    throw new Error(error.message);
+  }
+}

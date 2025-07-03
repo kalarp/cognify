@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { login, signup } from "./actions";
+import { Github } from "lucide-react";
+import { signInWithGithub, login, signup } from "./actions";
 import { CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 
@@ -27,6 +28,11 @@ export default function LoginPage() {
     }
   }
 
+  async function handleGithubLogin(e: React.MouseEvent) {
+    e.preventDefault();
+    await signInWithGithub();
+  }
+
   return (
     <div
       data-theme="paideia"
@@ -42,6 +48,14 @@ export default function LoginPage() {
             to get started.
           </p>
         </div>
+        <button
+          type="button"
+          onClick={handleGithubLogin}
+          className="btn btn-outline btn-neutral flex items-center gap-2 w-full mb-4"
+        >
+          <Github className="w-5 h-5" />
+          Continue with GitHub
+        </button>
         {!signupSuccess ? (
           <form className="space-y-5">
             <div>
