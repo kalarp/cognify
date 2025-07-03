@@ -69,8 +69,11 @@ export async function signup(formData: FormData) {
 
 export async function signInWithGithub() {
   const supabase = await createClient();
-  const siteUrl =
+  let siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://paideia-chaosweasl.vercel.app";
+  if (process.env.NODE_ENV === "development") {
+    siteUrl = "http://localhost:3000";
+  }
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github",
     options: {

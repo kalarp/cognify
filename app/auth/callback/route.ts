@@ -2,7 +2,10 @@ import { NextResponse } from 'next/server'
 // The client you created from the Server-Side Auth instructions
 import { createClient } from '@/utils/supabase/server'
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://paideia-chaosweasl.vercel.app';
+let SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://paideia-chaosweasl.vercel.app';
+if (process.env.NODE_ENV === 'development') {
+  SITE_URL = 'http://localhost:3000';
+}
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -11,7 +14,7 @@ export async function GET(request: Request) {
   let next = searchParams.get('next') ?? '/'
   if (!next.startsWith('/')) {
     // if "next" is not a relative URL, use the default
-    next = '/'
+    next = '/dashboard'
   }
 
   if (code) {
