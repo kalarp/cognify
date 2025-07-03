@@ -28,7 +28,7 @@
 1. **Clone the repository:**
 
    ```sh
-   git clone https://github.com/yourusername/paideia.git
+   git clone https://github.com/chaosweasl/paideia.git
    cd paideia
    ```
 
