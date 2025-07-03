@@ -47,8 +47,14 @@
    ```
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   NEXT_PUBLIC_SITE_URL=http://localhost:3000
+   # Or set to your deployed URL if not running locally
    # Add your AI API key as needed
    ```
+
+   > **Note:**  
+   > Do **not** use `https://paideia-chaosweasl.vercel.app` unless you are deploying to the official instance.  
+   > Use your own local or deployment URL for `NEXT_PUBLIC_SITE_URL`.
 
 4. **Run the development server:**
 

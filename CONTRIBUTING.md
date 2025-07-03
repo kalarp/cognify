@@ -7,10 +7,13 @@ We welcome contributions! Please read the following guidelines to get started.
 1. **Fork the repository** and create your branch from `main`.
 2. **Create a new branch** for your feature or fix (do not commit directly to `main`).
 3. **Install dependencies** if you haven't already.
-4. **Make your changes** (add features, fix bugs, improve docs).
-5. **Test your changes** locally. (If possible, also deploy a preview with Vercel to check for ESLint issues.)
-6. **Commit your changes** with clear messages.
-7. **Push to your fork** and submit a Pull Request.
+4. **Set up your own `.env.local`**  
+   Use your own Supabase project credentials and set `NEXT_PUBLIC_SITE_URL` to your local or deployed URL (e.g., `http://localhost:3000`).  
+   **Do not use the official production URL unless you are deploying your own instance.**
+5. **Make your changes** (add features, fix bugs, improve docs).
+6. **Test your changes** locally. (If possible, also deploy a preview with Vercel to check for ESLint issues.)
+7. **Commit your changes** with clear messages.
+8. **Push to your fork** and submit a Pull Request.
 
 ## Code Style
 
