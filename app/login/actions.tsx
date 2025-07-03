@@ -72,7 +72,7 @@ export async function signInWithGithub() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github",
     options: {
-      redirectTo: process.env.NEXT_PUBLIC_SITE_URL + "/auth/callback",
+      redirectTo: "https://paideia-chaosweasl.vercel.app/auth/callback",
     },
   });
   if (data?.url) {
