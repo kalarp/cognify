@@ -17,12 +17,12 @@ export function Header() {
           <div className="flex items-center space-x-2">
             <Image
               src="/favicon.svg"
-              alt="Paideia Logo"
+              alt="Cognify Logo"
               width={32}
               height={32}
               className="w-8 h-8"
             />
-            <span className="text-xl font-bold text-gray-900">Paideia</span>
+            <span className="text-xl font-bold text-gray-900">Cognify</span>
           </div>
 
           {/* Desktop Navigation */}
@@ -34,13 +34,13 @@ export function Header() {
               Features
             </Link>
             <Link
-              href="https://github.com/chaosweasl/paideia#readme"
+              href="https://github.com/chaosweasl/cognify#readme"
               className="text-gray-600 hover:text-gray-900 transition-colors"
             >
               How it Works
             </Link>
             <Link
-              href="https://github.com/chaosweasl/paideia"
+              href="https://github.com/chaosweasl/cognify"
               className="text-gray-600 hover:text-gray-900 transition-colors"
             >
               GitHub
@@ -83,7 +83,7 @@ export function Header() {
                 How it Works
               </Link>
               <Link
-                href="https://github.com/chaosweasl/paideia"
+                href="https://github.com/chaosweasl/cognify"
                 className="text-gray-600 hover:text-gray-900 transition-colors"
               >
                 GitHub

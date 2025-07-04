@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 // The client you created from the Server-Side Auth instructions
 import { createClient } from '@/utils/supabase/server'
 
-let SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://paideia-chaosweasl.vercel.app';
+let SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://cognify-chaosweasl.vercel.app';
 if (process.env.NODE_ENV === 'development') {
   SITE_URL = 'http://localhost:3000';
 }

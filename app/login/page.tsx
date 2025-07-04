@@ -35,13 +35,13 @@ export default function LoginPage() {
 
   return (
     <div
-      data-theme="paideia"
+      data-theme="cognify"
       className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-base-200 to-white"
     >
       <div className="w-full max-w-md bg-white/90 shadow-2xl rounded-3xl p-10 border border-base-300 flex flex-col gap-6">
         <div className="flex flex-col items-center gap-2 mb-2">
           <h2 className="text-3xl font-extrabold text-center text-primary tracking-tight">
-            Welcome to <span className="text-emerald-400">Paideia</span>
+            Welcome to <span className="text-emerald-400">Cognify</span>
           </h2>
           <p className="text-base-content/70 text-center text-base">
             AI-powered flashcards for your notes. Sign in or create an account
@@ -130,7 +130,7 @@ export default function LoginPage() {
               Didn&apos;t get the email? Check your spam folder or&nbsp;
               <Link
                 target="_blank"
-                href="https://github.com/chaosweasl/paideia/issues"
+                href="https://github.com/chaosweasl/cognify/issues"
                 className="link link-primary"
               >
                 contact support

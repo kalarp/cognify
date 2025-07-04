@@ -12,12 +12,12 @@ export function Footer() {
             <div className="flex items-center space-x-2 mb-4">
               <Image
                 src="/favicon.svg"
-                alt="Paideia Logo"
+                alt="Cognify Logo"
                 width={32}
                 height={32}
                 className="w-8 h-8"
               />
-              <span className="text-xl font-bold text-gray-900">Paideia</span>
+              <span className="text-xl font-bold text-gray-900">Cognify</span>
             </div>
             <p className="text-gray-600 mb-4 max-w-md">
               Transform your study materials into intelligent flashcards with
@@ -26,7 +26,7 @@ export function Footer() {
             </p>
             <div className="flex space-x-4">
               <Link
-                href="https://github.com/chaosweasl/paideia"
+                href="https://github.com/chaosweasl/cognify"
                 className="text-gray-400 hover:text-gray-600 transition-colors"
               >
                 <Github className="h-6 w-6" />
@@ -57,7 +57,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="https://github.com/chaosweasl/paideia#readme"
+                  href="https://github.com/chaosweasl/cognify#readme"
                   className="text-gray-600 hover:text-gray-900 transition-colors"
                 >
                   How it Works
@@ -65,7 +65,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="https://github.com/chaosweasl/paideia#readme"
+                  href="https://github.com/chaosweasl/cognify#readme"
                   className="text-gray-600 hover:text-gray-900 transition-colors"
                 >
                   Documentation
@@ -73,7 +73,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="https://github.com/chaosweasl/paideia/wiki"
+                  href="https://github.com/chaosweasl/cognify/wiki"
                   className="text-gray-600 hover:text-gray-900 transition-colors"
                 >
                   API Reference
@@ -90,7 +90,7 @@ export function Footer() {
             <ul className="space-y-3">
               <li>
                 <Link
-                  href="https://github.com/chaosweasl/paideia/issues"
+                  href="https://github.com/chaosweasl/cognify/issues"
                   className="text-gray-600 hover:text-gray-900 transition-colors"
                 >
                   Report Issues
@@ -98,7 +98,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="https://github.com/chaosweasl/paideia/discussions"
+                  href="https://github.com/chaosweasl/cognify/discussions"
                   className="text-gray-600 hover:text-gray-900 transition-colors"
                 >
                   Community
@@ -111,13 +111,13 @@ export function Footer() {
         <div className="border-t border-gray-200 pt-8 mt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-600 text-sm">
-              © 2025 Paideia. Open source and made with{" "}
+              © 2025 Cognify. Open source and made with{" "}
               <Heart className="inline h-4 w-4 text-red-500" /> for students
               everywhere.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <Link
-                href="https://github.com/chaosweasl/paideia/blob/main/LICENSE"
+                href="https://github.com/chaosweasl/cognify/blob/main/LICENSE"
                 className="text-gray-600 hover:text-gray-900 text-sm transition-colors"
               >
                 License

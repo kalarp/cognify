@@ -1,6 +1,6 @@
-# Paideia
+# Cognify
 
-**Paideia** is an open-source platform that helps you turn your notes into flashcards using AI, and reminds you to restudy them using spaced repetition. You control your data and your AI: bring your own API key, and Paideia will never lock you in or charge you for usage.
+**Cognify** is an open-source platform that helps you turn your notes into flashcards using AI, and reminds you to restudy them using spaced repetition. You control your data and your AI: bring your own API key, and Cognify will never lock you in or charge you for usage.
 
 ## Features
 
@@ -28,8 +28,8 @@
 1. **Clone the repository:**
 
    ```sh
-   git clone https://github.com/chaosweasl/paideia.git
-   cd paideia
+   git clone https://github.com/chaosweasl/cognify.git
+   cd cognify
    ```
 
 2. **Install dependencies:**
@@ -53,7 +53,7 @@
    ```
 
    > **Note:**  
-   > Do **not** use `https://paideia-chaosweasl.vercel.app` unless you are deploying to the official instance.  
+   > Do **not** use `https://cognify-chaosweasl.vercel.app` unless you are deploying to the official instance.  
    > Use your own local or deployment URL for `NEXT_PUBLIC_SITE_URL`.
 
 4. **Run the development server:**
@@ -106,6 +106,6 @@ See [`CONTRIBUTING.md`](CONTRIBUTING.md) for guidelines and tutorials on how to 
 
 ---
 
-**Paideia** is built to empower learners everywhere. You own your data, your AI, and your learning journey.
+**Cognify** is built to empower learners everywhere. You own your data, your AI, and your learning journey.
 
-You can watch live development at [https://paideia-chaosweasl.vercel.app/](https://paideia-chaosweasl.vercel.app/)
+You can watch live development at [https://cognify-chaosweasl.vercel.app/](https://cognify-chaosweasl.vercel.app/)

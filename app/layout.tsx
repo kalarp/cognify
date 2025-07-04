@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Paideia",
+  title: "Cognify",
   description: "A website for detecting fake news and misinformation",
 };
 
