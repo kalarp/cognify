@@ -13,7 +13,7 @@ export function Features() {
       icon: FileText,
       title: "Multiple Input Formats",
       description:
-        "Upload text, paste content directly, or upload PDF files. Paideia handles various content types seamlessly.",
+        "Upload text, paste content directly, or upload PDF files. Cognify handles various content types seamlessly.",
     },
     {
       icon: Database,

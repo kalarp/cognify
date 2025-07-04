@@ -13,7 +13,7 @@ export function Hero() {
           </h1>
 
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Paideia uses AI to automatically convert your classwork, notes, and
+            Cognify uses AI to automatically convert your classwork, notes, and
             PDFs into interactive flashcards. Study smarter, not harder with
             personalized learning tools.
           </p>
@@ -32,7 +32,7 @@ export function Hero() {
               className="bg-white text-gray-700 border-gray-300 px-8 py-3"
             >
               <Github className="mr-2 h-5 w-5" />
-              <Link href="https://github.com/chaosweasl/paideia">
+              <Link href="https://github.com/chaosweasl/cognify">
                 View on GitHub
               </Link>
             </Button>

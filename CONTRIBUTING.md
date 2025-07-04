@@ -1,6 +1,8 @@
-# Contributing to Paideia
+# Contributing to Cognify
 
-We welcome contributions! Please read the following guidelines to get started.
+We w## STo run Cognify locally, you need your own [Supabase](https://supabase.com/) project. Here's how to configure it:o run Cognify locally, you need your own [Supabase](https://supabase.com/) project. Here's how to configure it:tting Up Supabase for Local Development
+
+To run Cognify locally, you need your own [Supabase](https://supabase.com/) project. Here's how to configure it:o run Cognify locally, you need your own [Supabase](https://supabase.com/) project. Here's how to configure it:o run Cognify locally, you need your own [Supabase](https://supabase.com/) project. Here's how to configure it:ome contributions! Please read the following guidelines to get started.
 
 ## How to Contribute
 
@@ -24,8 +26,8 @@ We welcome contributions! Please read the following guidelines to get started.
 
 ## Issues & Discussions
 
-- Use [GitHub Issues](https://github.com/chaosweasl/paideia/issues) for bugs and feature requests.
-- For questions or ideas, open a [Discussion](https://github.com/chaosweasl/paideia/discussions).
+- Use [GitHub Issues](https://github.com/chaosweasl/cognify/issues) for bugs and feature requests.
+- For questions or ideas, open a [Discussion](https://github.com/chaosweasl/cognify/discussions).
 
 ## Security
 
@@ -33,7 +35,7 @@ If you discover a security vulnerability, please report it privately.
 
 ## Setting Up Supabase for Local Development
 
-To run Paideia locally, you need your own [Supabase](https://supabase.com/) project. Here’s how to configure it:
+To run Cognify locally, you need your own [Supabase](https://supabase.com/) project. Here’s how to configure it:
 
 **Recommended:** Use [Vercel](https://vercel.com/) and Supabase together for the smoothest experience.  
 You can link your Supabase project to your Vercel project and automatically pull environment variables using the [Vercel CLI](https://vercel.com/docs/cli).
@@ -103,8 +105,8 @@ For more details, see the [Supabase docs](https://supabase.com/docs/guides/auth)
 - **OAuth not working locally:**  
   Double-check that your provider callback URLs are set to your local dev URL in Supabase.
 
-If you get stuck, open a [Discussion](https://github.com/chaosweasl/paideia/discussions) or [Issue](https://github.com/chaosweasl/paideia/issues)!
+If you get stuck, open a [Discussion](https://github.com/chaosweasl/cognify/discussions) or [Issue](https://github.com/chaosweasl/cognify/issues)!
 
 ---
 
-Thank you for helping make Paideia better!
+Thank you for helping make Cognify better!

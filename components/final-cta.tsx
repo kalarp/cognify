@@ -10,7 +10,7 @@ export function FinalCTA() {
           Ready to Revolutionize Your Study Routine?
         </h2>
         <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-          Join students worldwide who are already using Paideia to create
+          Join students worldwide who are already using Cognify to create
           smarter study materials. It&apos;s free, open-source, and ready to use
           with your AI API token.
         </p>
@@ -29,7 +29,7 @@ export function FinalCTA() {
             className="bg-transparent text-white border-white hover:bg-white hover:text-gray-900 px-8 py-3"
           >
             <Github className="mr-2 h-5 w-5" />
-            <Link href="https://github.com/chaosweasl/paideia">
+            <Link href="https://github.com/chaosweasl/cognify">
               Star on GitHub
             </Link>
             <Star className="ml-2 h-4 w-4" />
