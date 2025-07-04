@@ -2,13 +2,12 @@
 
 import React, { useState } from "react";
 import { useUserProfile } from "@/hooks/useUserProfile";
-import * as Avatar from "@radix-ui/react-avatar";
 import * as Toast from "@radix-ui/react-toast";
 import * as Label from "@radix-ui/react-label";
-import * as Dialog from "@radix-ui/react-dialog";
 import * as Separator from "@radix-ui/react-separator";
 import { Slot } from "@radix-ui/react-slot";
 import Image from "next/image";
+import { Camera, User, FileText, Save, X, Eye } from "lucide-react";
 
 const SettingsPage = () => {
   const {
@@ -89,16 +88,27 @@ const SettingsPage = () => {
   };
 
   const typeClasses = {
-    success: "bg-green-50 border-green-200 text-green-800",
-    error: "bg-red-50 border-red-200 text-red-800",
-    info: "bg-blue-50 border-blue-200 text-blue-800",
+    success:
+      "bg-gradient-to-r from-green-50 to-emerald-50 border-green-200 text-green-800",
+    error:
+      "bg-gradient-to-r from-red-50 to-rose-50 border-red-200 text-red-800",
+    info: "bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 text-blue-800",
   };
 
   if (profileLoading) {
     return (
       <Toast.Provider>
-        <div className="max-w-2xl mx-auto p-6 bg-gray-100 rounded-lg shadow-md">
-          <div className="text-center">Loading...</div>
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="card bg-base-100 shadow-xl">
+              <div className="card-body text-center">
+                <span className="loading loading-dots loading-lg text-primary"></span>
+                <div className="text-base-content mt-4">
+                  Loading your settings...
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <Toast.Viewport className="fixed bottom-0 right-0 flex flex-col p-6 gap-2 w-96 max-w-[100vw] m-0 list-none z-50 outline-none" />
       </Toast.Provider>
@@ -107,158 +117,293 @@ const SettingsPage = () => {
 
   return (
     <Toast.Provider>
-      <div className="max-w-2xl mx-auto p-6 bg-gray-100 rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">Settings</h1>
-
-        {message && (
-          <Toast.Root
-            className={`${typeClasses[messageType]} rounded-lg p-4 border shadow-lg mb-4`}
-            open={!!message}
-            onOpenChange={(open) => !open && handleClearMessage()}
-            duration={3000}
-          >
-            <Toast.Title className="font-semibold text-sm">
-              {message}
-            </Toast.Title>
-            <Toast.Action altText="Close" asChild>
-              <button
-                className="ml-2 text-current opacity-60 hover:opacity-100"
-                onClick={handleClearMessage}
-              >
-                ×
-              </button>
-            </Toast.Action>
-          </Toast.Root>
-        )}
-
-        {/* Current Avatar Display */}
-        <div className="mb-6 text-center">
-          <div className="inline-block">
-            <Avatar.Root className="w-20 h-20 rounded-full overflow-hidden bg-gray-100">
-              {userProfile?.avatar_url && (
-                <Avatar.Image
-                  src={userProfile.avatar_url}
-                  alt="Current avatar"
-                  className="w-full h-full object-cover"
-                />
-              )}
-              <Avatar.Fallback className="w-full h-full flex items-center justify-center bg-gray-300 text-gray-600 font-medium">
-                {userProfile?.display_name?.charAt(0)?.toUpperCase() || "U"}
-              </Avatar.Fallback>
-            </Avatar.Root>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-4">
+        <div className="max-w-4xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-gray-800 mb-2">
+              Profile Settings
+            </h1>
+            <p className="text-gray-600">
+              Customize your profile and preferences
+            </p>
           </div>
-          <p className="text-sm text-gray-600 mt-2">Current Avatar</p>
-        </div>
 
-        <Separator.Root className="w-full h-px bg-gray-200 my-6" />
-
-        {/* File Upload */}
-        <div className="mb-4">
-          <Label.Root className="block text-sm font-medium text-gray-700 mb-2">
-            Profile Picture:
-          </Label.Root>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => handleFileSelect(e.target.files?.[0] || null)}
-            className="block w-full text-sm text-gray-500
-              file:mr-4 file:py-2 file:px-4
-              file:rounded-full file:border-0
-              file:text-sm file:font-semibold
-              file:bg-blue-50 file:text-blue-700
-              hover:file:bg-blue-100"
-          />
-          {profilePicture && (
-            <div className="mt-2 flex items-center gap-2">
-              <span className="text-sm text-gray-600">
-                ✓ {profilePicture.name}
-              </span>
-              {previewUrl && (
-                <Dialog.Root open={showPreview} onOpenChange={setShowPreview}>
-                  <Dialog.Trigger asChild>
-                    <button className="text-blue-600 hover:text-blue-800 text-sm">
-                      Preview
-                    </button>
-                  </Dialog.Trigger>
-                  <Dialog.Portal>
-                    <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 z-50" />
-                    <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-6 max-w-md w-full z-50">
-                      <Dialog.Title className="text-lg font-semibold mb-4">
-                        File Preview
-                      </Dialog.Title>
-                      <div className="relative w-full h-96">
-                        <Image
-                          src={previewUrl}
-                          alt="Preview"
-                          fill
-                          className="object-contain rounded"
-                        />
-                      </div>
-                      <Dialog.Close asChild>
-                        <button className="mt-4 w-full bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded transition-colors">
-                          Close
-                        </button>
-                      </Dialog.Close>
-                    </Dialog.Content>
-                  </Dialog.Portal>
-                </Dialog.Root>
-              )}
-              <button
-                onClick={() => handleFileSelect(null)}
-                className="text-red-600 hover:text-red-800 text-sm"
-              >
-                Remove
-              </button>
-            </div>
+          {/* Toast Message */}
+          {message && (
+            <Toast.Root
+              className={`${typeClasses[messageType]} rounded-xl p-4 border shadow-lg mb-6 backdrop-blur-sm`}
+              open={!!message}
+              onOpenChange={(open) => !open && handleClearMessage()}
+              duration={4000}
+            >
+              <div className="flex items-center justify-between">
+                <Toast.Title className="font-semibold text-sm flex items-center gap-2">
+                  {messageType === "success" && (
+                    <span className="text-green-600">✓</span>
+                  )}
+                  {messageType === "error" && (
+                    <span className="text-red-600">✕</span>
+                  )}
+                  {messageType === "info" && (
+                    <span className="text-blue-600">ℹ</span>
+                  )}
+                  {message}
+                </Toast.Title>
+                <Toast.Action altText="Close" asChild>
+                  <button
+                    className="ml-2 text-current opacity-60 hover:opacity-100 transition-opacity"
+                    onClick={handleClearMessage}
+                  >
+                    <X size={16} />
+                  </button>
+                </Toast.Action>
+              </div>
+            </Toast.Root>
           )}
-        </div>
 
-        {/* Display Name Input */}
-        <div className="mb-4">
-          <Label.Root
-            htmlFor="display-name"
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
-            Display Name
-          </Label.Root>
-          <input
-            id="display-name"
-            type="text"
-            value={displayName}
-            onChange={(e) => setDisplayName(e.target.value)}
-            placeholder="Enter your display name"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Profile Avatar Card */}
+            <div className="lg:col-span-1">
+              <div className="card bg-base-100 shadow-xl">
+                <div className="card-body text-center">
+                  <div className="relative group">
+                    <div className="avatar mx-auto">
+                      <div className="w-32 h-32 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                        {userProfile?.avatar_url ? (
+                          <Image
+                            src={userProfile.avatar_url}
+                            alt="Current avatar"
+                            width={128}
+                            height={128}
+                            className="object-cover transition-transform rounded-full"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary to-secondary text-primary-content font-bold text-3xl rounded-full">
+                            {userProfile?.display_name
+                              ?.charAt(0)
+                              ?.toUpperCase() || "U"}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-800 mt-4">
+                    {userProfile?.display_name || "No name set"}
+                  </h3>
+                  <p className="text-gray-600 text-sm mt-1">
+                    {userProfile?.bio || "No bio yet"}
+                  </p>
+                </div>
+              </div>
+            </div>
 
-        {/* Bio Textarea */}
-        <div className="mb-6">
-          <Label.Root
-            htmlFor="bio"
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
-            Bio
-          </Label.Root>
-          <textarea
-            id="bio"
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-            placeholder="Tell us about yourself"
-            rows={3}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
+            {/* Profile Settings Card */}
+            <div className="lg:col-span-2">
+              <div className="card bg-base-100 shadow-xl">
+                <div className="card-body">
+                  <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                    <User className="text-blue-600" size={24} />
+                    Profile Information
+                  </h2>
 
-        {/* Save Button */}
-        <Slot>
-          <button
-            onClick={handleSave}
-            disabled={isLoading}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            {isLoading ? "Loading..." : "Save Changes"}
-          </button>
-        </Slot>
+                  {/* File Upload Section */}
+                  <div className="mb-6">
+                    <Label.Root className="block text-sm font-medium text-gray-700 mb-3">
+                      Profile Picture
+                    </Label.Root>
+                    <div className="relative">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) =>
+                          handleFileSelect(e.target.files?.[0] || null)
+                        }
+                        className="hidden"
+                        id="avatar-upload"
+                      />
+                      <label
+                        htmlFor="avatar-upload"
+                        className="flex items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-xl hover:border-blue-500 transition-colors cursor-pointer bg-gradient-to-br from-gray-50 to-gray-100 hover:from-blue-50 hover:to-indigo-50"
+                      >
+                        <div className="text-center">
+                          <Camera
+                            className="mx-auto text-gray-400 mb-2"
+                            size={32}
+                          />
+                          <p className="text-sm text-gray-600">
+                            Click to upload a new photo
+                          </p>
+                          <p className="text-xs text-gray-500 mt-1">
+                            PNG, JPG, GIF up to 10MB
+                          </p>
+                        </div>
+                      </label>
+                    </div>
+
+                    {profilePicture && (
+                      <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <span className="text-green-600">✓</span>
+                            <span className="text-sm text-gray-700 font-medium">
+                              {profilePicture.name}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            {previewUrl && (
+                              <>
+                                <button
+                                  onClick={() => setShowPreview(true)}
+                                  className="btn btn-sm btn-outline btn-primary flex items-center gap-1"
+                                >
+                                  <Eye size={14} />
+                                  Preview
+                                </button>
+
+                                {/* DaisyUI Modal for Image Preview */}
+                                <div
+                                  className={`modal ${
+                                    showPreview ? "modal-open" : ""
+                                  }`}
+                                >
+                                  <div className="modal-box max-w-sm">
+                                    <div className="flex items-center justify-between mb-4">
+                                      <h3 className="font-bold text-lg">
+                                        Image Preview
+                                      </h3>
+                                      <button
+                                        onClick={() => setShowPreview(false)}
+                                        className="btn btn-sm btn-circle btn-ghost"
+                                      >
+                                        <X size={16} />
+                                      </button>
+                                    </div>
+
+                                    {/* Preview Avatar using DaisyUI */}
+                                    <div className="flex flex-col items-center space-y-4">
+                                      <div className="avatar">
+                                        <div className="w-48 h-48 rounded-full ring ring-primary ring-offset-base-100 ring-offset-4">
+                                          <Image
+                                            src={previewUrl}
+                                            alt="Preview"
+                                            width={192}
+                                            height={192}
+                                            className="object-cover rounded-full"
+                                          />
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div className="modal-action">
+                                      <button
+                                        onClick={() => setShowPreview(false)}
+                                        className="btn btn-primary"
+                                      >
+                                        Close
+                                      </button>
+                                    </div>
+                                  </div>
+                                  <div
+                                    className="modal-backdrop"
+                                    onClick={() => setShowPreview(false)}
+                                  ></div>
+                                </div>
+                              </>
+                            )}
+                            <button
+                              onClick={() => handleFileSelect(null)}
+                              className="btn btn-sm btn-outline btn-error flex items-center gap-1"
+                            >
+                              <X size={14} />
+                              Remove
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <Separator.Root className="w-full h-px bg-gray-200 my-6" />
+
+                  {/* Display Name Input */}
+                  <div className="mb-6">
+                    <Label.Root
+                      htmlFor="display-name"
+                      className="block text-sm font-medium text-gray-700 mb-2"
+                    >
+                      Display Name
+                    </Label.Root>
+                    <div className="relative">
+                      <input
+                        id="display-name"
+                        type="text"
+                        value={displayName}
+                        onChange={(e) => setDisplayName(e.target.value)}
+                        placeholder="Enter your display name"
+                        className="w-full px-4 py-3 pl-10 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white"
+                      />
+                      <User
+                        className="absolute left-3 top-3.5 text-gray-400"
+                        size={18}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Bio Textarea */}
+                  <div className="mb-8">
+                    <Label.Root
+                      htmlFor="bio"
+                      className="block text-sm font-medium text-gray-700 mb-2"
+                    >
+                      Bio
+                    </Label.Root>
+                    <div className="relative">
+                      <textarea
+                        id="bio"
+                        value={bio}
+                        onChange={(e) => setBio(e.target.value)}
+                        placeholder="Tell us about yourself..."
+                        rows={4}
+                        className="w-full px-4 py-3 pl-10 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white resize-none"
+                      />
+                      <FileText
+                        className="absolute left-3 top-3.5 text-gray-400"
+                        size={18}
+                      />
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">
+                      {bio.length}/500 characters
+                    </p>
+                  </div>
+
+                  {/* Save Button */}
+                  <Slot>
+                    <button
+                      onClick={handleSave}
+                      disabled={isLoading}
+                      className={`btn btn-primary btn-lg w-full flex items-center justify-center gap-2 ${
+                        isLoading ? "loading" : ""
+                      }`}
+                    >
+                      {isLoading ? (
+                        <>
+                          <span className="loading loading-spinner loading-sm"></span>
+                          Saving...
+                        </>
+                      ) : (
+                        <>
+                          <Save size={20} />
+                          Save Changes
+                        </>
+                      )}
+                    </button>
+                  </Slot>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <Toast.Viewport className="fixed bottom-0 right-0 flex flex-col p-6 gap-2 w-96 max-w-[100vw] m-0 list-none z-50 outline-none" />
     </Toast.Provider>
