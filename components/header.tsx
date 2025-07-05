@@ -16,7 +16,7 @@ export function Header() {
           {/* Logo */}
           <div className="flex items-center space-x-2">
             <Image
-              src="/favicon.svg"
+              src="/favicon-96x96.png"
               alt="Cognify Logo"
               width={32}
               height={32}
