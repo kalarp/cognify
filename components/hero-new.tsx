@@ -52,11 +52,13 @@ export function Hero() {
             style={{ marginBottom: "3rem" }}
             className="flex-col sm:flex-row"
           >
-            <Button size="4" style={{ minWidth: "12rem" }}>
-              Start Creating Flashcards
-              <ArrowRightIcon />
+            <Button asChild size="4" style={{ minWidth: "12rem" }} className="cursor-pointer">
+              <Link href="/dashboard">
+                Start Creating Flashcards
+                <ArrowRightIcon />
+              </Link>
             </Button>
-            <Button variant="outline" size="4" asChild>
+            <Button variant="outline" size="4" asChild className="cursor-pointer">
               <Link href="https://github.com/chaosweasl/cognify">
                 <GitHubLogoIcon />
                 View on GitHub

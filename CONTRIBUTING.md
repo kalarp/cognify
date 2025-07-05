@@ -20,7 +20,7 @@ To run Cognify locally, you need your own [Supabase](https://supabase.com/) proj
 ## Code Style
 
 - Use [Prettier](https://prettier.io/) and [ESLint](https://eslint.org/) for formatting and linting.
-- Use [DaisyUI](https://daisyui.com/) or [Radix UI](https://www.radix-ui.com/) for UI components.
+- Use [Radix UI](https://www.radix-ui.com/) for UI components.
 - Write clear, concise commit messages.
 - Keep PRs focused and small when possible.
 

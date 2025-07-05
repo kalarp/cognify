@@ -33,27 +33,29 @@ export function FinalCTA() {
         </p>
 
         <div className="flex flex-col gap-6 justify-center items-center mb-16">
-          <Link href="/dashboard">
-            <Button
-              size="lg"
-              className="bg-background text-primary hover:bg-background/90 px-10 py-4 shadow-2xl hover:shadow-background/30 rounded-2xl text-lg font-semibold border border-background/20 hover:scale-105 transition-all duration-300"
-            >
+          <Button
+            asChild
+            size="lg"
+            className="bg-background text-primary hover:bg-background/90 px-10 py-4 shadow-2xl hover:shadow-background/30 rounded-2xl text-lg font-semibold border border-background/20 hover:scale-105 transition-all duration-300 cursor-pointer"
+          >
+            <Link href="/dashboard">
               <Leaf className="mr-3 h-5 w-5" />
               Start creating your flashcards
               <ArrowRight className="ml-3 h-5 w-5" />
-            </Button>
-          </Link>
-          <Link href="https://github.com/chaosweasl/cognify">
-            <Button
-              variant="outline"
-              size="lg"
-              className="bg-background/10 text-background border-background/30 hover:bg-background/20 px-8 py-4 backdrop-blur-sm rounded-2xl hover:border-background/50 transition-all duration-300 hover:scale-105"
-            >
+            </Link>
+          </Button>
+          <Button
+            asChild
+            variant="outline"
+            size="lg"
+            className="bg-background/10 text-background border-background/30 hover:bg-background/20 px-8 py-4 backdrop-blur-sm rounded-2xl hover:border-background/50 transition-all duration-300 hover:scale-105 cursor-pointer"
+          >
+            <Link href="https://github.com/chaosweasl/cognify">
               <Github className="mr-2 h-5 w-5" />
               Star on GitHub
               <Star className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">

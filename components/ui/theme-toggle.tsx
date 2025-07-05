@@ -44,7 +44,7 @@ export function ThemeToggle() {
       variant="ghost"
       size="2"
       onClick={() => setAppearance(isDark ? "light" : "dark")}
-      className="hover:bg-accent/50 transition-colors rounded-organic"
+      className="hover:bg-accent/50 transition-colors rounded-organic cursor-pointer"
     >
       {isDark ? (
         <SunIcon className="h-4 w-4" />
