@@ -19,7 +19,7 @@
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) (v18+ recommended)
-- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) or [pnpm](https://pnpm.io/) (for package management)
 - [Supabase](https://supabase.com/) account (for authentication and database)
 - An AI API key (e.g., OpenAI). You can also test with a local model using LMStudio or any other local AI (not recommended for actually creating flashcards)
 
@@ -38,6 +38,8 @@
    npm install
    # or
    yarn install
+   # or
+   pnpm install
    ```
 
 3. **Set up environment variables:**
@@ -62,6 +64,8 @@
    npm run dev
    # or
    yarn dev
+   # or
+   pnpm dev
    ```
 
 5. **Update Supabase Authentication Settings:**
