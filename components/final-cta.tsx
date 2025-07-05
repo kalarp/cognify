@@ -22,14 +22,6 @@ export function FinalCTA() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
-        <div className="inline-flex items-center gap-2 bg-background/20 backdrop-blur-sm px-6 py-3 rounded-2xl mb-8 border border-background/30 hover:bg-background/25 transition-colors">
-          <TreePine className="w-4 h-4 text-background" />
-          <span className="text-sm font-medium text-background">
-            Ready to Grow?
-          </span>
-          <Sparkles className="w-4 h-4 text-background animate-pulse" />
-        </div>
-
         <h2 className="text-3xl sm:text-4xl font-bold text-background mb-6 leading-tight">
           Ready to Cultivate Your
           <span className="block text-background/90">Study Garden?</span>
