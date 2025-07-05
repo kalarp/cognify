@@ -1,6 +1,6 @@
 # Contributing to Cognify
 
-We w## STo run Cognify locally, you need your own [Supabase](https://supabase.com/) project. Here's how to configure it:o run Cognify locally, you need your own [Supabase](https://supabase.com/) project. Here's how to configure it:tting Up Supabase for Local Development
+To run Cognify locally, you need your own [Supabase](https://supabase.com/) project. Here's how to configure it:o run Cognify locally, you need your own [Supabase](https://supabase.com/) project. Here's how to configure it:tting Up Supabase for Local Development
 
 To run Cognify locally, you need your own [Supabase](https://supabase.com/) project. Here's how to configure it:o run Cognify locally, you need your own [Supabase](https://supabase.com/) project. Here's how to configure it:o run Cognify locally, you need your own [Supabase](https://supabase.com/) project. Here's how to configure it:ome contributions! Please read the following guidelines to get started.
 
