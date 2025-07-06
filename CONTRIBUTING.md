@@ -20,7 +20,7 @@ Welcome contributions! Please read the following guidelines to get started.
 ## Code Style
 
 - Use [Prettier](https://prettier.io/) and [ESLint](https://eslint.org/) for formatting and linting.
-- Use [DaisyUI](https://daisyui.com/) or [Radix UI](https://www.radix-ui.com/) for UI components.
+- Use [DaisyUI](https://daisyui.com/) for UI components.
 - Write clear, concise commit messages.
 - Keep PRs focused and small when possible.
 

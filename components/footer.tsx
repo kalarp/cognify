@@ -10,7 +10,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-start mb-8">
           <div className="flex items-center space-x-2 mb-4 md:mb-0">
             <Image
-              src="/favicon-96x96.png"
+              src="/favicon.svg"
               alt="Cognify Logo"
               width={32}
               height={32}
