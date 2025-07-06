@@ -1,122 +1,71 @@
-import { Button, Flex, Text, Box, Heading, Container, Badge } from "@radix-ui/themes";
-import { ArrowRightIcon, GitHubLogoIcon } from "@radix-ui/react-icons";
+import { ArrowRight, Github } from "lucide-react";
 import Link from "next/link";
 
 export function Hero() {
   return (
-    <Box style={{ 
-      background: 'linear-gradient(135deg, var(--accent-2), var(--accent-3))',
-      padding: '5rem 0 8rem'
-    }}>
-      <Container size="4">
-        <Flex direction="column" align="center" style={{ textAlign: 'center' }}>
-          <Badge color="green" size="2" style={{ marginBottom: '1.5rem' }}>
-            🤖 AI-Powered Learning
-          </Badge>
-          
-          <Heading size="9" style={{ marginBottom: '1.5rem', lineHeight: '1.1' }}>
+    <div className="hero min-h-screen bg-gradient-to-br from-primary/10 to-secondary/10">
+      <div className="hero-content text-center">
+        <div className="max-w-5xl">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-base-content mb-6">
             Transform Your Notes Into
-            <br />
-            <Text style={{ color: 'var(--accent-9)' }}>Smart Flashcards</Text>
-          </Heading>
+            <span className="text-primary block">Smart Flashcards</span>
+          </h1>
 
-          <Text size="5" style={{ 
-            color: 'var(--gray-11)', 
-            marginBottom: '2rem', 
-            maxWidth: '48rem',
-            lineHeight: '1.6'
-          }}>
+          <p className="text-lg md:text-xl text-base-content/80 mb-8 max-w-3xl mx-auto">
             Cognify uses AI to automatically convert your classwork, notes, and
             PDFs into interactive flashcards. Study smarter, not harder with
-            personalized learning tools that grow with you.
-          </Text>
+            personalized learning tools.
+          </p>
 
-          <Flex gap="4" style={{ marginBottom: '3rem' }} className="flex-col sm:flex-row">
-            <Button asChild size="4" style={{ minWidth: '12rem' }} className="cursor-pointer">
-              <Link href="/dashboard">
-                Start Creating Flashcards
-                <ArrowRightIcon />
-              </Link>
-            </Button>
-            <Button variant="outline" size="4" asChild className="cursor-pointer">
-              <Link href="https://github.com/chaosweasl/cognify">
-                <GitHubLogoIcon />
-                View on GitHub
-              </Link>
-            </Button>
-          </Flex>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+            <Link href="/login" className="btn btn-primary btn-lg">
+              Start Creating Flashcards
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+            <Link
+              href="https://github.com/chaosweasl/cognify"
+              className="btn btn-outline btn-lg"
+            >
+              <Github className="w-5 h-5" />
+              View on GitHub
+            </Link>
+          </div>
 
-          <Box style={{ 
-            backgroundColor: 'var(--color-panel-solid)',
-            borderRadius: 'var(--radius-4)',
-            padding: '0.5rem',
-            maxWidth: '64rem',
-            width: '100%',
-            border: '1px solid var(--gray-6)',
-            boxShadow: 'var(--shadow-4)'
-          }}>
-            <Box style={{ 
-              backgroundColor: 'var(--gray-3)',
-              borderRadius: 'var(--radius-3)',
-              padding: '2rem',
-              textAlign: 'center'
-            }}>
-              <Flex align="center" justify="center" gap="2" style={{ marginBottom: '1rem' }}>
-                <Text size="1" style={{ color: 'var(--gray-9)' }}>🧠 Live Demo Preview ✨</Text>
-              </Flex>
-              <Box style={{ 
-                backgroundColor: 'var(--color-panel-solid)',
-                borderRadius: 'var(--radius-3)',
-                padding: '1.5rem',
-                boxShadow: 'var(--shadow-2)'
-              }}>
-                <Flex direction="column" gap="4" style={{ textAlign: 'left' }}>
-                  <Flex align="center" gap="2">
-                    <Box style={{ width: '12px', height: '12px', backgroundColor: 'var(--red-9)', borderRadius: '50%' }}></Box>
-                    <Box style={{ width: '12px', height: '12px', backgroundColor: 'var(--yellow-9)', borderRadius: '50%' }}></Box>
-                    <Box style={{ width: '12px', height: '12px', backgroundColor: 'var(--green-9)', borderRadius: '50%' }}></Box>
-                  </Flex>
-                  <Box>
-                    <Flex align="center" gap="2" style={{ marginBottom: '0.75rem' }}>
-                      <Text size="1" weight="bold">🌱 📝 Your Notes:</Text>
-                    </Flex>
-                    <Box style={{ 
-                      backgroundColor: 'var(--gray-3)',
-                      padding: '1rem',
-                      borderRadius: 'var(--radius-2)',
-                      border: '1px solid var(--gray-6)'
-                    }}>
-                      <Text size="1" style={{ color: 'var(--gray-11)' }}>
-                        "Photosynthesis is the process by which plants
-                        convert sunlight into energy using chlorophyll in their leaves..."
-                      </Text>
-                    </Box>
-                  </Box>
-                  <Box>
-                    <Flex align="center" gap="2" style={{ marginBottom: '0.75rem' }}>
-                      <Text size="1" weight="bold">🤖 AI Generated Flashcard:</Text>
-                    </Flex>
-                    <Box style={{ 
-                      backgroundColor: 'var(--accent-3)',
-                      padding: '1rem',
-                      borderRadius: 'var(--radius-2)',
-                      border: '1px solid var(--accent-6)'
-                    }}>
-                      <Text size="1" weight="bold" style={{ color: 'var(--accent-11)', marginBottom: '0.25rem', display: 'block' }}>
-                        Q: What is photosynthesis?
-                      </Text>
-                      <Text size="1" style={{ color: 'var(--gray-11)' }}>
+          <div className="card bg-base-100 shadow-xl max-w-4xl mx-auto">
+            <div className="card-body">
+              <div className="badge badge-primary badge-outline mb-4">
+                Demo Preview
+              </div>
+              <div className="mockup-window border border-base-300 bg-base-100">
+                <div className="bg-base-200 p-6">
+                  <div className="space-y-4">
+                    <div className="text-left">
+                      <div className="font-semibold mb-2 text-base-content">
+                        📝 Your Notes:
+                      </div>
+                      <div className="bg-base-100 p-3 rounded-lg text-sm border">
+                        "Photosynthesis is the process by which plants convert
+                        sunlight into energy..."
+                      </div>
+                    </div>
+                    <div className="text-left">
+                      <div className="font-semibold mb-2 text-base-content">
+                        🤖 AI Generated Flashcard:
+                      </div>
+                      <div className="bg-primary/10 p-3 rounded-lg text-sm border border-primary/20">
+                        <strong>Q:</strong> What is photosynthesis?
+                        <br />
                         <strong>A:</strong> The process by which plants convert
-                        sunlight into energy using chlorophyll
-                      </Text>
-                    </Box>
-                  </Box>
-                </Flex>
-              </Box>
-            </Box>
-          </Box>
-        </Flex>
-      </Container>
-    </Box>
+                        sunlight into energy
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

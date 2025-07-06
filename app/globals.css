@@ -1,8 +1,4 @@
 @import "tailwindcss";
-@import "@radix-ui/themes/styles.css";
-
-@layer base {
-  body {
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
+@plugin "daisyui" {
+  themes: all;
 }
