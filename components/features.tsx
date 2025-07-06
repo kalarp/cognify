@@ -159,82 +159,6 @@ export function Features() {
               }}
               className="hover:scale-105 hover:shadow-lg group"
             >
-              {/* Decorative elements for each card */}
-              {index === 0 && (
-                <Box
-                  style={{
-                    position: "absolute",
-                    top: "0.75rem",
-                    right: "0.75rem",
-                    width: "0.5rem",
-                    height: "0.5rem",
-                    backgroundColor: "var(--accent-6)",
-                    borderRadius: "50%",
-                    opacity: "0",
-                    transition: "opacity 0.3s ease",
-                  }}
-                  className="group-hover:opacity-100"
-                />
-              )}
-              {index === 1 && (
-                <>
-                  <Box
-                    style={{
-                      position: "absolute",
-                      top: "1rem",
-                      left: "1rem",
-                      width: "0.375rem",
-                      height: "0.375rem",
-                      backgroundColor: "var(--accent-5)",
-                      borderRadius: "50%",
-                    }}
-                  />
-                  <Box
-                    style={{
-                      position: "absolute",
-                      top: "1.5rem",
-                      left: "1.75rem",
-                      width: "0.25rem",
-                      height: "0.25rem",
-                      backgroundColor: "var(--accent-6)",
-                      borderRadius: "50%",
-                    }}
-                  />
-                </>
-              )}
-              {index === 2 && (
-                <Box
-                  style={{
-                    position: "absolute",
-                    bottom: "1rem",
-                    right: "1rem",
-                    width: "1.5rem",
-                    height: "0.125rem",
-                    backgroundColor: "var(--accent-6)",
-                    borderRadius: "9999px",
-                    opacity: "0",
-                    transition: "opacity 0.3s ease",
-                  }}
-                  className="group-hover:opacity-100"
-                />
-              )}
-              {index === 3 && (
-                <Box
-                  style={{
-                    position: "absolute",
-                    top: "1rem",
-                    right: "1rem",
-                    width: "0.75rem",
-                    height: "0.75rem",
-                    border: "1px solid var(--accent-5)",
-                    borderRadius: "50%",
-                    opacity: "0",
-                    transition: "opacity 0.3s ease",
-                  }}
-                  className="group-hover:opacity-100"
-                />
-              )}
-
               <Box
                 style={{
                   position: "relative",
@@ -278,18 +202,6 @@ export function Features() {
               >
                 {feature.description}
               </Text>
-
-              {/* Decorative underline */}
-              <Box
-                style={{
-                  height: "0.25rem",
-                  width: "3rem",
-                  background:
-                    "linear-gradient(to right, var(--accent-6), transparent)",
-                  margin: "1rem auto 0",
-                  borderRadius: "9999px",
-                }}
-              />
             </Box>
           ))}
         </Box>

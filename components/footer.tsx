@@ -1,138 +1,305 @@
 import { Github, Mail, Heart, Leaf, Sparkles, TreePine } from "lucide-react";
-import Image from "next/image";
+import { Box, Container, Flex, Text, Heading } from "@radix-ui/themes";
 import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="bg-card/50 backdrop-blur-sm border-t border-border relative overflow-hidden">
+    <Box
+      style={{
+        backgroundColor: "var(--color-panel-solid)",
+        backdropFilter: "blur(8px)",
+        borderTop: "1px solid var(--gray-6)",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
       {/* Decorative plant elements */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute bottom-0 left-10 w-32 h-32 rounded-full bg-primary blur-xl"></div>
-        <div className="absolute top-0 right-20 w-24 h-24 rounded-full bg-accent blur-lg"></div>
-      </div>
+      <Box
+        style={{
+          position: "absolute",
+          inset: "0",
+          opacity: "0.05",
+        }}
+      >
+        <Box
+          style={{
+            position: "absolute",
+            bottom: "0",
+            left: "2.5rem",
+            width: "8rem",
+            height: "8rem",
+            borderRadius: "50%",
+            backgroundColor: "var(--accent-9)",
+            filter: "blur(24px)",
+          }}
+        />
+        <Box
+          style={{
+            position: "absolute",
+            top: "0",
+            right: "5rem",
+            width: "6rem",
+            height: "6rem",
+            borderRadius: "50%",
+            backgroundColor: "var(--accent-9)",
+            filter: "blur(16px)",
+          }}
+        />
+      </Box>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <Container size="4" style={{ padding: "3rem 0", position: "relative" }}>
+        <Box
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+            gap: "2rem",
+          }}
+        >
           {/* Logo and Description */}
-          <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center space-x-3 mb-4 group">
-              <div className="relative">
-                <Leaf className="w-8 h-8 text-primary transition-transform group-hover:scale-110" />
-                <Sparkles className="w-3 h-3 text-accent absolute -top-1 -right-1 animate-pulse" />
-              </div>
-              <span className="text-xl font-bold text-plant-gradient">
+          <Box style={{ gridColumn: "1 / -1" }}>
+            <Flex
+              align="center"
+              gap="3"
+              style={{ marginBottom: "1rem" }}
+              className="group"
+            >
+              <Box style={{ position: "relative" }}>
+                <Leaf
+                  size={32}
+                  style={{
+                    color: "var(--accent-9)",
+                    transition: "transform 0.3s ease",
+                  }}
+                  className="group-hover:scale-110"
+                />
+                <Sparkles
+                  size={12}
+                  style={{
+                    color: "var(--accent-9)",
+                    position: "absolute",
+                    top: "-0.25rem",
+                    right: "-0.25rem",
+                  }}
+                  className="animate-pulse"
+                />
+              </Box>
+              <Text size="5" weight="bold" style={{ color: "var(--accent-9)" }}>
                 Cognify
-              </span>
-            </div>
-            <p className="text-muted-foreground mb-4 max-w-md leading-relaxed">
+              </Text>
+            </Flex>
+            <Text
+              size="3"
+              style={{
+                color: "var(--gray-11)",
+                marginBottom: "1rem",
+                maxWidth: "28rem",
+                lineHeight: "1.6",
+              }}
+            >
               Transform your study materials into intelligent flashcards with
               AI. Free, open-source, and designed for students who want to learn
               smarter and grow their knowledge like a garden.
-            </p>
-            <div className="flex space-x-4">
-              <Link
-                href="https://github.com/chaosweasl/cognify"
-                className="text-muted-foreground hover:text-primary transition-colors p-2 rounded-organic hover:bg-primary/10"
+            </Text>
+            <Flex gap="2">
+              <Box
+                style={{
+                  color: "var(--gray-11)",
+                  padding: "0.5rem",
+                  borderRadius: "var(--radius-3)",
+                  transition: "all 0.3s ease",
+                  cursor: "pointer",
+                }}
+                className="hover:bg-accent-3 hover:text-accent-11"
               >
-                <Github className="h-6 w-6" />
-              </Link>
-
-              <Link
-                href="mailto:17daniel.dev@gmail.com"
-                className="text-muted-foreground hover:text-primary transition-colors p-2 rounded-organic hover:bg-primary/10"
+                <Link href="https://github.com/chaosweasl/cognify">
+                  <Github size={24} />
+                </Link>
+              </Box>
+              <Box
+                style={{
+                  color: "var(--gray-11)",
+                  padding: "0.5rem",
+                  borderRadius: "var(--radius-3)",
+                  transition: "all 0.3s ease",
+                  cursor: "pointer",
+                }}
+                className="hover:bg-accent-3 hover:text-accent-11"
               >
-                <Mail className="h-6 w-6" />
-              </Link>
-            </div>
-          </div>
+                <Link href="mailto:17daniel.dev@gmail.com">
+                  <Mail size={24} />
+                </Link>
+              </Box>
+            </Flex>
+          </Box>
 
           {/* Product Links */}
-          <div>
-            <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
-              <TreePine className="w-4 h-4 text-primary" />
-              Product
-            </h3>
-            <ul className="space-y-3">
-              <li>
-                <Link
-                  href="#features"
-                  className="text-muted-foreground hover:text-foreground transition-colors py-1 px-2 rounded-md hover:bg-accent/20"
-                >
-                  Features
+          <Box>
+            <Heading
+              size="3"
+              style={{
+                color: "var(--gray-12)",
+                marginBottom: "1rem",
+                textTransform: "uppercase",
+                letterSpacing: "0.05em",
+              }}
+            >
+              <Flex align="center" gap="2">
+                <TreePine size={16} style={{ color: "var(--accent-9)" }} />
+                Product
+              </Flex>
+            </Heading>
+            <Flex direction="column" gap="2">
+              <Box
+                style={{
+                  color: "var(--gray-11)",
+                  padding: "0.25rem 0.5rem",
+                  borderRadius: "var(--radius-2)",
+                  transition: "all 0.3s ease",
+                  cursor: "pointer",
+                }}
+                className="hover:bg-accent-3 hover:text-gray-12"
+              >
+                <Link href="#features">
+                  <Text size="2">Features</Text>
                 </Link>
-              </li>
-              <li>
-                <Link
-                  href="https://github.com/chaosweasl/cognify#readme"
-                  className="text-muted-foreground hover:text-foreground transition-colors py-1 px-2 rounded-md hover:bg-accent/20"
-                >
-                  How it Works
+              </Box>
+              <Box
+                style={{
+                  color: "var(--gray-11)",
+                  padding: "0.25rem 0.5rem",
+                  borderRadius: "var(--radius-2)",
+                  transition: "all 0.3s ease",
+                  cursor: "pointer",
+                }}
+                className="hover:bg-accent-3 hover:text-gray-12"
+              >
+                <Link href="https://github.com/chaosweasl/cognify#readme">
+                  <Text size="2">How it Works</Text>
                 </Link>
-              </li>
-              <li>
-                <Link
-                  href="https://github.com/chaosweasl/cognify#readme"
-                  className="text-muted-foreground hover:text-foreground transition-colors py-1 px-2 rounded-md hover:bg-accent/20"
-                >
-                  Documentation
+              </Box>
+              <Box
+                style={{
+                  color: "var(--gray-11)",
+                  padding: "0.25rem 0.5rem",
+                  borderRadius: "var(--radius-2)",
+                  transition: "all 0.3s ease",
+                  cursor: "pointer",
+                }}
+                className="hover:bg-accent-3 hover:text-gray-12"
+              >
+                <Link href="https://github.com/chaosweasl/cognify#readme">
+                  <Text size="2">Documentation</Text>
                 </Link>
-              </li>
-              <li>
-                <Link
-                  href="https://github.com/chaosweasl/cognify/wiki"
-                  className="text-muted-foreground hover:text-foreground transition-colors py-1 px-2 rounded-md hover:bg-accent/20"
-                >
-                  API Reference
+              </Box>
+              <Box
+                style={{
+                  color: "var(--gray-11)",
+                  padding: "0.25rem 0.5rem",
+                  borderRadius: "var(--radius-2)",
+                  transition: "all 0.3s ease",
+                  cursor: "pointer",
+                }}
+                className="hover:bg-accent-3 hover:text-gray-12"
+              >
+                <Link href="https://github.com/chaosweasl/cognify/wiki">
+                  <Text size="2">API Reference</Text>
                 </Link>
-              </li>
-            </ul>
-          </div>
+              </Box>
+            </Flex>
+          </Box>
 
           {/* Support Links */}
-          <div>
-            <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
-              <Leaf className="w-4 h-4 text-accent" />
-              Support
-            </h3>
-            <ul className="space-y-3">
-              <li>
-                <Link
-                  href="https://github.com/chaosweasl/cognify/issues"
-                  className="text-muted-foreground hover:text-foreground transition-colors py-1 px-2 rounded-md hover:bg-accent/20"
-                >
-                  Report Issues
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="https://github.com/chaosweasl/cognify/discussions"
-                  className="text-muted-foreground hover:text-foreground transition-colors py-1 px-2 rounded-md hover:bg-accent/20"
-                >
-                  Community
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="border-t border-border pt-8 mt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-muted-foreground text-sm flex items-center gap-2">
-              © 2025 Cognify. Open source and made with{" "}
-              <Heart className="inline h-4 w-4 text-destructive animate-pulse" />{" "}
-              for students everywhere to help their knowledge bloom.
-            </p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <Link
-                href="https://github.com/chaosweasl/cognify/blob/main/LICENSE"
-                className="text-muted-foreground hover:text-foreground text-sm transition-colors py-1 px-2 rounded-md hover:bg-accent/20"
+          <Box>
+            <Heading
+              size="3"
+              style={{
+                color: "var(--gray-12)",
+                marginBottom: "1rem",
+                textTransform: "uppercase",
+                letterSpacing: "0.05em",
+              }}
+            >
+              <Flex align="center" gap="2">
+                <Leaf size={16} style={{ color: "var(--accent-9)" }} />
+                Support
+              </Flex>
+            </Heading>
+            <Flex direction="column" gap="2">
+              <Box
+                style={{
+                  color: "var(--gray-11)",
+                  padding: "0.25rem 0.5rem",
+                  borderRadius: "var(--radius-2)",
+                  transition: "all 0.3s ease",
+                  cursor: "pointer",
+                }}
+                className="hover:bg-accent-3 hover:text-gray-12"
               >
-                License
+                <Link href="https://github.com/chaosweasl/cognify/issues">
+                  <Text size="2">Report Issues</Text>
+                </Link>
+              </Box>
+              <Box
+                style={{
+                  color: "var(--gray-11)",
+                  padding: "0.25rem 0.5rem",
+                  borderRadius: "var(--radius-2)",
+                  transition: "all 0.3s ease",
+                  cursor: "pointer",
+                }}
+                className="hover:bg-accent-3 hover:text-gray-12"
+              >
+                <Link href="https://github.com/chaosweasl/cognify/discussions">
+                  <Text size="2">Community</Text>
+                </Link>
+              </Box>
+            </Flex>
+          </Box>
+        </Box>
+
+        <Box
+          style={{
+            borderTop: "1px solid var(--gray-6)",
+            paddingTop: "2rem",
+            marginTop: "2rem",
+          }}
+        >
+          <Flex
+            direction="column"
+            gap="4"
+            align="center"
+            style={{ textAlign: "center" }}
+          >
+            <Text size="2" style={{ color: "var(--gray-11)" }}>
+              <Flex align="center" gap="2" wrap="wrap" justify="center">
+                <span>© 2025 Cognify. Open source and made with</span>
+                <Heart
+                  size={16}
+                  style={{ color: "var(--red-9)" }}
+                  className="animate-pulse"
+                />
+                <span>
+                  for students everywhere to help their knowledge bloom.
+                </span>
+              </Flex>
+            </Text>
+            <Box
+              style={{
+                color: "var(--gray-11)",
+                padding: "0.25rem 0.5rem",
+                borderRadius: "var(--radius-2)",
+                transition: "all 0.3s ease",
+                cursor: "pointer",
+              }}
+              className="hover:bg-accent-3 hover:text-gray-12"
+            >
+              <Link href="https://github.com/chaosweasl/cognify/blob/main/LICENSE">
+                <Text size="2">License</Text>
               </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
+            </Box>
+          </Flex>
+        </Box>
+      </Container>
+    </Box>
   );
 }
