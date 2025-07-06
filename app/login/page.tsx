@@ -34,89 +34,97 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-200">
+    <div className="min-h-screen flex items-center justify-center bg-base-200 p-4">
       <div className="card w-full max-w-md bg-base-100 shadow-2xl">
-        <div className="card-body">
-          <div className="text-center mb-6">
-            <h1 className="text-3xl font-bold text-base-content">
+        <div className="card-body p-8">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-base-content mb-3">
               Welcome to <span className="text-primary">Cognify</span>
             </h1>
-            <p className="text-base-content/70 mt-2">
+            <p className="text-base-content/70 text-lg">
               AI-powered flashcards for your notes. Sign in or create an account
               to get started.
             </p>
           </div>
 
-          <button
-            type="button"
-            onClick={handleGithubLogin}
-            className="btn btn-outline btn-neutral mb-6"
-          >
-            <Github className="w-5 h-5" />
-            Continue with GitHub
-          </button>
-
           {!signupSuccess ? (
-            <form className="space-y-4">
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text font-medium">Email</span>
-                </label>
-                <input
-                  name="email"
-                  type="email"
-                  required
-                  className="input input-bordered"
-                  placeholder="you@example.com"
-                  autoComplete="email"
-                />
-              </div>
-
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text font-medium">Password</span>
-                </label>
-                <input
-                  name="password"
-                  type="password"
-                  required
-                  className="input input-bordered"
-                  placeholder="••••••••"
-                  autoComplete="current-password"
-                />
-              </div>
-
-              {errorMsg && (
-                <div className="alert alert-error">
-                  <span>{errorMsg}</span>
+            <div>
+              <form className="space-y-6">
+                <div className="form-control flex flex-col">
+                  <label className="label">
+                    <span className="label-text font-medium text-base">
+                      Email
+                    </span>
+                  </label>
+                  <input
+                    name="email"
+                    type="email"
+                    required
+                    className="input input-bordered input-lg w-full"
+                    placeholder="you@example.com"
+                    autoComplete="email"
+                  />
                 </div>
-              )}
 
-              <div className="flex gap-3">
-                <button
-                  type="submit"
-                  formAction={handleLogin}
-                  className="btn btn-primary flex-1"
-                >
-                  Log in
-                </button>
-                <button
-                  type="submit"
-                  formAction={handleSignup}
-                  className="btn btn-outline btn-secondary flex-1"
-                >
-                  Sign up
-                </button>
-              </div>
-            </form>
+                <div className="form-control flex flex-col">
+                  <label className="label">
+                    <span className="label-text font-medium text-base">
+                      Password
+                    </span>
+                  </label>
+                  <input
+                    name="password"
+                    type="password"
+                    required
+                    className="input input-bordered input-lg w-full"
+                    placeholder="••••••••"
+                    autoComplete="current-password"
+                  />
+                </div>
+
+                {errorMsg && (
+                  <div className="alert alert-error">
+                    <span>{errorMsg}</span>
+                  </div>
+                )}
+
+                <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                  <button
+                    type="submit"
+                    formAction={handleLogin}
+                    className="btn btn-primary btn-lg flex-1"
+                  >
+                    Log in
+                  </button>
+                  <button
+                    type="submit"
+                    formAction={handleSignup}
+                    className="btn btn-outline btn-secondary btn-lg flex-1"
+                  >
+                    Sign up
+                  </button>
+                </div>
+              </form>
+
+              <div className="divider text-base-content/50">OR</div>
+
+              <button
+                type="button"
+                onClick={handleGithubLogin}
+                className="btn btn-outline btn-accent btn-lg w-full gap-2"
+              >
+                <Github className="w-5 h-5" />
+                Continue with GitHub
+              </button>
+            </div>
           ) : (
-            <div className="text-center">
-              <div className="mb-6">
-                <CheckCircle2 className="w-20 h-20 text-success mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-success mb-2">
+            <div className="text-center py-6">
+              <div className="mb-8">
+                <CheckCircle2 className="w-24 h-24 text-success mx-auto mb-6" />
+                <h3 className="text-3xl font-bold text-success mb-4">
                   Account Created!
                 </h3>
-                <p className="text-base-content/80">
+                <p className="text-base-content/80 text-lg leading-relaxed">
                   Please check your email inbox to confirm your sign-up and
                   activate your account.
                 </p>
@@ -124,18 +132,19 @@ export default function LoginPage() {
 
               <Link
                 href="https://mail.google.com/"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="btn btn-success btn-wide"
+                className="btn btn-success btn-lg btn-wide mb-6"
               >
                 Open Gmail
               </Link>
 
-              <p className="mt-6 text-xs text-base-content/60">
+              <p className="text-sm text-base-content/60 leading-relaxed">
                 Didn't get the email? Check your spam folder or{" "}
                 <Link
                   target="_blank"
                   href="https://github.com/chaosweasl/cognify/issues"
-                  className="link link-primary"
+                  className="link link-primary hover:link-hover"
                 >
                   contact support
                 </Link>
