@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button, Box, Container, Flex, Text, Heading } from "@radix-ui/themes";
 import {
   ArrowRight,
   Github,
@@ -13,105 +13,357 @@ import Link from "next/link";
 
 export function FinalCTA() {
   return (
-    <section className="bg-sage-gradient py-20 relative overflow-hidden">
+    <Box
+      style={{
+        background:
+          "linear-gradient(135deg, var(--accent-9), var(--accent-10))",
+        padding: "5rem 0",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
       {/* Decorative elements */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-10 left-10 w-40 h-40 rounded-full bg-background/30 blur-2xl"></div>
-        <div className="absolute bottom-10 right-10 w-32 h-32 rounded-full bg-background/20 blur-xl"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-background/10 blur-3xl"></div>
-      </div>
+      <Box
+        style={{
+          position: "absolute",
+          inset: "0",
+          opacity: "0.1",
+        }}
+      >
+        <Box
+          style={{
+            position: "absolute",
+            top: "2.5rem",
+            left: "2.5rem",
+            width: "10rem",
+            height: "10rem",
+            borderRadius: "50%",
+            backgroundColor: "var(--color-background)",
+            filter: "blur(32px)",
+          }}
+        />
+        <Box
+          style={{
+            position: "absolute",
+            bottom: "2.5rem",
+            right: "2.5rem",
+            width: "8rem",
+            height: "8rem",
+            borderRadius: "50%",
+            backgroundColor: "var(--color-background)",
+            filter: "blur(24px)",
+          }}
+        />
+        <Box
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "16rem",
+            height: "16rem",
+            borderRadius: "50%",
+            backgroundColor: "var(--color-background)",
+            filter: "blur(48px)",
+          }}
+        />
+      </Box>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
-        <h2 className="text-3xl sm:text-4xl font-bold text-background mb-6 leading-tight">
-          Ready to Cultivate Your
-          <span className="block text-background/90">Study Garden?</span>
-        </h2>
-        <p className="text-xl text-background/80 mb-12 max-w-2xl mx-auto leading-relaxed">
-          Join students worldwide who are already using Cognify to create
-          smarter study materials. It's free, open-source, and ready to bloom
-          with your AI API token.
-        </p>
-
-        <div className="flex flex-col gap-6 justify-center items-center mb-16">
-          <Button
-            asChild
-            size="lg"
-            className="bg-background text-primary hover:bg-background/90 px-10 py-4 shadow-2xl hover:shadow-background/30 rounded-2xl text-lg font-semibold border border-background/20 hover:scale-105 transition-all duration-300 cursor-pointer"
+      <Container size="4">
+        <Flex
+          direction="column"
+          align="center"
+          style={{ textAlign: "center", position: "relative" }}
+        >
+          <Heading
+            size="8"
+            style={{
+              color: "var(--color-background)",
+              marginBottom: "1.5rem",
+              lineHeight: "1.2",
+            }}
           >
-            <Link href="/dashboard">
-              <Leaf className="mr-3 h-5 w-5" />
-              Start creating your flashcards
-              <ArrowRight className="ml-3 h-5 w-5" />
-            </Link>
-          </Button>
-          <Button
-            asChild
-            variant="outline"
-            size="lg"
-            className="bg-background/10 text-background border-background/30 hover:bg-background/20 px-8 py-4 backdrop-blur-sm rounded-2xl hover:border-background/50 transition-all duration-300 hover:scale-105 cursor-pointer"
+            Ready to Cultivate Your
+            <br />
+            <Text style={{ color: "var(--gray-1)" }}>Study Garden?</Text>
+          </Heading>
+
+          <Text
+            size="5"
+            style={{
+              color: "var(--gray-1)",
+              marginBottom: "3rem",
+              maxWidth: "32rem",
+              lineHeight: "1.6",
+              opacity: "0.9",
+            }}
           >
-            <Link href="https://github.com/chaosweasl/cognify">
-              <Github className="mr-2 h-5 w-5" />
-              Star on GitHub
-              <Star className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-        </div>
+            Join students worldwide who are already using Cognify to create
+            smarter study materials. It's free, open-source, and ready to bloom
+            with your AI API token.
+          </Text>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-          <div className="relative bg-gradient-to-br from-background/15 to-background/5 backdrop-blur-sm rounded-2xl p-8 border border-background/30 hover:border-background/50 transition-all duration-300 group hover:shadow-2xl hover:shadow-background/20 hover:-translate-y-2">
-            {/* Decorative corner */}
-            <div className="absolute top-3 right-3 w-3 h-3 bg-background/30 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <div className="flex justify-center mb-6">
-              <div className="p-4 bg-background/10 rounded-2xl group-hover:bg-background/20 transition-colors">
-                <TreePine className="w-8 h-8 text-background group-hover:scale-110 transition-transform duration-300" />
-              </div>
-            </div>
-            <div className="text-3xl font-bold text-background mb-2 group-hover:scale-105 transition-transform">
-              100%
-            </div>
-            <div className="text-background/90 font-medium">
-              Free & Open Source
-            </div>
-            <div className="h-1 w-12 bg-gradient-to-r from-background/40 to-transparent mx-auto mt-4 rounded-full"></div>
-          </div>
+          <Flex direction="column" gap="4" style={{ marginBottom: "4rem" }}>
+            <Button
+              asChild
+              size="4"
+              style={{
+                backgroundColor: "var(--color-background)",
+                color: "var(--accent-9)",
+                padding: "1rem 2.5rem",
+                borderRadius: "var(--radius-4)",
+                border: "1px solid var(--gray-3)",
+                transition: "all 0.3s ease",
+                cursor: "pointer",
+                minWidth: "20rem",
+              }}
+              className="hover:scale-105 hover:shadow-lg"
+            >
+              <Link href="/dashboard">
+                <Flex align="center" gap="3">
+                  <Leaf size={20} />
+                  <Text size="3" weight="medium">
+                    Start creating your flashcards
+                  </Text>
+                  <ArrowRight size={20} />
+                </Flex>
+              </Link>
+            </Button>
 
-          <div className="relative bg-gradient-to-br from-background/15 to-background/5 backdrop-blur-sm rounded-2xl p-8 border border-background/30 hover:border-background/50 transition-all duration-300 group hover:shadow-2xl hover:shadow-background/20 hover:-translate-y-2">
-            {/* Decorative dots */}
-            <div className="absolute top-4 left-4 w-2 h-2 bg-background/20 rounded-full"></div>
-            <div className="absolute top-6 left-7 w-1 h-1 bg-background/30 rounded-full"></div>
-            <div className="flex justify-center mb-6">
-              <div className="p-4 bg-background/10 rounded-2xl group-hover:bg-background/20 transition-colors group-hover:rotate-12 duration-300">
-                <Flower className="w-8 h-8 text-background" />
-              </div>
-            </div>
-            <div className="text-3xl font-bold text-background mb-2 group-hover:scale-105 transition-transform">
-              ∞
-            </div>
-            <div className="text-background/90 font-medium">
-              Unlimited Flashcards
-            </div>
-            <div className="h-1 w-16 bg-gradient-to-r from-background/40 via-background/60 to-background/40 mx-auto mt-4 rounded-full"></div>
-          </div>
+            <Button
+              asChild
+              variant="outline"
+              size="4"
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.1)",
+                color: "var(--gray-1)",
+                border: "1px solid var(--gray-1)",
+                padding: "1rem 2rem",
+                borderRadius: "var(--radius-4)",
+                backdropFilter: "blur(8px)",
+                transition: "all 0.3s ease",
+                cursor: "pointer",
+                opacity: "0.9",
+              }}
+              className="hover:scale-105 hover:opacity-100"
+            >
+              <Link href="https://github.com/chaosweasl/cognify">
+                <Flex align="center" gap="2">
+                  <Github size={20} style={{ color: "var(--gray-1)" }} />
+                  <Text
+                    size="3"
+                    weight="medium"
+                    style={{ color: "var(--gray-1)" }}
+                  >
+                    Star on GitHub
+                  </Text>
+                  <Star size={16} style={{ color: "var(--gray-1)" }} />
+                </Flex>
+              </Link>
+            </Button>
+          </Flex>
 
-          <div className="relative bg-gradient-to-br from-background/15 to-background/5 backdrop-blur-sm rounded-2xl p-8 border border-background/30 hover:border-background/50 transition-all duration-300 group hover:shadow-2xl hover:shadow-background/20 hover:-translate-y-2">
-            {/* Decorative line */}
-            <div className="absolute bottom-4 right-4 w-6 h-0.5 bg-background/30 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <div className="flex justify-center mb-6">
-              <div className="p-4 bg-background/10 rounded-2xl group-hover:bg-background/20 transition-colors">
-                <Shield className="w-8 h-8 text-background group-hover:scale-105 group-hover:rotate-3 transition-transform duration-300" />
-              </div>
-            </div>
-            <div className="text-3xl font-bold text-background mb-2 group-hover:scale-105 transition-transform">
-              Privacy
-            </div>
-            <div className="text-background/90 font-medium">
-              Your Data, Your Control
-            </div>
-            <div className="h-1 w-8 bg-gradient-to-r from-transparent via-background/50 to-transparent mx-auto mt-4 rounded-full"></div>
-          </div>
-        </div>
-      </div>
-    </section>
+          <Box
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: "2rem",
+              textAlign: "center",
+            }}
+          >
+            <Box
+              style={{
+                position: "relative",
+                backgroundColor: "var(--color-background)",
+                borderRadius: "var(--radius-4)",
+                padding: "2rem",
+                border: "1px solid var(--gray-6)",
+                transition: "all 0.3s ease",
+                cursor: "pointer",
+                opacity: "0.95",
+              }}
+              className="hover:opacity-100 hover:scale-105 hover:shadow-lg group"
+            >
+              {/* Decorative corner */}
+              <Box
+                style={{
+                  position: "absolute",
+                  top: "0.75rem",
+                  right: "0.75rem",
+                  width: "0.75rem",
+                  height: "0.75rem",
+                  backgroundColor: "var(--accent-6)",
+                  borderRadius: "50%",
+                  opacity: "0",
+                  transition: "opacity 0.3s ease",
+                }}
+                className="group-hover:opacity-100"
+              />
+
+              <Flex direction="column" align="center" gap="4">
+                <Box
+                  style={{
+                    padding: "1rem",
+                    backgroundColor: "var(--accent-3)",
+                    borderRadius: "var(--radius-3)",
+                    transition: "all 0.3s ease",
+                  }}
+                  className="group-hover:bg-accent-4"
+                >
+                  <TreePine
+                    size={32}
+                    style={{ color: "var(--accent-9)" }}
+                    className="group-hover:scale-110 transition-transform"
+                  />
+                </Box>
+                <Heading
+                  size="7"
+                  style={{
+                    color: "var(--accent-9)",
+                    marginBottom: "0.5rem",
+                    transition: "transform 0.3s ease",
+                  }}
+                  className="group-hover:scale-105"
+                >
+                  100%
+                </Heading>
+                <Text
+                  size="3"
+                  weight="medium"
+                  style={{ color: "var(--gray-11)" }}
+                >
+                  Free & Open Source
+                </Text>
+              </Flex>
+            </Box>
+
+            <Box
+              style={{
+                position: "relative",
+                backgroundColor: "var(--color-background)",
+                borderRadius: "var(--radius-4)",
+                padding: "2rem",
+                border: "1px solid var(--gray-6)",
+                transition: "all 0.3s ease",
+                cursor: "pointer",
+                opacity: "0.95",
+              }}
+              className="hover:opacity-100 hover:scale-105 hover:shadow-lg group"
+            >
+              {/* Decorative dots */}
+              <Box
+                style={{
+                  position: "absolute",
+                  top: "1rem",
+                  left: "1rem",
+                  width: "0.5rem",
+                  height: "0.5rem",
+                  backgroundColor: "var(--accent-5)",
+                  borderRadius: "50%",
+                }}
+              />
+
+              <Flex direction="column" align="center" gap="4">
+                <Box
+                  style={{
+                    padding: "1rem",
+                    backgroundColor: "var(--accent-3)",
+                    borderRadius: "var(--radius-3)",
+                    transition: "all 0.3s ease",
+                  }}
+                  className="group-hover:bg-accent-4 group-hover:rotate-12"
+                >
+                  <Flower size={32} style={{ color: "var(--accent-9)" }} />
+                </Box>
+                <Heading
+                  size="7"
+                  style={{
+                    color: "var(--accent-9)",
+                    marginBottom: "0.5rem",
+                    transition: "transform 0.3s ease",
+                  }}
+                  className="group-hover:scale-105"
+                >
+                  ∞
+                </Heading>
+                <Text
+                  size="3"
+                  weight="medium"
+                  style={{ color: "var(--gray-11)" }}
+                >
+                  Unlimited Flashcards
+                </Text>
+              </Flex>
+            </Box>
+
+            <Box
+              style={{
+                position: "relative",
+                backgroundColor: "var(--color-background)",
+                borderRadius: "var(--radius-4)",
+                padding: "2rem",
+                border: "1px solid var(--gray-6)",
+                transition: "all 0.3s ease",
+                cursor: "pointer",
+                opacity: "0.95",
+              }}
+              className="hover:opacity-100 hover:scale-105 hover:shadow-lg group"
+            >
+              {/* Decorative line */}
+              <Box
+                style={{
+                  position: "absolute",
+                  bottom: "1rem",
+                  right: "1rem",
+                  width: "1.5rem",
+                  height: "0.125rem",
+                  backgroundColor: "var(--accent-6)",
+                  borderRadius: "9999px",
+                  opacity: "0",
+                  transition: "opacity 0.3s ease",
+                }}
+                className="group-hover:opacity-100"
+              />
+
+              <Flex direction="column" align="center" gap="4">
+                <Box
+                  style={{
+                    padding: "1rem",
+                    backgroundColor: "var(--accent-3)",
+                    borderRadius: "var(--radius-3)",
+                    transition: "all 0.3s ease",
+                  }}
+                  className="group-hover:bg-accent-4"
+                >
+                  <Shield
+                    size={32}
+                    style={{ color: "var(--accent-9)" }}
+                    className="group-hover:scale-105 group-hover:rotate-3 transition-transform"
+                  />
+                </Box>
+                <Heading
+                  size="7"
+                  style={{
+                    color: "var(--accent-9)",
+                    marginBottom: "0.5rem",
+                    transition: "transform 0.3s ease",
+                  }}
+                  className="group-hover:scale-105"
+                >
+                  Privacy
+                </Heading>
+                <Text
+                  size="3"
+                  weight="medium"
+                  style={{ color: "var(--gray-11)" }}
+                >
+                  Your Data, Your Control
+                </Text>
+              </Flex>
+            </Box>
+          </Box>
+        </Flex>
+      </Container>
+    </Box>
   );
 }

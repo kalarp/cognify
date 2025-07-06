@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { Box, Container, Flex, Text, Heading } from "@radix-ui/themes";
 import {
   Brain,
   FileText,
@@ -9,7 +10,6 @@ import {
   TreePine,
   Flower,
 } from "lucide-react";
-import * as Tabs from "@radix-ui/react-tabs";
 
 export function Features() {
   const features = [
@@ -40,78 +40,260 @@ export function Features() {
   ];
 
   return (
-    <section
+    <Box
       id="features"
-      className="py-20 bg-background relative overflow-hidden"
+      style={{
+        padding: "5rem 0",
+        backgroundColor: "var(--color-background)",
+        position: "relative",
+        overflow: "hidden",
+      }}
     >
       {/* Decorative background elements */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-10 left-20 w-64 h-64 rounded-full bg-primary blur-3xl"></div>
-        <div className="absolute bottom-10 right-20 w-48 h-48 rounded-full bg-accent blur-2xl"></div>
-      </div>
+      <Box
+        style={{
+          position: "absolute",
+          inset: "0",
+          opacity: "0.05",
+        }}
+      >
+        <Box
+          style={{
+            position: "absolute",
+            top: "2.5rem",
+            left: "5rem",
+            width: "16rem",
+            height: "16rem",
+            borderRadius: "50%",
+            backgroundColor: "var(--accent-9)",
+            filter: "blur(48px)",
+          }}
+        />
+        <Box
+          style={{
+            position: "absolute",
+            bottom: "2.5rem",
+            right: "5rem",
+            width: "12rem",
+            height: "12rem",
+            borderRadius: "50%",
+            backgroundColor: "var(--accent-9)",
+            filter: "blur(32px)",
+          }}
+        />
+      </Box>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-primary/10 backdrop-blur-sm px-6 py-3 rounded-2xl mb-8 border border-primary/20 hover:bg-primary/15 transition-colors">
-            <Leaf className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-primary">
+      <Container size="4">
+        <Flex
+          direction="column"
+          align="center"
+          style={{ textAlign: "center", marginBottom: "4rem" }}
+        >
+          <Flex
+            align="center"
+            gap="2"
+            style={{
+              backgroundColor: "var(--accent-3)",
+              backdropFilter: "blur(8px)",
+              padding: "0.75rem 1.5rem",
+              borderRadius: "var(--radius-full)",
+              marginBottom: "2rem",
+              border: "1px solid var(--accent-6)",
+              transition: "background-color 0.3s ease",
+            }}
+            className="hover:bg-accent-4"
+          >
+            <Leaf size={16} style={{ color: "var(--accent-9)" }} />
+            <Text size="2" weight="medium" style={{ color: "var(--accent-9)" }}>
               Grow Your Knowledge
-            </span>
-            <Sparkles className="w-4 h-4 text-primary animate-pulse" />
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-6">
-            Powerful Features for
-            <span className="text-plant-gradient block sm:inline">
-              {" "}
-              Smarter Learning
-            </span>
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            </Text>
+            <Sparkles
+              size={16}
+              style={{ color: "var(--accent-9)" }}
+              className="animate-pulse"
+            />
+          </Flex>
+
+          <Heading size="8" style={{ marginBottom: "1.5rem" }}>
+            <Text style={{ color: "var(--gray-12)" }}>
+              Powerful Features for
+            </Text>
+            <br />
+            <Text style={{ color: "var(--accent-9)" }}>Smarter Learning</Text>
+          </Heading>
+
+          <Text
+            size="5"
+            style={{
+              color: "var(--gray-11)",
+              maxWidth: "32rem",
+              lineHeight: "1.6",
+            }}
+          >
             Everything you need to transform your study materials into effective
             learning tools that flourish with time
-          </p>
-        </div>
+          </Text>
+        </Flex>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <Box
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(2, 1fr)",
+            gridTemplateRows: "repeat(2, 1fr)",
+            gap: "2rem",
+          }}
+        >
           {features.map((feature, index) => (
-            <Card
+            <Box
               key={index}
-              className="relative border border-border/50 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm rounded-2xl group overflow-hidden"
+              style={{
+                position: "relative",
+                border: "1px solid var(--gray-6)",
+                backgroundColor: "var(--color-panel-solid)",
+                backdropFilter: "blur(8px)",
+                borderRadius: "var(--radius-4)",
+                padding: "2rem",
+                textAlign: "center",
+                transition: "all 0.3s ease",
+                cursor: "pointer",
+              }}
+              className="hover:scale-105 hover:shadow-lg group"
             >
               {/* Decorative elements for each card */}
               {index === 0 && (
-                <div className="absolute top-3 right-3 w-2 h-2 bg-primary/30 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <Box
+                  style={{
+                    position: "absolute",
+                    top: "0.75rem",
+                    right: "0.75rem",
+                    width: "0.5rem",
+                    height: "0.5rem",
+                    backgroundColor: "var(--accent-6)",
+                    borderRadius: "50%",
+                    opacity: "0",
+                    transition: "opacity 0.3s ease",
+                  }}
+                  className="group-hover:opacity-100"
+                />
               )}
               {index === 1 && (
                 <>
-                  <div className="absolute top-4 left-4 w-1.5 h-1.5 bg-primary/20 rounded-full"></div>
-                  <div className="absolute top-6 left-7 w-1 h-1 bg-primary/30 rounded-full"></div>
+                  <Box
+                    style={{
+                      position: "absolute",
+                      top: "1rem",
+                      left: "1rem",
+                      width: "0.375rem",
+                      height: "0.375rem",
+                      backgroundColor: "var(--accent-5)",
+                      borderRadius: "50%",
+                    }}
+                  />
+                  <Box
+                    style={{
+                      position: "absolute",
+                      top: "1.5rem",
+                      left: "1.75rem",
+                      width: "0.25rem",
+                      height: "0.25rem",
+                      backgroundColor: "var(--accent-6)",
+                      borderRadius: "50%",
+                    }}
+                  />
                 </>
               )}
               {index === 2 && (
-                <div className="absolute bottom-4 right-4 w-6 h-0.5 bg-primary/30 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <Box
+                  style={{
+                    position: "absolute",
+                    bottom: "1rem",
+                    right: "1rem",
+                    width: "1.5rem",
+                    height: "0.125rem",
+                    backgroundColor: "var(--accent-6)",
+                    borderRadius: "9999px",
+                    opacity: "0",
+                    transition: "opacity 0.3s ease",
+                  }}
+                  className="group-hover:opacity-100"
+                />
               )}
               {index === 3 && (
-                <div className="absolute top-4 right-4 w-3 h-3 border border-primary/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <Box
+                  style={{
+                    position: "absolute",
+                    top: "1rem",
+                    right: "1rem",
+                    width: "0.75rem",
+                    height: "0.75rem",
+                    border: "1px solid var(--accent-5)",
+                    borderRadius: "50%",
+                    opacity: "0",
+                    transition: "opacity 0.3s ease",
+                  }}
+                  className="group-hover:opacity-100"
+                />
               )}
 
-              <CardContent className="p-8 text-center relative">
-                <div className="relative w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-primary/20 transition-colors group-hover:scale-105 duration-300">
-                  <feature.icon className="h-7 w-7 text-primary group-hover:scale-110 transition-transform" />
-                </div>
-                <h3 className="text-xl font-semibold text-foreground mb-4 group-hover:text-primary transition-colors">
-                  {feature.title}
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {feature.description}
-                </p>
-                {/* Decorative underline */}
-                <div className="h-1 w-12 bg-gradient-to-r from-primary/40 to-transparent mx-auto mt-4 rounded-full"></div>
-              </CardContent>
-            </Card>
+              <Box
+                style={{
+                  position: "relative",
+                  width: "4rem",
+                  height: "4rem",
+                  backgroundColor: "var(--accent-3)",
+                  borderRadius: "var(--radius-3)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  margin: "0 auto 1.5rem",
+                  transition: "all 0.3s ease",
+                }}
+                className="group-hover:bg-accent-4 group-hover:scale-110"
+              >
+                <feature.icon
+                  size={28}
+                  style={{ color: "var(--accent-9)" }}
+                  className="group-hover:scale-110 transition-transform"
+                />
+              </Box>
+
+              <Heading
+                size="4"
+                style={{
+                  color: "var(--gray-12)",
+                  marginBottom: "1rem",
+                  transition: "color 0.3s ease",
+                }}
+                className="group-hover:text-accent-11"
+              >
+                {feature.title}
+              </Heading>
+
+              <Text
+                size="3"
+                style={{
+                  color: "var(--gray-11)",
+                  lineHeight: "1.6",
+                }}
+              >
+                {feature.description}
+              </Text>
+
+              {/* Decorative underline */}
+              <Box
+                style={{
+                  height: "0.25rem",
+                  width: "3rem",
+                  background:
+                    "linear-gradient(to right, var(--accent-6), transparent)",
+                  margin: "1rem auto 0",
+                  borderRadius: "9999px",
+                }}
+              />
+            </Box>
           ))}
-        </div>
-      </div>
-    </section>
+        </Box>
+      </Container>
+    </Box>
   );
 }
