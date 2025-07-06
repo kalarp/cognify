@@ -1,99 +1,71 @@
 "use client";
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 export function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <Image
-              src="/favicon-96x96.png"
-              alt="Cognify Logo"
-              width={32}
-              height={32}
-              className="w-8 h-8"
-            />
-            <span className="text-xl font-bold text-gray-900">Cognify</span>
+    <header className="navbar bg-base-100 shadow-sm sticky top-0 z-50 border-b border-base-200">
+      <div className="navbar-start">
+        <div className="dropdown">
+          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+            <Menu className="h-6 w-6" />
           </div>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link
-              href="#features"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              Features
-            </Link>
-            <Link
-              href="https://github.com/chaosweasl/cognify#readme"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              How it Works
-            </Link>
-            <Link
-              href="https://github.com/chaosweasl/cognify"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              GitHub
-            </Link>
-            <Button className="bg-emerald-600 hover:bg-emerald-700 text-white">
-              Get Started
-            </Button>
-          </nav>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
-            </Button>
-          </div>
-        </div>
-
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-200">
-            <div className="flex flex-col space-y-4">
-              <Link
-                href="#features"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                Features
-              </Link>
-              <Link
-                href="#how-it-works"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
+          <ul
+            tabIndex={0}
+            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+          >
+            <li>
+              <Link href="#features">Features</Link>
+            </li>
+            <li>
+              <Link href="https://github.com/chaosweasl/cognify#readme">
                 How it Works
               </Link>
-              <Link
-                href="https://github.com/chaosweasl/cognify"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                GitHub
-              </Link>
-              <Button className="bg-emerald-600 hover:bg-emerald-700 text-white w-full">
+            </li>
+            <li>
+              <Link href="https://github.com/chaosweasl/cognify">GitHub</Link>
+            </li>
+            <li>
+              <Link href="/login" className="btn btn-primary btn-sm">
                 Get Started
-              </Button>
-            </div>
-          </div>
-        )}
+              </Link>
+            </li>
+          </ul>
+        </div>
+        <Link href="/" className="btn btn-ghost text-xl font-bold">
+          <Image
+            src="/favicon.svg"
+            alt="Cognify Logo"
+            width={32}
+            height={32}
+            className="w-8 h-8"
+          />
+          Cognify
+        </Link>
+      </div>
+
+      <div className="navbar-center hidden lg:flex">
+        <ul className="menu menu-horizontal px-1">
+          <li>
+            <Link href="#features">Features</Link>
+          </li>
+          <li>
+            <Link href="https://github.com/chaosweasl/cognify#readme">
+              How it Works
+            </Link>
+          </li>
+          <li>
+            <Link href="https://github.com/chaosweasl/cognify">GitHub</Link>
+          </li>
+        </ul>
+      </div>
+
+      <div className="navbar-end">
+        <Link href="/login" className="btn btn-primary">
+          Get Started
+        </Link>
       </div>
     </header>
   );

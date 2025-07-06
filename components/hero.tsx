@@ -1,69 +1,63 @@
-import { Button } from "@/components/ui/button";
 import { ArrowRight, Github } from "lucide-react";
 import Link from "next/link";
 
 export function Hero() {
   return (
-    <section className="bg-gradient-to-br from-emerald-50 to-teal-100 py-20 lg:py-32">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
+    <div className="hero min-h-screen bg-gradient-to-br from-primary/10 to-secondary/10">
+      <div className="hero-content text-center">
+        <div className="max-w-5xl">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-base-content mb-6">
             Transform Your Notes Into
-            <span className="text-emerald-600 block">Smart Flashcards</span>
+            <span className="text-primary block">Smart Flashcards</span>
           </h1>
 
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+          <p className="text-lg md:text-xl text-base-content/80 mb-8 max-w-3xl mx-auto">
             Cognify uses AI to automatically convert your classwork, notes, and
             PDFs into interactive flashcards. Study smarter, not harder with
             personalized learning tools.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <Button
-              size="lg"
-              className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3"
-            >
+            <Link href="/login" className="btn btn-primary btn-lg">
               Start Creating Flashcards
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="bg-white text-gray-700 border-gray-300 px-8 py-3"
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+            <Link
+              href="https://github.com/chaosweasl/cognify"
+              className="btn btn-outline btn-lg"
             >
-              <Github className="mr-2 h-5 w-5" />
-              <Link href="https://github.com/chaosweasl/cognify">
-                View on GitHub
-              </Link>
-            </Button>
+              <Github className="w-5 h-5" />
+              View on GitHub
+            </Link>
           </div>
 
-          <div className="bg-white rounded-lg shadow-xl p-2 max-w-4xl mx-auto">
-            <div className="bg-gray-100 rounded-lg p-8 text-center">
-              <div className="text-gray-500 text-sm mb-4">Demo Preview</div>
-              <div className="bg-white rounded-lg p-6 shadow-sm">
-                <div className="text-left space-y-4">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  </div>
-                  <div className="text-sm text-gray-600">
-                    <div className="font-semibold mb-2">📝 Your Notes:</div>
-                    <div className="bg-gray-50 p-3 rounded text-xs">
-                      &quot;Photosynthesis is the process by which plants
-                      convert sunlight into energy...&quot;
+          <div className="card bg-base-100 shadow-xl max-w-4xl mx-auto">
+            <div className="card-body">
+              <div className="badge badge-primary badge-outline mb-4">
+                Demo Preview
+              </div>
+              <div className="mockup-window border border-base-300 bg-base-100">
+                <div className="bg-base-200 p-6">
+                  <div className="space-y-4">
+                    <div className="text-left">
+                      <div className="font-semibold mb-2 text-base-content">
+                        📝 Your Notes:
+                      </div>
+                      <div className="bg-base-100 p-3 rounded-lg text-sm border">
+                        &quot;Photosynthesis is the process by which plants
+                        convert sunlight into energy...&quot;
+                      </div>
                     </div>
-                  </div>
-                  <div className="text-sm text-gray-600">
-                    <div className="font-semibold mb-2">
-                      🤖 AI Generated Flashcard:
-                    </div>
-                    <div className="bg-teal-50 p-3 rounded text-xs">
-                      <strong>Q:</strong> What is photosynthesis?
-                      <br />
-                      <strong>A:</strong> The process by which plants convert
-                      sunlight into energy
+                    <div className="text-left">
+                      <div className="font-semibold mb-2 text-base-content">
+                        🤖 AI Generated Flashcard:
+                      </div>
+                      <div className="bg-primary/10 p-3 rounded-lg text-sm border border-primary/20">
+                        <strong>Q:</strong> What is photosynthesis?
+                        <br />
+                        <strong>A:</strong> The process by which plants convert
+                        sunlight into energy
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -72,6 +66,6 @@ export function Hero() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
