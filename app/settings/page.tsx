@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import Image from "next/image";
-import { Camera, User, FileText, Save, X, Eye } from "lucide-react";
+import { User, FileText, Save, X, Eye } from "lucide-react";
 
 const SettingsPage = () => {
   const {

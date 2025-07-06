@@ -140,7 +140,7 @@ export default function LoginPage() {
               </Link>
 
               <p className="text-sm text-base-content/60 leading-relaxed">
-                Didn't get the email? Check your spam folder or{" "}
+                Didn&apos;t get the email? Check your spam folder or{" "}
                 <Link
                   target="_blank"
                   href="https://github.com/chaosweasl/cognify/issues"

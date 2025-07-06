@@ -44,8 +44,8 @@ export function Hero() {
                         📝 Your Notes:
                       </div>
                       <div className="bg-base-100 p-3 rounded-lg text-sm border">
-                        "Photosynthesis is the process by which plants convert
-                        sunlight into energy..."
+                        &quot;Photosynthesis is the process by which plants
+                        convert sunlight into energy...&quot;
                       </div>
                     </div>
                     <div className="text-left">

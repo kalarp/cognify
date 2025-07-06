@@ -21,8 +21,8 @@ export default function ErrorPage() {
           </h1>
 
           <p className="text-base-content/70 mb-6">
-            We're sorry, but something unexpected happened. Please try again or
-            return to the home page.
+            We&apos;re sorry, but something unexpected happened. Please try
+            again or return to the home page.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
