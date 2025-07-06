@@ -1,6 +1,5 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 
@@ -37,7 +36,6 @@ export async function login(formData: FormData) {
     return { error: error.message };
   }
 
-  revalidatePath("/", "layout");
   redirect("/dashboard");
 }
 
@@ -62,25 +60,37 @@ export async function signup(formData: FormData) {
     return { error: error.message };
   }
 
-  revalidatePath("/", "layout");
+  redirect("/dashboard");
 
   return { success: true };
 }
 
 export async function signInWithGithub() {
   const supabase = await createClient();
+
   let siteUrl = "https://cognify-chaosweasl.vercel.app";
   if (process.env.NODE_ENV === "development") {
     siteUrl = "http://localhost:3000";
   }
+  console.log("[signInWithGithub] NODE_ENV:", process.env.NODE_ENV);
+  console.log("[signInWithGithub] siteUrl:", siteUrl);
+  console.log(
+    "[signInWithGithub] redirectTo:",
+    `${siteUrl}/auth/callback?next=/dashboard`
+  );
+
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github",
     options: {
-      redirectTo: `${siteUrl}/auth/callback`,
+      redirectTo: `${siteUrl}/auth/callback?next=/dashboard`,
     },
   });
+  console.log("[signInWithOAuth] data:", data);
+  console.log("[signInWithOAuth] error:", error);
+
   if (data?.url) {
     // Use Next.js redirect to send the user to the GitHub OAuth URL
+    console.log("[signInWithGithub] Redirecting to:", data.url);
     redirect(data.url);
   }
   if (error) {

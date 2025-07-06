@@ -10,10 +10,8 @@ if (process.env.NODE_ENV === 'development') {
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const code = searchParams.get('code')
-  // if "next" is in param, use it as the redirect URL
-  let next = searchParams.get('next') ?? '/'
+  let next = searchParams.get('next') ?? '/dashboard'
   if (!next.startsWith('/')) {
-    // if "next" is not a relative URL, use the default
     next = '/dashboard'
   }
 
@@ -21,7 +19,7 @@ export async function GET(request: Request) {
     const supabase = await createClient()
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
-      // Use the environment variable for the site URL
+      // Always redirect to the correct next path after successful OAuth
       return NextResponse.redirect(`${SITE_URL}${next}`)
     }
   }
