@@ -69,8 +69,7 @@ export async function signup(formData: FormData) {
 
 export async function signInWithGithub() {
   const supabase = await createClient();
-  let siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://cognify-chaosweasl.vercel.app";
+  let siteUrl = "https://cognify-chaosweasl.vercel.app";
   if (process.env.NODE_ENV === "development") {
     siteUrl = "http://localhost:3000";
   }
