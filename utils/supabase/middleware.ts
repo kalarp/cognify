@@ -39,11 +39,13 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Redirect unauthenticated users: only allow / and /login
+  // Redirect unauthenticated users: only allow /, /login, /auth/callback, /auth/confirm
   if (
     !user &&
     request.nextUrl.pathname !== "/" &&
-    request.nextUrl.pathname !== "/login"
+    request.nextUrl.pathname !== "/login" &&
+    request.nextUrl.pathname !== "/auth/callback" &&
+    request.nextUrl.pathname !== "/auth/confirm"
   ) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
