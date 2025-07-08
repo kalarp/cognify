@@ -45,12 +45,15 @@ const SettingsPage = () => {
       // Upload new profile picture if selected
       if (profilePicture) {
         avatarUrl = await uploadAvatar(profilePicture);
+        // Immediately update profile with new avatar URL
+        await updateUserProfile({
+          avatar_url: avatarUrl,
+        });
       }
 
-      // Update profile in database
+      // Update profile in database (for display name and bio)
       await updateUserProfile({
         display_name: displayName,
-        avatar_url: avatarUrl,
         bio: bio,
       });
 
@@ -134,6 +137,7 @@ const SettingsPage = () => {
               <button
                 className="btn btn-sm btn-circle btn-ghost"
                 onClick={handleClearMessage}
+                title="Close message"
               >
                 <X size={16} />
               </button>
@@ -193,6 +197,8 @@ const SettingsPage = () => {
                   <input
                     type="file"
                     accept="image/*"
+                    placeholder="Choose a profile picture"
+                    title="Choose a profile picture"
                     onChange={(e) =>
                       handleFileSelect(e.target.files?.[0] || null)
                     }
@@ -232,6 +238,7 @@ const SettingsPage = () => {
                                     <button
                                       onClick={() => setShowPreview(false)}
                                       className="btn btn-sm btn-circle btn-ghost"
+                                      title="Close preview"
                                     >
                                       <X size={16} />
                                     </button>

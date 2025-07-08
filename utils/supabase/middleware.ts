@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { requestFormReset } from "react-dom";
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -45,7 +46,8 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname !== "/" &&
     request.nextUrl.pathname !== "/login" &&
     request.nextUrl.pathname !== "/auth/callback" &&
-    request.nextUrl.pathname !== "/auth/confirm"
+    request.nextUrl.pathname !== "/auth/confirm" &&
+    request.nextUrl.pathname !== "/auth/auth-code-error"
   ) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
