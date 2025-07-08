@@ -197,8 +197,6 @@ const SettingsPage = () => {
                   <input
                     type="file"
                     accept="image/*"
-                    placeholder="Choose a profile picture"
-                    title="Choose a profile picture"
                     onChange={(e) =>
                       handleFileSelect(e.target.files?.[0] || null)
                     }
@@ -238,7 +236,6 @@ const SettingsPage = () => {
                                     <button
                                       onClick={() => setShowPreview(false)}
                                       className="btn btn-sm btn-circle btn-ghost"
-                                      title="Close preview"
                                     >
                                       <X size={16} />
                                     </button>

@@ -12,19 +12,7 @@ export default async function PrivatePage() {
 
   return (
     <div className="min-h-screen bg-base-100">
-      <div className="navbar bg-base-100 shadow-sm border-b border-base-200">
-        <div className="flex-1">
-          <a className="btn btn-ghost text-xl font-bold">Cognify Dashboard</a>
-        </div>
-        <div className="flex-none">
-          <form action={signOut}>
-            <button type="submit" className="btn btn-outline btn-error">
-              Sign Out
-            </button>
-          </form>
-        </div>
-      </div>
-
+      w{" "}
       <div className="container mx-auto p-8">
         <div className="hero bg-base-200 rounded-box mb-8">
           <div className="hero-content text-center">
