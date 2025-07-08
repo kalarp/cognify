@@ -25,6 +25,8 @@ const SettingsPage = () => {
   const [showPreview, setShowPreview] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
+  /* todo: fix */
+
   // Update local state when profile loads
   React.useEffect(() => {
     if (userProfile) {
