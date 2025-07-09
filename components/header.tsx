@@ -3,8 +3,10 @@
 import { Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTheme } from "@/components/theme-provider";
 
 export function Header() {
+  const { theme, toggleTheme } = useTheme();
   return (
     <header className="navbar bg-base-100 shadow-sm sticky top-0 z-50 border-b border-base-200">
       {/* Mobile view */}
@@ -32,6 +34,14 @@ export function Header() {
               <Link href="/login" className="btn btn-primary btn-sm">
                 Get Started
               </Link>
+            </li>
+            <li>
+              <button
+                className="btn btn-ghost w-full mt-2"
+                onClick={toggleTheme}
+              >
+                {theme === "dim" ? "🌙" : "🌞"} Theme
+              </button>
             </li>
           </ul>
         </div>

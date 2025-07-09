@@ -5,12 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useUserProfile } from "@/hooks/useUserProfile";
+import { useTheme } from "@/components/theme-provider";
 
 export function Header() {
   const { userProfile } = useUserProfile();
-  // For theme toggle (simple example, you may want to use context or next-themes)
-  const [theme, setTheme] = useState("dim");
-  const toggleTheme = () => setTheme(theme === "dim" ? "light" : "dim");
+  const { theme, toggleTheme } = useTheme();
 
   // Use real user data if available
   const user = {
@@ -18,139 +17,247 @@ export function Header() {
     avatar: userProfile?.avatar_url || "/favicon.svg",
   };
 
+  // Drawer state for mobile nav
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   return (
-    <header className="navbar bg-base-100 shadow-sm sticky top-0 z-50 border-b border-base-200">
-      <div className="navbar-start">
-        {/* Mobile View: Hamburger menu and dropdown for small screens */}
-        <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-            <Menu className="h-6 w-6" />
-          </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-56 p-2 shadow"
+    <header className="sticky top-0 z-50 border-b border-base-200 bg-base-100 shadow-sm">
+      <nav className="flex items-center justify-between gap-2 px-2 py-1 md:px-6 md:py-2 max-w-screen-2xl mx-auto">
+        {/* Mobile: Hamburger & Drawer */}
+        <div className="flex items-center gap-2 lg:hidden">
+          <button
+            className="btn btn-ghost btn-circle"
+            aria-label="Open menu"
+            onClick={() => setDrawerOpen(true)}
           >
-            <li>
-              <Link href="/dashboard">Dashboard</Link>
-            </li>
-            <li>
-              <Link href="/docs">Docs</Link>
-            </li>
-            <li>
-              <Link href="/settings">Settings</Link>
-            </li>
-            <li>
-              <button className="btn btn-ghost w-full justify-start">
-                <LogOut className="w-4 h-4 mr-2" />
-                Logout
+            <Menu className="h-6 w-6" />
+          </button>
+          {/* Drawer overlay */}
+          {drawerOpen && (
+            <div
+              className="fixed inset-0 z-[100] bg-black/40"
+              onClick={() => setDrawerOpen(false)}
+            />
+          )}
+          {/* Drawer panel */}
+          <aside
+            className={`fixed top-0 left-0 z-[101] h-full w-80 max-w-full bg-base-100 shadow-lg transition-transform duration-300 ${
+              drawerOpen ? "translate-x-0" : "-translate-x-full"
+            }`}
+            style={{ transitionProperty: "transform" }}
+            tabIndex={-1}
+            aria-label="Mobile navigation drawer"
+          >
+            <div className="flex items-center justify-between px-4 py-3 border-b border-base-200">
+              <Link
+                href="/dashboard"
+                className="flex items-center gap-2 text-xl font-bold"
+                onClick={() => setDrawerOpen(false)}
+              >
+                <Image
+                  src="/favicon.svg"
+                  alt="Cognify Logo"
+                  width={32}
+                  height={32}
+                  className="w-8 h-8"
+                />{" "}
+                Cognify
+              </Link>
+              <button
+                className="btn btn-ghost btn-circle"
+                aria-label="Close menu"
+                onClick={() => setDrawerOpen(false)}
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M6 18L18 6M6 6l12 12"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                </svg>
               </button>
-            </li>
-            <li>
-              <button className="btn btn-primary w-full mt-2">
-                <Plus className="w-4 h-4 mr-2" />
-                New Project
-              </button>
-            </li>
-          </ul>
+            </div>
+            <ul className="menu p-4 gap-1 w-full">
+              <li className="menu-title text-xs uppercase tracking-widest text-base-content/60">
+                Navigation
+              </li>
+              <li>
+                <Link
+                  href="/dashboard"
+                  className="font-medium"
+                  onClick={() => setDrawerOpen(false)}
+                >
+                  Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/docs"
+                  className="font-medium"
+                  onClick={() => setDrawerOpen(false)}
+                >
+                  Docs
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/settings"
+                  className="font-medium"
+                  onClick={() => setDrawerOpen(false)}
+                >
+                  Settings
+                </Link>
+              </li>
+              <li className="divider my-1" />
+              <li className="menu-title text-xs uppercase tracking-widest text-base-content/60">
+                Actions
+              </li>
+              <li>
+                <button
+                  className="btn btn-primary w-full flex items-center gap-2 font-semibold text-base shadow-md"
+                  onClick={() => setDrawerOpen(false)}
+                >
+                  <Plus className="w-4 h-4" /> New Project
+                </button>
+              </li>
+              <li>
+                <button
+                  className="btn btn-ghost w-full flex items-center gap-2 justify-start hover:bg-error hover:text-error-content"
+                  onClick={() => setDrawerOpen(false)}
+                >
+                  <LogOut className="w-4 h-4" /> Logout
+                </button>
+              </li>
+              <li className="divider my-1" />
+              <li>
+                <button
+                  className="btn btn-ghost w-full flex items-center gap-2 justify-start"
+                  onClick={toggleTheme}
+                >
+                  {theme === "dim" ? (
+                    <Sun className="w-4 h-4" />
+                  ) : (
+                    <Moon className="w-4 h-4" />
+                  )}
+                  Theme
+                </button>
+              </li>
+            </ul>
+          </aside>
         </div>
-        {/* End Mobile View */}
-        <Link href="/dashboard" className="btn btn-ghost text-xl font-bold">
+        {/* Logo (always visible) */}
+        <Link
+          href="/dashboard"
+          className="flex items-center gap-2 text-xl font-bold px-2 md:px-0"
+        >
           <Image
             src="/favicon.svg"
             alt="Cognify Logo"
             width={32}
             height={32}
             className="w-8 h-8"
-          />
+          />{" "}
           Cognify
         </Link>
-      </div>
-
-      {/* Desktop view */}
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-          <li>
-            <Link href="/dashboard">Dashboard</Link>
-          </li>
-          <li>
-            <Link href="/docs">Docs</Link>
-          </li>
-          <li>
-            <Link href="/settings">Settings</Link>
-          </li>
-        </ul>
-      </div>
-
-      <div className="navbar-end flex items-center gap-2">
-        {/* Quick Create Button */}
-        <button className="btn btn-primary hidden md:inline-flex shadow-md hover:scale-105 transition-transform">
-          <Plus className="w-4 h-4 mr-2" />
-          New Project
-        </button>
-        {/* Theme Toggle */}
-        <button
-          className="btn btn-ghost btn-circle hover:bg-base-200 transition-colors"
-          onClick={toggleTheme}
-          aria-label="Toggle theme"
-        >
-          {theme === "dim" ? (
-            <Sun className="w-5 h-5" />
-          ) : (
-            <Moon className="w-5 h-5" />
-          )}
-        </button>
-        {/* User Dropdown */}
-        <div className="dropdown dropdown-end">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle avatar border-2 border-primary hover:scale-105 transition-transform"
-          >
-            <div className="w-10 rounded-full overflow-hidden bg-base-200">
-              <Image
-                src={user.avatar}
-                alt="User avatar"
-                width={40}
-                height={40}
-                className="object-cover w-full h-full"
-                priority
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = "/favicon.svg";
-                }}
-              />
-            </div>
-          </div>
-          <ul className="menu menu-sm dropdown-content mt-3 z-[1] p-3 shadow-lg bg-base-100 rounded-box w-56 border border-base-200">
-            <li className="font-bold text-base-content/80 px-2 py-1 mb-1 border-b border-base-200">
-              {user.name}
-            </li>
+        {/* Desktop nav */}
+        <div className="hidden lg:flex flex-1 items-center justify-center">
+          <ul className="menu menu-horizontal gap-1 px-1">
             <li>
               <Link
                 href="/dashboard"
-                className="flex items-center gap-2 px-2 py-2 rounded-md hover:bg-primary hover:text-primary-content transition-colors"
+                className="font-medium px-3 py-2 rounded-md hover:bg-base-200 transition-colors"
               >
-                <User className="w-4 h-4" />
                 Dashboard
               </Link>
             </li>
             <li>
               <Link
-                href="/settings"
-                className="flex items-center gap-2 px-2 py-2 rounded-md hover:bg-primary hover:text-primary-content transition-colors"
+                href="/docs"
+                className="font-medium px-3 py-2 rounded-md hover:bg-base-200 transition-colors"
               >
-                <Settings className="w-4 h-4" />
-                Settings
+                Docs
               </Link>
             </li>
             <li>
-              <button className="flex items-center gap-2 px-2 py-2 rounded-md hover:bg-error hover:text-error-content transition-colors w-full justify-start">
-                <LogOut className="w-4 h-4" />
-                Logout
-              </button>
+              <Link
+                href="/settings"
+                className="font-medium px-3 py-2 rounded-md hover:bg-base-200 transition-colors"
+              >
+                Settings
+              </Link>
             </li>
           </ul>
         </div>
-      </div>
+        {/* Right side: actions & user */}
+        <div className="flex items-center gap-2">
+          {/* New Project always primary */}
+          <button className="btn btn-primary hidden md:inline-flex shadow-md font-semibold text-base px-4 py-2 hover:scale-105 transition-transform">
+            <Plus className="w-4 h-4 mr-2" /> New Project
+          </button>
+          {/* Theme Toggle */}
+          <button
+            className="btn btn-ghost btn-circle hover:bg-base-200 transition-colors"
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+          >
+            {theme === "dim" ? (
+              <Sun className="w-5 h-5" />
+            ) : (
+              <Moon className="w-5 h-5" />
+            )}
+          </button>
+          {/* User Dropdown */}
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar border-2 border-primary hover:scale-105 transition-transform"
+            >
+              <div className="w-10 rounded-full overflow-hidden bg-base-200">
+                <Image
+                  src={user.avatar}
+                  alt="User avatar"
+                  width={40}
+                  height={40}
+                  className="object-cover w-full h-full"
+                  priority
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = "/favicon.svg";
+                  }}
+                />
+              </div>
+            </div>
+            <ul className="menu menu-sm dropdown-content mt-3 z-[1] p-3 shadow-lg bg-base-100 rounded-box w-64 border border-base-200">
+              <li className="font-bold text-base-content/80 px-2 py-1 mb-1 border-b border-base-200 text-lg">
+                {user.name}
+              </li>
+              <li>
+                <Link
+                  href="/dashboard"
+                  className="flex items-center gap-2 px-2 py-2 rounded-md hover:bg-primary hover:text-primary-content transition-colors"
+                >
+                  <User className="w-4 h-4" /> Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/settings"
+                  className="flex items-center gap-2 px-2 py-2 rounded-md hover:bg-primary hover:text-primary-content transition-colors"
+                >
+                  <Settings className="w-4 h-4" /> Settings
+                </Link>
+              </li>
+              <li className="divider my-1" />
+              <li>
+                <button className="flex items-center gap-2 px-2 py-2 rounded-md hover:bg-error hover:text-error-content transition-colors w-full justify-start">
+                  <LogOut className="w-4 h-4" /> Logout
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
     </header>
   );
 }
