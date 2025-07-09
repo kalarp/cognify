@@ -7,12 +7,14 @@ import Link from "next/link";
 export function Header() {
   return (
     <header className="navbar bg-base-100 shadow-sm sticky top-0 z-50 border-b border-base-200">
-      {/* Mobile view */}
       <div className="navbar-start">
+        {/* Mobile View: Hamburger menu and dropdown for small screens */}
         <div className="dropdown">
+          {/* Hamburger icon button for mobile */}
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
             <Menu className="h-6 w-6" />
           </div>
+          {/* Dropdown menu for mobile navigation */}
           <ul
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
@@ -35,7 +37,8 @@ export function Header() {
             </li>
           </ul>
         </div>
-        <Link href="/" className="btn btn-ghost text-xl font-bold">
+        {/* End Mobile View */}
+        <Link href="/dashboard" className="btn btn-ghost text-xl font-bold">
           <Image
             src="/favicon.svg"
             alt="Cognify Logo"
