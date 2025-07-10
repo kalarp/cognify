@@ -3,10 +3,19 @@
 import { Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useTheme } from "@/components/theme-provider";
+import { useEffect, useState } from "react";
 
 export function Header() {
-  const { theme, toggleTheme } = useTheme();
+  const [theme, setTheme] = useState("dim");
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "dim" ? "lemonade" : "dim"));
+  };
+
   return (
     <header className="navbar bg-base-100 shadow-sm sticky top-0 z-50 border-b border-base-200">
       {/* Mobile view */}
