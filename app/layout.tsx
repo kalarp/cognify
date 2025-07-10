@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Cognify",
-  description: "A website for detecting fake news and misinformation",
+  description: "A website for creating flashcards from PDFs",
 };
 
 export default function RootLayout({
