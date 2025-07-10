@@ -4,20 +4,12 @@ import { Menu, LogOut, Plus, Sun, Moon } from "lucide-react";
 import { User, Settings } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useTheme } from "@/hooks/useTheme";
 import { useDashboardHeader } from "@/hooks/useDashboardHeader";
 
 export function Header() {
-  const [theme, setTheme] = useState("dim");
+  const { theme, toggleTheme } = useTheme();
   const { user, drawerOpen, setDrawerOpen } = useDashboardHeader();
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === "dim" ? "lemonade" : "dim"));
-  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-base-200 bg-base-100 shadow-sm">

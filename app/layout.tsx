@@ -17,6 +17,16 @@ export const metadata: Metadata = {
   description: "A website for creating flashcards from PDFs",
 };
 
+const themeInitScript = `
+  (function() {
+    try {
+      const t = localStorage.getItem('theme');
+      const theme = t || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch {}
+  })();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -24,7 +34,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head />
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-base-100`}
       >
