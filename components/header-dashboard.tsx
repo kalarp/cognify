@@ -1,24 +1,15 @@
 "use client";
 
-import { Menu, User, LogOut, Plus, Sun, Moon, Settings } from "lucide-react";
+import { Menu, LogOut, Plus, Sun, Moon } from "lucide-react";
+import { User, Settings } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { useUserProfile } from "@/hooks/useUserProfile";
 import { useTheme } from "@/components/theme-provider";
+import { useDashboardHeader } from "@/hooks/useDashboardHeader";
 
 export function Header() {
-  const { userProfile } = useUserProfile();
   const { theme, toggleTheme } = useTheme();
-
-  // Use real user data if available
-  const user = {
-    name: userProfile?.display_name || "User",
-    avatar: userProfile?.avatar_url || "/favicon.svg",
-  };
-
-  // Drawer state for mobile nav
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const { user, drawerOpen, setDrawerOpen } = useDashboardHeader();
 
   return (
     <header className="sticky top-0 z-50 border-b border-base-200 bg-base-100 shadow-sm">

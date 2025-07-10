@@ -24,9 +24,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Inline script to set theme instantly on first load */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+(function() {
+  try {
+    var theme = localStorage.getItem('theme') || 'dim';
+    document.documentElement.setAttribute('data-theme', theme);
+  } catch (e) {}
+})();
+            `,
+          }}
+        />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-base-100`}
       >
         <ThemeProvider>{children}</ThemeProvider>
       </body>
