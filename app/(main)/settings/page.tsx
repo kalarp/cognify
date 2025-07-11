@@ -7,12 +7,7 @@ import { User, FileText, Save, X, Eye } from "lucide-react";
 import { useSettingsActions } from "./actions";
 
 const SettingsPage = () => {
-  const {
-    userProfile,
-    isLoading: profileLoading,
-    updateUserProfile,
-    uploadAvatar,
-  } = useUserProfile();
+  const { userProfile, isLoading: profileLoading } = useUserProfile();
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
   const [displayName, setDisplayName] = useState<string>(
     userProfile?.display_name || ""
