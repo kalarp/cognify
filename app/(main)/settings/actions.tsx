@@ -55,7 +55,7 @@ export function useSettingsActions() {
       setMessageType("success");
       setProfilePicture(null);
       setPreviewUrl(null);
-    } catch {
+    } catch (error) {
       setMessage("Error updating profile");
       setMessageType("error");
     }
