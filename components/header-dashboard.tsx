@@ -6,10 +6,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { useTheme } from "@/hooks/useTheme";
 import { useDashboardHeader } from "@/hooks/useDashboardHeader";
+import { useState, useEffect } from "react";
 
 export function Header() {
   const { theme, toggleTheme } = useTheme();
   const { user, drawerOpen, setDrawerOpen } = useDashboardHeader();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 border-b border-base-200 bg-base-100 shadow-sm">
@@ -126,11 +131,13 @@ export function Header() {
                   className="btn btn-ghost w-full flex items-center gap-2 justify-start"
                   onClick={toggleTheme}
                 >
-                  {theme === "dim" ? (
-                    <Sun className="w-4 h-4" />
-                  ) : (
-                    <Moon className="w-4 h-4" />
-                  )}
+                  {mounted ? (
+                    theme === "dim" ? (
+                      <Sun className="w-4 h-4" />
+                    ) : (
+                      <Moon className="w-4 h-4" />
+                    )
+                  ) : null}
                   Theme
                 </button>
               </li>
@@ -192,11 +199,13 @@ export function Header() {
             onClick={toggleTheme}
             aria-label="Toggle theme"
           >
-            {theme === "dim" ? (
-              <Sun className="w-5 h-5" />
-            ) : (
-              <Moon className="w-5 h-5" />
-            )}
+            {mounted ? (
+              theme === "dim" ? (
+                <Sun className="w-5 h-5" />
+              ) : (
+                <Moon className="w-5 h-5" />
+              )
+            ) : null}
           </button>
           {/* User Dropdown */}
           <div className="dropdown dropdown-end">

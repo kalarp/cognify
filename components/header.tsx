@@ -4,9 +4,15 @@ import { Menu, Sun, Moon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTheme } from "@/hooks/useTheme";
+import { useEffect, useState } from "react";
 
 export function Header() {
   const { theme, toggleTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <header className="navbar bg-base-100 shadow-sm sticky top-0 z-50 border-b border-base-200">
@@ -73,11 +79,13 @@ export function Header() {
           onClick={toggleTheme}
           aria-label="Toggle theme"
         >
-          {theme === "dim" ? (
-            <Sun className="w-5 h-5" />
-          ) : (
-            <Moon className="w-5 h-5" />
-          )}
+          {mounted ? (
+            theme === "dim" ? (
+              <Sun className="w-5 h-5" />
+            ) : (
+              <Moon className="w-5 h-5" />
+            )
+          ) : null}
         </button>
         <Link href="/login" className="btn btn-primary">
           Get Started
@@ -86,3 +94,5 @@ export function Header() {
     </header>
   );
 }
+
+// TODO: fix hydration error
