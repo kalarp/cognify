@@ -94,5 +94,3 @@ export function Header() {
     </header>
   );
 }
-
-// TODO: fix hydration error
