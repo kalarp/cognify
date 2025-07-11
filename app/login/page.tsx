@@ -132,7 +132,6 @@ export default function LoginPage() {
 
               <Link
                 href="https://mail.google.com/"
-                target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-success btn-lg btn-wide mb-6"
               >

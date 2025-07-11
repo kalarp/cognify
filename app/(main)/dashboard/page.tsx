@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import { signOut } from "./actions";
 
 export default async function PrivatePage() {
   const supabase = await createClient();
@@ -12,7 +11,6 @@ export default async function PrivatePage() {
 
   return (
     <div className="min-h-screen bg-base-100">
-      w{" "}
       <div className="container mx-auto p-8">
         <div className="hero bg-base-200 rounded-box mb-8">
           <div className="hero-content text-center">

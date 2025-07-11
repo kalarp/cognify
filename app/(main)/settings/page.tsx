@@ -4,14 +4,10 @@ import React, { useState } from "react";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import Image from "next/image";
 import { User, FileText, Save, X, Eye } from "lucide-react";
+import { useSettingsActions } from "./actions";
 
 const SettingsPage = () => {
-  const {
-    userProfile,
-    isLoading: profileLoading,
-    updateUserProfile,
-    uploadAvatar,
-  } = useUserProfile();
+  const { userProfile, isLoading: profileLoading } = useUserProfile();
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
   const [displayName, setDisplayName] = useState<string>(
     userProfile?.display_name || ""
@@ -25,7 +21,7 @@ const SettingsPage = () => {
   const [showPreview, setShowPreview] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  /* todo: fix */
+  const { handleSave, handleFileSelect } = useSettingsActions();
 
   // Update local state when profile loads
   React.useEffect(() => {
@@ -35,58 +31,20 @@ const SettingsPage = () => {
     }
   }, [userProfile]);
 
-  const handleSave = async () => {
-    setIsLoading(true);
-    setMessage("");
+  const onSave = () =>
+    handleSave({
+      profilePicture,
+      displayName,
+      bio,
+      setIsLoading,
+      setMessage,
+      setMessageType,
+      setProfilePicture,
+      setPreviewUrl,
+    });
 
-    try {
-      let avatarUrl = userProfile?.avatar_url || "";
-
-      // Upload new profile picture if selected
-      if (profilePicture) {
-        avatarUrl = await uploadAvatar(profilePicture);
-        // Immediately update profile with new avatar URL
-        await updateUserProfile({
-          avatar_url: avatarUrl,
-        });
-      }
-
-      // Update profile in database (for display name and bio)
-      await updateUserProfile({
-        display_name: displayName,
-        bio: bio,
-      });
-
-      setMessage("Profile updated successfully!");
-      setMessageType("success");
-      // Reset file input
-      setProfilePicture(null);
-      setPreviewUrl(null);
-    } catch (error) {
-      console.error("Error updating profile:", error);
-      setMessage("Error updating profile");
-      setMessageType("error");
-    }
-
-    setIsLoading(false);
-  };
-
-  const handleClearMessage = () => {
-    setMessage("");
-  };
-
-  const handleFileSelect = (file: File | null) => {
-    setProfilePicture(file);
-    if (file && file.type.startsWith("image/")) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setPreviewUrl(e.target?.result as string);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setPreviewUrl(null);
-    }
-  };
+  const onFileSelect = (file: File | null) =>
+    handleFileSelect({ file, setProfilePicture, setPreviewUrl });
 
   const getAlertClass = () => {
     switch (messageType) {
@@ -136,7 +94,7 @@ const SettingsPage = () => {
               <span>{message}</span>
               <button
                 className="btn btn-sm btn-circle btn-ghost"
-                onClick={handleClearMessage}
+                onClick={() => setMessage("")}
                 title="Close message"
               >
                 <X size={16} />
@@ -197,9 +155,7 @@ const SettingsPage = () => {
                   <input
                     type="file"
                     accept="image/*"
-                    onChange={(e) =>
-                      handleFileSelect(e.target.files?.[0] || null)
-                    }
+                    onChange={(e) => onFileSelect(e.target.files?.[0] || null)}
                     className="file-input file-input-bordered file-input-primary w-full"
                   />
                   {profilePicture && (
@@ -272,7 +228,7 @@ const SettingsPage = () => {
                             </>
                           )}
                           <button
-                            onClick={() => handleFileSelect(null)}
+                            onClick={() => onFileSelect(null)}
                             className="btn btn-sm btn-outline btn-error"
                           >
                             <X size={14} />
@@ -333,7 +289,7 @@ const SettingsPage = () => {
 
                 {/* Save Button */}
                 <button
-                  onClick={handleSave}
+                  onClick={onSave}
                   disabled={isLoading}
                   className={`btn btn-primary btn-lg w-full ${
                     isLoading ? "loading" : ""

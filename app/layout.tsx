@@ -14,8 +14,18 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Cognify",
-  description: "A website for detecting fake news and misinformation",
+  description: "A website for creating flashcards from PDFs",
 };
+
+const themeInitScript = `
+  (function() {
+    try {
+      const t = localStorage.getItem('theme');
+      const theme = t || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch {}
+  })();
+`;
 
 export default function RootLayout({
   children,
@@ -23,9 +33,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="dim">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-base-100`}
       >
         {children}
       </body>

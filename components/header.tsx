@@ -1,10 +1,19 @@
 "use client";
 
-import { Menu } from "lucide-react";
+import { Menu, Sun, Moon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTheme } from "@/hooks/useTheme";
+import { useEffect, useState } from "react";
 
 export function Header() {
+  const { theme, toggleTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <header className="navbar bg-base-100 shadow-sm sticky top-0 z-50 border-b border-base-200">
       {/* Mobile view */}
@@ -28,7 +37,7 @@ export function Header() {
             <li>
               <Link href="https://github.com/chaosweasl/cognify">GitHub</Link>
             </li>
-            <li>
+            <li className="mt-2">
               <Link href="/login" className="btn btn-primary btn-sm">
                 Get Started
               </Link>
@@ -65,6 +74,19 @@ export function Header() {
       </div>
 
       <div className="navbar-end">
+        <button
+          className="btn btn-ghost btn-circle hover:bg-base-200 transition-colors mr-2"
+          onClick={toggleTheme}
+          aria-label="Toggle theme"
+        >
+          {mounted ? (
+            theme === "dim" ? (
+              <Sun className="w-5 h-5" />
+            ) : (
+              <Moon className="w-5 h-5" />
+            )
+          ) : null}
+        </button>
         <Link href="/login" className="btn btn-primary">
           Get Started
         </Link>
