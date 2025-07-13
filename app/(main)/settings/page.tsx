@@ -9,10 +9,9 @@ import { useSettingsActions } from "./actions";
 const SettingsPage = () => {
   const { userProfile, isLoading: profileLoading } = useUserProfile();
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
-  const [displayName, setDisplayName] = useState<string>(
-    userProfile?.display_name || ""
-  );
+  const [displayName, setDisplayName] = useState<string>(userProfile?.display_name || "");
   const [bio, setBio] = useState<string>(userProfile?.bio || "");
+  const [validationError, setValidationError] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<string>("");
   const [messageType, setMessageType] = useState<"success" | "error" | "info">(
@@ -31,7 +30,21 @@ const SettingsPage = () => {
     }
   }, [userProfile]);
 
-  const onSave = () =>
+  React.useEffect(() => {
+    // Real-time validation
+    if (displayName.length > 32) {
+      setValidationError("Display name must be 32 characters or less.");
+    } else if (/\s/.test(displayName)) {
+      setValidationError("Display name cannot contain whitespace.");
+    } else if (bio.length > 500) {
+      setValidationError("Bio must be 500 characters or less.");
+    } else {
+      setValidationError("");
+    }
+  }, [displayName, bio]);
+
+  const onSave = () => {
+    if (validationError) return;
     handleSave({
       profilePicture,
       displayName,
@@ -42,6 +55,7 @@ const SettingsPage = () => {
       setProfilePicture,
       setPreviewUrl,
     });
+  };
 
   const onFileSelect = (file: File | null) =>
     handleFileSelect({ file, setProfilePicture, setPreviewUrl });
@@ -100,6 +114,11 @@ const SettingsPage = () => {
                 <X size={16} />
               </button>
             </div>
+          </div>
+        )}
+        {validationError && (
+          <div className="alert alert-error mb-6">
+            <span>{validationError}</span>
           </div>
         )}
 
@@ -290,7 +309,7 @@ const SettingsPage = () => {
                 {/* Save Button */}
                 <button
                   onClick={onSave}
-                  disabled={isLoading}
+                  disabled={isLoading || !!validationError}
                   className={`btn btn-primary btn-lg w-full ${
                     isLoading ? "loading" : ""
                   }`}

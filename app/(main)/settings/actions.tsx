@@ -44,6 +44,26 @@ export function useSettingsActions() {
   }: HandleSaveParams) => {
     setIsLoading(true);
     setMessage("");
+    // Validation
+    if (displayName.length > 32) {
+      setMessage("Display name must be 32 characters or less.");
+      setMessageType("error");
+      setIsLoading(false);
+      return;
+    }
+    if (/\s/.test(displayName)) {
+      setMessage("Display name cannot contain whitespace.");
+      setMessageType("error");
+      setIsLoading(false);
+      return;
+    }
+    if (bio.length > 500) {
+      setMessage("Bio must be 500 characters or less.");
+      setMessageType("error");
+      setIsLoading(false);
+      return;
+    }
+
     try {
       let avatarUrl = userProfile?.avatar_url || "";
       if (profilePicture) {
