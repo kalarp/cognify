@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useToast } from "@/components/toast-provider";
 import { createProject, getProjects } from "./actions";
 
 type Project = {
@@ -16,7 +17,7 @@ export default function ProjectsPage() {
     (Project & { formattedCreatedAt: string })[]
   >([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { showToast } = useToast();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
@@ -33,7 +34,7 @@ export default function ProjectsPage() {
         }));
         setProjects(formatted);
       } catch {
-        setError("Failed to load projects");
+        showToast("Failed to load projects", "error");
       } finally {
         setLoading(false);
       }
@@ -56,7 +57,7 @@ export default function ProjectsPage() {
       }));
       setProjects(formatted);
     } catch {
-      setError("Failed to create project");
+      showToast("Failed to create project", "error");
     } finally {
       setLoading(false);
     }
@@ -86,7 +87,6 @@ export default function ProjectsPage() {
           </button>
         </form>
         {loading && <p>Loading...</p>}
-        {error && <p className="text-error">{error}</p>}
         <ul className="space-y-4">
           {projects.map((project) => (
             <li key={project.id} className="p-4 bg-base-200 rounded-box">

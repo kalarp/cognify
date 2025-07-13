@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useToast } from "@/components/toast-provider";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import Image from "next/image";
 import { User, FileText, Save, X, Eye } from "lucide-react";
@@ -16,10 +17,7 @@ const SettingsPage = () => {
   const [bio, setBio] = useState<string>(userProfile?.bio || "");
   const [validationError, setValidationError] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState<string>("");
-  const [messageType, setMessageType] = useState<"success" | "error" | "info">(
-    "info"
-  );
+  const { showToast } = useToast();
   const [showPreview, setShowPreview] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
@@ -59,26 +57,14 @@ const SettingsPage = () => {
       displayName,
       bio,
       setIsLoading,
-      setMessage,
-      setMessageType,
       setProfilePicture,
       setPreviewUrl,
+      showToast,
     });
   };
 
   const onFileSelect = (file: File | null) =>
     handleFileSelect({ file, setProfilePicture, setPreviewUrl });
-
-  const getAlertClass = () => {
-    switch (messageType) {
-      case "success":
-        return "alert-success";
-      case "error":
-        return "alert-error";
-      default:
-        return "alert-info";
-    }
-  };
 
   if (profileLoading) {
     return (
@@ -110,19 +96,9 @@ const SettingsPage = () => {
           </p>
         </div>
 
-        {/* Toast Message */}
-        {message && (
-          <div className={`alert ${getAlertClass()} mb-6`}>
-            <div className="flex items-center justify-between w-full">
-              <span>{message}</span>
-              <button
-                className="btn btn-sm btn-circle btn-ghost"
-                onClick={() => setMessage("")}
-                title="Close message"
-              >
-                <X size={16} />
-              </button>
-            </div>
+        {validationError && (
+          <div className="alert alert-error mb-6">
+            <span>{validationError}</span>
           </div>
         )}
         {validationError && (

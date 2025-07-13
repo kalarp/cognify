@@ -7,10 +7,7 @@ export interface HandleSaveParams {
   displayName: string;
   bio: string;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setMessage: React.Dispatch<React.SetStateAction<string>>;
-  setMessageType: React.Dispatch<
-    React.SetStateAction<"success" | "error" | "info">
-  >;
+  showToast?: (message: string, type?: "success" | "error" | "info") => void;
   setProfilePicture: React.Dispatch<React.SetStateAction<File | null>>;
   setPreviewUrl: React.Dispatch<React.SetStateAction<string | null>>;
 }
@@ -38,8 +35,7 @@ export function useSettingsActions() {
     displayName,
     bio,
     setIsLoading,
-    setMessage,
-    setMessageType,
+    showToast,
     setProfilePicture,
     setPreviewUrl,
   }: HandleSaveParams) => {
@@ -49,23 +45,22 @@ export function useSettingsActions() {
       bio,
     });
     setIsLoading(true);
-    setMessage("");
+    if (showToast) showToast("", "info");
     // Validation
     if (displayName.length > 32) {
-      setMessage("Display name must be 32 characters or less.");
-      setMessageType("error");
+      if (showToast)
+        showToast("Display name must be 32 characters or less.", "error");
       setIsLoading(false);
       return;
     }
     if (/\s/.test(displayName)) {
-      setMessage("Display name cannot contain whitespace.");
-      setMessageType("error");
+      if (showToast)
+        showToast("Display name cannot contain whitespace.", "error");
       setIsLoading(false);
       return;
     }
     if (bio.length > 500) {
-      setMessage("Bio must be 500 characters or less.");
-      setMessageType("error");
+      if (showToast) showToast("Bio must be 500 characters or less.", "error");
       setIsLoading(false);
       return;
     }
@@ -77,13 +72,11 @@ export function useSettingsActions() {
         await updateUserProfile({ avatar_url: avatarUrl });
       }
       await updateUserProfile({ display_name: displayName, bio });
-      setMessage("Profile updated successfully!");
-      setMessageType("success");
+      if (showToast) showToast("Profile updated successfully!", "success");
       setProfilePicture(null);
       setPreviewUrl(null);
     } catch {
-      setMessage("Error updating profile");
-      setMessageType("error");
+      if (showToast) showToast("Error updating profile", "error");
     }
     setIsLoading(false);
   };

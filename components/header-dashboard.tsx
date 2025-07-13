@@ -46,8 +46,8 @@ export function Header() {
           >
             <div className="flex items-center justify-between px-4 py-3 border-b border-base-200">
               <Link
-                href="/dashboard"
-                className="flex items-center gap-2 text-xl font-bold"
+                href="/projects"
+                className="btn btn-ghost flex items-center gap-2 text-xl font-bold"
                 onClick={() => setDrawerOpen(false)}
               >
                 <Image
@@ -146,8 +146,8 @@ export function Header() {
         </div>
         {/* Logo (always visible) */}
         <Link
-          href="/dashboard"
-          className="flex items-center gap-2 text-xl font-bold px-2 md:px-0"
+          href="/projects"
+          className="btn btn-ghost flex items-center gap-2 text-xl font-bold px-2 md:px-0"
         >
           <Image
             src="/favicon.svg"
