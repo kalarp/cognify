@@ -44,6 +44,46 @@ export function useSettingsActions() {
   }: HandleSaveParams) => {
     setIsLoading(true);
     setMessage("");
+    // Validation
+    if (displayName.length > 32) {
+      setMessage("Display name must be 32 characters or less.");
+      setMessageType("error");
+      setIsLoading(false);
+      return;
+    }
+    if (/\s/.test(displayName)) {
+      setMessage("Display name cannot contain whitespace.");
+      setMessageType("error");
+      setIsLoading(false);
+      return;
+    }
+    if (bio.length > 500) {
+      setMessage("Bio must be 500 characters or less.");
+      setMessageType("error");
+      setIsLoading(false);
+      return;
+    }
+
+    // Rate limiting: allow 3 changes per hour
+    const rateLimitKey = `profile-edit-${userProfile?.id}`;
+    const now = Date.now();
+    let edits: number[] = [];
+    try {
+      const stored = localStorage.getItem(rateLimitKey);
+      if (stored) {
+        edits = JSON.parse(stored);
+        // Remove edits older than 1 hour
+        edits = edits.filter((t) => now - t < 3600_000);
+      }
+    } catch {}
+    if (edits.length >= 3) {
+      const nextAllowed = new Date(edits[0] + 3600_000);
+      setMessage(`Profile can only be updated 3 times per hour. Next update: ${nextAllowed.toLocaleTimeString()}`);
+      setMessageType("error");
+      setIsLoading(false);
+      return;
+    }
+
     try {
       let avatarUrl = userProfile?.avatar_url || "";
       if (profilePicture) {
@@ -51,6 +91,8 @@ export function useSettingsActions() {
         await updateUserProfile({ avatar_url: avatarUrl });
       }
       await updateUserProfile({ display_name: displayName, bio });
+      edits.push(now);
+      localStorage.setItem(rateLimitKey, JSON.stringify(edits));
       setMessage("Profile updated successfully!");
       setMessageType("success");
       setProfilePicture(null);
