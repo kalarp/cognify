@@ -23,7 +23,7 @@ export default function ProjectsPage() {
       try {
         const data = await getProjects();
         setProjects(data);
-      } catch (err) {
+      } catch {
         setError("Failed to load projects");
       } finally {
         setLoading(false);
@@ -41,7 +41,7 @@ export default function ProjectsPage() {
       setDescription("");
       const data = await getProjects();
       setProjects(data);
-    } catch (err) {
+    } catch {
       setError("Failed to create project");
     } finally {
       setLoading(false);
