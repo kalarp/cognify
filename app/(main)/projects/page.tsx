@@ -12,7 +12,9 @@ type Project = {
 
 export default function ProjectsPage() {
   console.log("ProjectsPage: render");
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<
+    (Project & { formattedCreatedAt: string })[]
+  >([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [name, setName] = useState("");
@@ -24,7 +26,12 @@ export default function ProjectsPage() {
       setLoading(true);
       try {
         const data = await getProjects();
-        setProjects(data);
+        // Format created_at on the client for hydration safety
+        const formatted = data.map((project: Project) => ({
+          ...project,
+          formattedCreatedAt: new Date(project.created_at).toLocaleString(),
+        }));
+        setProjects(formatted);
       } catch {
         setError("Failed to load projects");
       } finally {
@@ -43,7 +50,11 @@ export default function ProjectsPage() {
       setName("");
       setDescription("");
       const data = await getProjects();
-      setProjects(data);
+      const formatted = data.map((project: Project) => ({
+        ...project,
+        formattedCreatedAt: new Date(project.created_at).toLocaleString(),
+      }));
+      setProjects(formatted);
     } catch {
       setError("Failed to create project");
     } finally {
@@ -82,7 +93,7 @@ export default function ProjectsPage() {
               <h2 className="text-xl font-semibold">{project.name}</h2>
               <p>{project.description}</p>
               <p className="text-xs text-base-content/50">
-                Created: {new Date(project.created_at).toLocaleString()}
+                Created: {project.formattedCreatedAt}
               </p>
             </li>
           ))}
