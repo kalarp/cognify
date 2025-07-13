@@ -21,13 +21,13 @@ export async function getProjects() {
 }
 
 export async function createProject({
-  console.log("projectsActions: createProject called", { name, description });
   name,
   description,
 }: {
   name: string;
   description: string;
 }) {
+  console.log("projectsActions: createProject called", { name, description });
   const supabase = await createClient();
   const {
     data: { user },

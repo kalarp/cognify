@@ -34,7 +34,6 @@ export function useSettingsActions() {
 
   // Handles updating the user profile (display name, bio, avatar)
   const handleSave = async ({
-    console.log("useSettingsActions: handleSave called", { profilePicture, displayName, bio });
     profilePicture,
     displayName,
     bio,
@@ -44,6 +43,11 @@ export function useSettingsActions() {
     setProfilePicture,
     setPreviewUrl,
   }: HandleSaveParams) => {
+    console.log("useSettingsActions: handleSave called", {
+      profilePicture,
+      displayName,
+      bio,
+    });
     setIsLoading(true);
     setMessage("");
     // Validation
@@ -86,11 +90,11 @@ export function useSettingsActions() {
 
   // Handles file selection and preview
   const handleFileSelect = ({
-    console.log("useSettingsActions: handleFileSelect called", file);
     file,
     setProfilePicture,
     setPreviewUrl,
   }: HandleFileSelectParams) => {
+    console.log("useSettingsActions: handleFileSelect called", file);
     setProfilePicture(file);
     if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
