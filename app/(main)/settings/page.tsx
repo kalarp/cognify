@@ -16,6 +16,7 @@ const SettingsPage = () => {
   );
   const [bio, setBio] = useState<string>(userProfile?.bio || "");
   const [validationError, setValidationError] = useState<string>("");
+  const [showValidation, setShowValidation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { showToast } = useToast();
   const [showPreview, setShowPreview] = useState(false);
@@ -33,25 +34,29 @@ const SettingsPage = () => {
   }, [userProfile]);
 
   React.useEffect(() => {
-    // Real-time validation
+    // Validation logic, but do not show until Save is clicked
+    let error = "";
     if (displayName.length > 32) {
-      setValidationError("Display name must be 32 characters or less.");
+      error = "Display name must be 32 characters or less.";
     } else if (/\s/.test(displayName)) {
-      setValidationError("Display name cannot contain whitespace.");
+      error = "Display name cannot contain whitespace.";
     } else if (bio.length > 500) {
-      setValidationError("Bio must be 500 characters or less.");
-    } else {
-      setValidationError("");
+      error = "Bio must be 500 characters or less.";
     }
+    setValidationError(error);
   }, [displayName, bio]);
 
   const onSave = () => {
+    setShowValidation(true);
     console.log("SettingsPage: onSave called", {
       displayName,
       bio,
       profilePicture,
     });
-    if (validationError) return;
+    if (validationError) {
+      showToast(validationError, "error");
+      return;
+    }
     handleSave({
       profilePicture,
       displayName,
@@ -96,16 +101,7 @@ const SettingsPage = () => {
           </p>
         </div>
 
-        {validationError && (
-          <div className="alert alert-error mb-6">
-            <span>{validationError}</span>
-          </div>
-        )}
-        {validationError && (
-          <div className="alert alert-error mb-6">
-            <span>{validationError}</span>
-          </div>
-        )}
+        {/* No real-time validation error display. Toast will show on Save. */}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Profile Avatar Card */}
@@ -294,7 +290,7 @@ const SettingsPage = () => {
                 {/* Save Button */}
                 <button
                   onClick={onSave}
-                  disabled={isLoading || !!validationError}
+                  disabled={isLoading}
                   className={`btn btn-primary btn-lg w-full ${
                     isLoading ? "loading" : ""
                   }`}

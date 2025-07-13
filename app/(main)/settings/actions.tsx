@@ -7,7 +7,10 @@ export interface HandleSaveParams {
   displayName: string;
   bio: string;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  showToast?: (message: string, type?: "success" | "error" | "info") => void;
+  showToast?: (
+    message: string,
+    type?: "success" | "error" | "info" | "warning"
+  ) => void;
   setProfilePicture: React.Dispatch<React.SetStateAction<File | null>>;
   setPreviewUrl: React.Dispatch<React.SetStateAction<string | null>>;
 }
