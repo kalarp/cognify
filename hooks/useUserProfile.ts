@@ -87,6 +87,7 @@ export const useUserProfile = () => {
           setUserProfile(profile);
           if (typeof window !== "undefined") {
             localStorage.setItem("userProfile", JSON.stringify(profile));
+            localStorage.setItem("userProfileCachedAt", Date.now().toString());
           }
         }
       }
@@ -170,7 +171,23 @@ export const useUserProfile = () => {
 
   useEffect(() => {
     console.log("useUserProfile: useEffect fetchUserProfile");
+    if (typeof window !== "undefined") {
+      const cached = localStorage.getItem("userProfile");
+      const cachedTime = localStorage.getItem("userProfileCachedAt");
+      if (cached && cachedTime) {
+        const now = Date.now();
+        const cachedAt = parseInt(cachedTime, 10);
+        // 1 hour expiry
+        if (now - cachedAt < 3600 * 1000) {
+          setIsLoading(false);
+          return;
+        }
+      }
+    }
     fetchUserProfile();
+    if (typeof window !== "undefined") {
+      localStorage.setItem("userProfileCachedAt", Date.now().toString());
+    }
   }, []);
 
   return {
