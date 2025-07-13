@@ -7,9 +7,12 @@ import { User, FileText, Save, X, Eye } from "lucide-react";
 import { useSettingsActions } from "./actions";
 
 const SettingsPage = () => {
+  console.log("SettingsPage: render");
   const { userProfile, isLoading: profileLoading } = useUserProfile();
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
-  const [displayName, setDisplayName] = useState<string>(userProfile?.display_name || "");
+  const [displayName, setDisplayName] = useState<string>(
+    userProfile?.display_name || ""
+  );
   const [bio, setBio] = useState<string>(userProfile?.bio || "");
   const [validationError, setValidationError] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
@@ -24,6 +27,7 @@ const SettingsPage = () => {
 
   // Update local state when profile loads
   React.useEffect(() => {
+    console.log("SettingsPage: useEffect userProfile", userProfile);
     if (userProfile) {
       setDisplayName(userProfile.display_name || "");
       setBio(userProfile.bio || "");
@@ -44,6 +48,11 @@ const SettingsPage = () => {
   }, [displayName, bio]);
 
   const onSave = () => {
+    console.log("SettingsPage: onSave called", {
+      displayName,
+      bio,
+      profilePicture,
+    });
     if (validationError) return;
     handleSave({
       profilePicture,

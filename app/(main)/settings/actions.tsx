@@ -24,6 +24,7 @@ export interface HandleFileSelectParams {
 import { useUserProfile } from "@/hooks/useUserProfile";
 
 export function useSettingsActions() {
+  console.log("useSettingsActions: hook initialized");
   const {
     userProfile,
     isLoading: profileLoading,
@@ -33,6 +34,7 @@ export function useSettingsActions() {
 
   // Handles updating the user profile (display name, bio, avatar)
   const handleSave = async ({
+    console.log("useSettingsActions: handleSave called", { profilePicture, displayName, bio });
     profilePicture,
     displayName,
     bio,
@@ -84,6 +86,7 @@ export function useSettingsActions() {
 
   // Handles file selection and preview
   const handleFileSelect = ({
+    console.log("useSettingsActions: handleFileSelect called", file);
     file,
     setProfilePicture,
     setPreviewUrl,

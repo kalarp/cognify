@@ -11,6 +11,7 @@ type Project = {
 };
 
 export default function ProjectsPage() {
+  console.log("ProjectsPage: render");
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -18,6 +19,7 @@ export default function ProjectsPage() {
   const [description, setDescription] = useState("");
 
   useEffect(() => {
+    console.log("ProjectsPage: useEffect fetchProjects");
     async function fetchProjects() {
       setLoading(true);
       try {
@@ -33,6 +35,7 @@ export default function ProjectsPage() {
   }, []);
 
   async function handleCreate(e: React.FormEvent<HTMLFormElement>) {
+    console.log("ProjectsPage: handleCreate called", { name, description });
     e.preventDefault();
     setLoading(true);
     try {

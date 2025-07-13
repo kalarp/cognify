@@ -15,6 +15,7 @@ export interface UserProfile {
 }
 
 export const useUserProfile = () => {
+  console.log("useUserProfile: hook initialized");
   const [userProfile, setUserProfile] = useState<UserProfile | null>(() => {
     if (typeof window !== "undefined") {
       const cached = localStorage.getItem("userProfile");
@@ -26,7 +27,9 @@ export const useUserProfile = () => {
   const [error, setError] = useState<string | null>(null);
 
   const fetchUserProfile = async () => {
+    console.log("useUserProfile: fetchUserProfile called");
     try {
+      console.log("useUserProfile: fetching profile from Supabase");
       setIsLoading(true);
       setError(null);
 
@@ -34,6 +37,7 @@ export const useUserProfile = () => {
       const user = userResponse?.user;
 
       if (user) {
+        console.log("useUserProfile: user found", user.id);
         const { data: profile, error } = await supabase
           .from("profiles")
           .select("*")
@@ -41,6 +45,7 @@ export const useUserProfile = () => {
           .single();
 
         if (error) {
+          console.log("useUserProfile: error fetching profile", error);
           console.error("Error fetching profile:", error);
 
           // If profile doesn't exist, create one
@@ -78,6 +83,7 @@ export const useUserProfile = () => {
         }
 
         if (profile) {
+          console.log("useUserProfile: profile fetched", profile);
           setUserProfile(profile);
           if (typeof window !== "undefined") {
             localStorage.setItem("userProfile", JSON.stringify(profile));
@@ -93,6 +99,7 @@ export const useUserProfile = () => {
   };
 
   const updateUserProfile = async (updates: Partial<UserProfile>) => {
+    console.log("useUserProfile: updateUserProfile called", updates);
     try {
       const { data: userResponse } = await supabase.auth.getUser();
       const user = userResponse?.user;
@@ -128,6 +135,7 @@ export const useUserProfile = () => {
   };
 
   const uploadAvatar = async (file: File): Promise<string> => {
+    console.log("useUserProfile: uploadAvatar called", file.name);
     try {
       const { data: userResponse } = await supabase.auth.getUser();
       const user = userResponse?.user;
@@ -161,6 +169,7 @@ export const useUserProfile = () => {
   };
 
   useEffect(() => {
+    console.log("useUserProfile: useEffect fetchUserProfile");
     fetchUserProfile();
   }, []);
 
@@ -171,6 +180,6 @@ export const useUserProfile = () => {
     fetchUserProfile,
     updateUserProfile,
     uploadAvatar,
-    setUserProfile
+    setUserProfile,
   };
 };

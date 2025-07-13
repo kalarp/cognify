@@ -16,6 +16,7 @@ function validatePassword(password: string) {
 }
 
 export async function login(formData: FormData) {
+  console.log("loginActions: login called", formData);
   const supabase = await createClient();
 
   const email = formData.get("email") as string;
@@ -40,6 +41,7 @@ export async function login(formData: FormData) {
 }
 
 export async function signup(formData: FormData) {
+  console.log("loginActions: signup called", formData);
   const supabase = await createClient();
 
   const email = formData.get("email") as string;
@@ -64,6 +66,7 @@ export async function signup(formData: FormData) {
 }
 
 export async function signInWithGithub() {
+  console.log("loginActions: signInWithGithub called");
   const supabase = await createClient();
 
   let siteUrl = "https://cognify-chaosweasl.vercel.app";

@@ -7,10 +7,12 @@ import { CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 
 export default function LoginPage() {
+  console.log("LoginPage: render");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [signupSuccess, setSignupSuccess] = useState(false);
 
   async function handleLogin(formData: FormData) {
+    console.log("LoginPage: handleLogin called", formData);
     setErrorMsg(null);
     const result = await login(formData);
     if (result?.error) {
@@ -19,6 +21,7 @@ export default function LoginPage() {
   }
 
   async function handleSignup(formData: FormData) {
+    console.log("LoginPage: handleSignup called", formData);
     setErrorMsg(null);
     const result = await signup(formData);
     if (result?.error) {
@@ -29,6 +32,7 @@ export default function LoginPage() {
   }
 
   async function handleGithubLogin(e: React.MouseEvent) {
+    console.log("LoginPage: handleGithubLogin called");
     e.preventDefault();
     await signInWithGithub();
   }
