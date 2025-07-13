@@ -64,8 +64,6 @@ export function useSettingsActions() {
       return;
     }
 
-    // ...existing code...
-
     try {
       let avatarUrl = userProfile?.avatar_url || "";
       if (profilePicture) {
@@ -73,7 +71,6 @@ export function useSettingsActions() {
         await updateUserProfile({ avatar_url: avatarUrl });
       }
       await updateUserProfile({ display_name: displayName, bio });
-      // ...existing code...
       setMessage("Profile updated successfully!");
       setMessageType("success");
       setProfilePicture(null);
