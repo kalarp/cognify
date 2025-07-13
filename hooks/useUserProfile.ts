@@ -15,7 +15,13 @@ export interface UserProfile {
 }
 
 export const useUserProfile = () => {
-  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(() => {
+    if (typeof window !== "undefined") {
+      const cached = localStorage.getItem("userProfile");
+      if (cached) return JSON.parse(cached);
+    }
+    return null;
+  });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -61,6 +67,9 @@ export const useUserProfile = () => {
 
             if (newProfile) {
               setUserProfile(newProfile);
+              if (typeof window !== "undefined") {
+                localStorage.setItem("userProfile", JSON.stringify(newProfile));
+              }
             }
           } else {
             setError("Error fetching profile");
@@ -70,6 +79,9 @@ export const useUserProfile = () => {
 
         if (profile) {
           setUserProfile(profile);
+          if (typeof window !== "undefined") {
+            localStorage.setItem("userProfile", JSON.stringify(profile));
+          }
         }
       }
     } catch (err) {
@@ -103,6 +115,12 @@ export const useUserProfile = () => {
 
       // Refresh profile data
       await fetchUserProfile();
+      // Also update cache
+      if (typeof window !== "undefined") {
+        const cached = localStorage.getItem("userProfile");
+        let merged = cached ? { ...JSON.parse(cached), ...updates } : updates;
+        localStorage.setItem("userProfile", JSON.stringify(merged));
+      }
     } catch (err) {
       console.error("Error updating profile:", err);
       throw err;
