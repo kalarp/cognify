@@ -1,9 +1,3 @@
----
-title: Cognify
-layout: default
-nav_exclude: true
----
-
 # Cognify
 
 **Cognify** is an open-source platform that helps you turn your notes into flashcards using AI, and reminds you to restudy them using spaced repetition. You control your data and your AI: bring your own API key.
