@@ -16,7 +16,6 @@ const SettingsPage = () => {
   );
   const [bio, setBio] = useState<string>(userProfile?.bio || "");
   const [validationError, setValidationError] = useState<string>("");
-  const [showValidation, setShowValidation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { showToast } = useToast();
   const [showPreview, setShowPreview] = useState(false);
@@ -47,7 +46,6 @@ const SettingsPage = () => {
   }, [displayName, bio]);
 
   const onSave = () => {
-    setShowValidation(true);
     console.log("SettingsPage: onSave called", {
       displayName,
       bio,

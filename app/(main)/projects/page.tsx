@@ -40,7 +40,7 @@ export default function ProjectsPage() {
       }
     }
     fetchProjects();
-  }, []);
+  }, [showToast]);
 
   async function handleCreate(e: React.FormEvent<HTMLFormElement>) {
     console.log("ProjectsPage: handleCreate called", { name, description });
