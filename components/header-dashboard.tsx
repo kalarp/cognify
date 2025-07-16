@@ -205,7 +205,9 @@ export function Header() {
               ) : (
                 <Moon className="w-5 h-5" />
               )
-            ) : null}
+            ) : (
+              <Sun className="w-5 h-5" />
+            )}
           </button>
           {/* User Dropdown */}
           <div className="dropdown dropdown-end">
@@ -223,7 +225,7 @@ export function Header() {
                   className="object-cover w-full h-full"
                   priority
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = "/favicon.svg";
+                    (e.target as HTMLImageElement).src = "/assets/nopfp.png";
                   }}
                 />
               </div>
