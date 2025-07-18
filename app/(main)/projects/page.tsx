@@ -1,7 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Layers, Plus, Loader2, BookOpen, Edit2, Trash2, Check } from "lucide-react";
+import {
+  Layers,
+  Plus,
+  Loader2,
+  BookOpen,
+  Edit2,
+  Trash2,
+  Check,
+} from "lucide-react";
 import {
   createProject,
   getProjects,
@@ -26,7 +34,9 @@ type Project = {
   formattedCreatedAt?: string;
 };
 
-function parseFlashcards(flashcards: SerializedFlashcards | undefined): Flashcard[] {
+function parseFlashcards(
+  flashcards: SerializedFlashcards | undefined
+): Flashcard[] {
   if (!flashcards) return [];
   if (typeof flashcards === "string") {
     try {
@@ -43,7 +53,7 @@ export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'all' | 'create' | 'edit'>('all');
+  const [activeTab, setActiveTab] = useState<"all" | "create" | "edit">("all");
   const [projectFormState, setProjectFormState] = useState<{
     open: boolean;
     editing: boolean;
@@ -59,7 +69,7 @@ export default function ProjectsPage() {
     open: false,
     editing: false,
     projectId: undefined,
-    form: { name: '', description: '', flashcards: [] },
+    form: { name: "", description: "", flashcards: [] },
     loading: false,
     error: null,
   });
@@ -86,20 +96,20 @@ export default function ProjectsPage() {
   }, []);
 
   // Sidebar navigation
-  function handleTab(tab: 'all' | 'create') {
+  function handleTab(tab: "all" | "create") {
     setActiveTab(tab);
     setProjectFormState((prev) => ({
       ...prev,
-      open: tab !== 'all',
+      open: tab !== "all",
       editing: false,
       projectId: undefined,
-      form: { name: '', description: '', flashcards: [] },
+      form: { name: "", description: "", flashcards: [] },
       error: null,
     }));
   }
 
   function openEditPanel(project: Project & { formattedCreatedAt?: string }) {
-    setActiveTab('edit');
+    setActiveTab("edit");
     setProjectFormState({
       open: true,
       editing: true,
@@ -115,13 +125,13 @@ export default function ProjectsPage() {
   }
 
   function closePanel() {
-    setActiveTab('all');
+    setActiveTab("all");
     setProjectFormState((prev) => ({
       ...prev,
       open: false,
       editing: false,
       projectId: undefined,
-      form: { name: '', description: '', flashcards: [] },
+      form: { name: "", description: "", flashcards: [] },
       error: null,
     }));
   }
@@ -152,7 +162,7 @@ export default function ProjectsPage() {
       ...prev,
       form: {
         ...prev.form,
-        flashcards: [...prev.form.flashcards, { question: '', answer: '' }],
+        flashcards: [...prev.form.flashcards, { question: "", answer: "" }],
       },
     }));
   }
@@ -191,7 +201,7 @@ export default function ProjectsPage() {
         });
       } else {
         // Optimistic add
-        const tempId = 'temp-' + Date.now();
+        const tempId = "temp-" + Date.now();
         setProjects((prev) => [
           {
             id: tempId,
@@ -221,7 +231,9 @@ export default function ProjectsPage() {
     } catch {
       setProjectFormState((prev) => ({
         ...prev,
-        error: projectFormState.editing ? 'Failed to update project' : 'Failed to create project',
+        error: projectFormState.editing
+          ? "Failed to update project"
+          : "Failed to create project",
       }));
     } finally {
       setProjectFormState((prev) => ({ ...prev, loading: false }));
@@ -229,7 +241,8 @@ export default function ProjectsPage() {
   }
 
   async function handleDelete(id: string) {
-    if (!window.confirm("Are you sure you want to delete this project?")) return;
+    if (!window.confirm("Are you sure you want to delete this project?"))
+      return;
     // Optimistic remove
     setProjects((prev) => prev.filter((p) => p.id !== id));
     try {
@@ -252,14 +265,18 @@ export default function ProjectsPage() {
       {/* Sidebar */}
       <aside className="w-64 bg-base-200 border-r border-base-300 flex flex-col p-4 gap-2">
         <button
-          className={`btn btn-ghost justify-start ${activeTab === 'all' ? 'bg-base-300' : ''}`}
-          onClick={() => handleTab('all')}
+          className={`btn btn-ghost justify-start ${
+            activeTab === "all" ? "bg-base-300" : ""
+          }`}
+          onClick={() => handleTab("all")}
         >
           <Layers className="w-4 h-4 mr-2" /> All Projects
         </button>
         <button
-          className={`btn btn-ghost justify-start ${activeTab === 'create' ? 'bg-base-300' : ''}`}
-          onClick={() => handleTab('create')}
+          className={`btn btn-ghost justify-start ${
+            activeTab === "create" ? "bg-base-300" : ""
+          }`}
+          onClick={() => handleTab("create")}
         >
           <Plus className="w-4 h-4 mr-2" /> Create New
         </button>
@@ -271,24 +288,52 @@ export default function ProjectsPage() {
           <h1 className="text-3xl font-bold">Your Projects</h1>
         </div>
         {loading ? (
-          <div className="flex items-center gap-2"><Loader2 className="animate-spin w-5 h-5" /> Loading...</div>
+          <div className="flex items-center gap-2">
+            <Loader2 className="animate-spin w-5 h-5" /> Loading...
+          </div>
         ) : (
           <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project) => (
               <li
                 key={project.id}
-                className="bg-base-200 rounded-xl shadow p-5 flex flex-col gap-3 border border-base-300 relative"
+                className="bg-base-200 rounded-xl shadow p-5 flex flex-col gap-3 border border-base-300 relative h-full min-h-[180px]"
+                style={{
+                  minHeight: "180px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                }}
               >
                 <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-bold flex-1 truncate">{project.name}</h2>
+                  <h2
+                    className="text-xl font-bold flex-1 truncate max-w-[60%]"
+                    title={project.name}
+                  >
+                    {project.name.length > 40
+                      ? project.name.slice(0, 37) + "..."
+                      : project.name}
+                  </h2>
                   <span className="badge badge-info badge-sm ml-2 flex items-center gap-1">
                     <BookOpen className="w-3 h-3" />
-                    {Array.isArray(project.flashcards) ? project.flashcards.length : 0} Flashcards
+                    {Array.isArray(project.flashcards)
+                      ? project.flashcards.length
+                      : 0}{" "}
+                    Flashcards
                   </span>
                 </div>
-                <p className="text-base-content/80 mb-1 line-clamp-2">{project.description}</p>
-                <p className="text-xs text-base-content/50 mb-2">Created: {project.formattedCreatedAt}</p>
-                <div className="flex gap-2">
+                <p
+                  className="text-base-content/80 mb-1 text-sm truncate"
+                  style={{ maxWidth: "100%" }}
+                  title={project.description}
+                >
+                  {project.description.length > 70
+                    ? project.description.slice(0, 67) + "..."
+                    : project.description}
+                </p>
+                <p className="text-xs text-base-content/50 mb-2 truncate">
+                  Created: {project.formattedCreatedAt}
+                </p>
+                <div className="flex gap-2 mt-auto">
                   <button
                     className="btn btn-xs btn-outline flex items-center gap-1"
                     onClick={() => openEditPanel(project)}
@@ -302,27 +347,6 @@ export default function ProjectsPage() {
                     <Trash2 className="w-3 h-3" /> Delete
                   </button>
                 </div>
-                {Array.isArray(project.flashcards) && project.flashcards.length > 0 && (
-                  <div className="mt-2">
-                    <div className="font-semibold text-sm mb-1 flex items-center gap-1">
-                      <BookOpen className="w-4 h-4 text-info" /> Flashcards
-                    </div>
-                    <div className="grid grid-cols-1 gap-2">
-                      {project.flashcards.map((fc, idx) => (
-                        <div key={idx} className="rounded-lg bg-blue-50/80 border border-blue-200 px-4 py-2 flex flex-col transition-all">
-                          <div className="font-bold text-blue-900 flex items-center gap-1">
-                            Q:
-                            <span className="font-normal text-blue-800">{fc.question}</span>
-                          </div>
-                          <div className="text-green-900 mt-1 flex items-center gap-1">
-                            <span className="font-bold">A:</span>
-                            <span className="font-normal text-green-800">{fc.answer}</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </li>
             ))}
           </ul>
@@ -334,13 +358,20 @@ export default function ProjectsPage() {
           <div className="fixed right-0 top-0 h-full w-full max-w-md bg-base-100 border-l border-base-300 shadow-lg z-50 animate-slide-in flex flex-col">
             <div className="flex items-center justify-between p-4 border-b border-base-300">
               <h2 className="text-xl font-bold">
-                {projectFormState.editing ? 'Edit Project' : 'New Project'}
+                {projectFormState.editing ? "Edit Project" : "New Project"}
               </h2>
-              <button className="btn btn-sm btn-ghost" onClick={closePanel} aria-label="Close">
+              <button
+                className="btn btn-sm btn-ghost"
+                onClick={closePanel}
+                aria-label="Close"
+              >
                 ✕
               </button>
             </div>
-            <form onSubmit={handleFormSubmit} className="flex flex-col gap-3 p-4 flex-1 overflow-y-auto">
+            <form
+              onSubmit={handleFormSubmit}
+              className="flex flex-col gap-3 p-4 flex-1 overflow-y-auto"
+            >
               <input
                 type="text"
                 name="name"
@@ -372,18 +403,29 @@ export default function ProjectsPage() {
                   </button>
                 </div>
                 {projectFormState.form.flashcards.length === 0 && (
-                  <p className="text-xs text-base-content/50">No flashcards yet.</p>
+                  <p className="text-xs text-base-content/50">
+                    No flashcards yet.
+                  </p>
                 )}
                 <ul className="space-y-2">
                   {projectFormState.form.flashcards.map((fc, idx) => (
-                    <li key={idx} className="rounded bg-blue-50/80 border border-blue-200 px-3 py-2 flex flex-col gap-1 relative">
+                    <li
+                      key={idx}
+                      className="rounded bg-blue-50/80 border border-blue-200 px-3 py-2 flex flex-col gap-1 relative"
+                    >
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-blue-900">Q:</span>
                         <input
                           type="text"
                           placeholder="Question"
                           value={fc.question}
-                          onChange={(e) => handleFlashcardChange(idx, 'question', e.target.value)}
+                          onChange={(e) =>
+                            handleFlashcardChange(
+                              idx,
+                              "question",
+                              e.target.value
+                            )
+                          }
                           className="input input-bordered input-xs flex-1"
                           disabled={projectFormState.loading}
                         />
@@ -394,7 +436,9 @@ export default function ProjectsPage() {
                           type="text"
                           placeholder="Answer"
                           value={fc.answer}
-                          onChange={(e) => handleFlashcardChange(idx, 'answer', e.target.value)}
+                          onChange={(e) =>
+                            handleFlashcardChange(idx, "answer", e.target.value)
+                          }
                           className="input input-bordered input-xs flex-1"
                           disabled={projectFormState.loading}
                         />
@@ -424,7 +468,7 @@ export default function ProjectsPage() {
                   ) : (
                     <Plus className="w-4 h-4 inline-block mr-1" />
                   )}
-                  {projectFormState.editing ? 'Save Changes' : 'Create Project'}
+                  {projectFormState.editing ? "Save Changes" : "Create Project"}
                 </button>
                 <button
                   type="button"
@@ -435,7 +479,9 @@ export default function ProjectsPage() {
                   Cancel
                 </button>
               </div>
-              {projectFormState.error && <p className="text-error mt-2">{projectFormState.error}</p>}
+              {projectFormState.error && (
+                <p className="text-error mt-2">{projectFormState.error}</p>
+              )}
             </form>
           </div>
         )}
