@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Layers, Plus, Loader2, BookOpen, Edit2, Trash2, Check } from "lucide-react";
 import {
   createProject,
   getProjects,
@@ -8,59 +9,72 @@ import {
   deleteProject,
 } from "./actions";
 
+// --- Types ---
 type Flashcard = {
   question: string;
   answer: string;
 };
+
+type SerializedFlashcards = string | Flashcard[];
 
 type Project = {
   id: string;
   name: string;
   description: string;
   created_at: string;
-  flashcards?: Flashcard[];
+  flashcards?: SerializedFlashcards;
+  formattedCreatedAt?: string;
 };
-function ProjectsPage() {
-  const [projects, setProjects] = useState<
-    (Project & { formattedCreatedAt: string })[]
-  >([]);
+
+function parseFlashcards(flashcards: SerializedFlashcards | undefined): Flashcard[] {
+  if (!flashcards) return [];
+  if (typeof flashcards === "string") {
+    try {
+      return JSON.parse(flashcards);
+    } catch {
+      return [];
+    }
+  }
+  if (Array.isArray(flashcards)) return flashcards;
+  return [];
+}
+
+export default function ProjectsPage() {
+  const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [editingProject, setEditingProject] = useState<
-    (Project & { formattedCreatedAt?: string }) | null
-  >(null);
-  const [form, setForm] = useState({
-    name: "",
-    description: "",
-    flashcards: [] as Flashcard[],
+  const [activeTab, setActiveTab] = useState<'all' | 'create' | 'edit'>('all');
+  const [projectFormState, setProjectFormState] = useState<{
+    open: boolean;
+    editing: boolean;
+    projectId?: string;
+    form: {
+      name: string;
+      description: string;
+      flashcards: Flashcard[];
+    };
+    loading: boolean;
+    error: string | null;
+  }>({
+    open: false,
+    editing: false,
+    projectId: undefined,
+    form: { name: '', description: '', flashcards: [] },
+    loading: false,
+    error: null,
   });
-  const [formLoading, setFormLoading] = useState(false);
 
   useEffect(() => {
     async function fetchProjects() {
       setLoading(true);
+      setError(null);
       try {
         const data = await getProjects();
-        const formatted = data.map((project: Project) => {
-          let flashcards: any = [];
-          if (project.flashcards) {
-            if (typeof project.flashcards === "string") {
-              try {
-                flashcards = JSON.parse(project.flashcards);
-              } catch {
-                flashcards = [];
-              }
-            } else if (Array.isArray(project.flashcards)) {
-              flashcards = project.flashcards;
-            }
-          }
-          return {
-            ...project,
-            flashcards,
-            formattedCreatedAt: new Date(project.created_at).toLocaleString(),
-          };
-        });
+        const formatted = data.map((project: Project) => ({
+          ...project,
+          flashcards: parseFlashcards(project.flashcards),
+          formattedCreatedAt: new Date(project.created_at).toLocaleString(),
+        }));
         setProjects(formatted);
       } catch {
         setError("Failed to load projects");
@@ -71,32 +85,54 @@ function ProjectsPage() {
     fetchProjects();
   }, []);
 
-  function openCreateModal() {
-    setEditingProject(null);
-    setForm({ name: "", description: "", flashcards: [] });
-    setModalOpen(true);
+  // Sidebar navigation
+  function handleTab(tab: 'all' | 'create') {
+    setActiveTab(tab);
+    setProjectFormState((prev) => ({
+      ...prev,
+      open: tab !== 'all',
+      editing: false,
+      projectId: undefined,
+      form: { name: '', description: '', flashcards: [] },
+      error: null,
+    }));
   }
 
-  function openEditModal(project: Project & { formattedCreatedAt?: string }) {
-    setEditingProject(project);
-    setForm({
-      name: project.name,
-      description: project.description,
-      flashcards: Array.isArray(project.flashcards) ? project.flashcards : [],
+  function openEditPanel(project: Project & { formattedCreatedAt?: string }) {
+    setActiveTab('edit');
+    setProjectFormState({
+      open: true,
+      editing: true,
+      projectId: project.id,
+      form: {
+        name: project.name,
+        description: project.description,
+        flashcards: Array.isArray(project.flashcards) ? project.flashcards : [],
+      },
+      loading: false,
+      error: null,
     });
-    setModalOpen(true);
   }
 
-  function closeModal() {
-    setModalOpen(false);
-    setEditingProject(null);
-    setForm({ name: "", description: "", flashcards: [] });
+  function closePanel() {
+    setActiveTab('all');
+    setProjectFormState((prev) => ({
+      ...prev,
+      open: false,
+      editing: false,
+      projectId: undefined,
+      form: { name: '', description: '', flashcards: [] },
+      error: null,
+    }));
   }
 
   function handleFormChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setProjectFormState((prev) => ({
+      ...prev,
+      form: { ...prev.form, [e.target.name]: e.target.value },
+    }));
   }
 
   function handleFlashcardChange(
@@ -104,295 +140,306 @@ function ProjectsPage() {
     field: keyof Flashcard,
     value: string
   ) {
-    setForm((prev) => {
-      const flashcards = [...prev.flashcards];
+    setProjectFormState((prev) => {
+      const flashcards = [...prev.form.flashcards];
       flashcards[idx] = { ...flashcards[idx], [field]: value };
-      return { ...prev, flashcards };
+      return { ...prev, form: { ...prev.form, flashcards } };
     });
   }
 
   function addFlashcard() {
-    setForm((prev) => ({
+    setProjectFormState((prev) => ({
       ...prev,
-      flashcards: [...prev.flashcards, { question: "", answer: "" }],
+      form: {
+        ...prev.form,
+        flashcards: [...prev.form.flashcards, { question: '', answer: '' }],
+      },
     }));
   }
 
   function removeFlashcard(idx: number) {
-    setForm((prev) => {
-      const flashcards = [...prev.flashcards];
+    setProjectFormState((prev) => {
+      const flashcards = [...prev.form.flashcards];
       flashcards.splice(idx, 1);
-      return { ...prev, flashcards };
+      return { ...prev, form: { ...prev.form, flashcards } };
     });
   }
 
   async function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setFormLoading(true);
+    setProjectFormState((prev) => ({ ...prev, loading: true, error: null }));
     try {
-      if (editingProject) {
+      if (projectFormState.editing && projectFormState.projectId) {
+        // Optimistic update
+        setProjects((prev) =>
+          prev.map((p) =>
+            p.id === projectFormState.projectId
+              ? {
+                  ...p,
+                  name: projectFormState.form.name,
+                  description: projectFormState.form.description,
+                  flashcards: projectFormState.form.flashcards,
+                }
+              : p
+          )
+        );
         await updateProject({
-          id: editingProject.id,
-          name: form.name,
-          description: form.description,
-          flashcards: form.flashcards,
+          id: projectFormState.projectId,
+          name: projectFormState.form.name,
+          description: projectFormState.form.description,
+          flashcards: projectFormState.form.flashcards,
         });
       } else {
+        // Optimistic add
+        const tempId = 'temp-' + Date.now();
+        setProjects((prev) => [
+          {
+            id: tempId,
+            name: projectFormState.form.name,
+            description: projectFormState.form.description,
+            flashcards: projectFormState.form.flashcards,
+            created_at: new Date().toISOString(),
+            formattedCreatedAt: new Date().toLocaleString(),
+          },
+          ...prev,
+        ]);
         await createProject({
-          name: form.name,
-          description: form.description,
-          flashcards: form.flashcards,
+          name: projectFormState.form.name,
+          description: projectFormState.form.description,
+          flashcards: projectFormState.form.flashcards,
         });
       }
-      closeModal();
+      closePanel();
+      // Reload from server for consistency
       const data = await getProjects();
-      const formatted = data.map((project: Project) => {
-        let flashcards: any = [];
-        if (project.flashcards) {
-          if (typeof project.flashcards === "string") {
-            try {
-              flashcards = JSON.parse(project.flashcards);
-            } catch {
-              flashcards = [];
-            }
-          } else if (Array.isArray(project.flashcards)) {
-            flashcards = project.flashcards;
-          }
-        }
-        return {
-          ...project,
-          flashcards,
-          formattedCreatedAt: new Date(project.created_at).toLocaleString(),
-        };
-      });
+      const formatted = data.map((project: Project) => ({
+        ...project,
+        flashcards: parseFlashcards(project.flashcards),
+        formattedCreatedAt: new Date(project.created_at).toLocaleString(),
+      }));
       setProjects(formatted);
     } catch {
-      setError(
-        editingProject ? "Failed to update project" : "Failed to create project"
-      );
+      setProjectFormState((prev) => ({
+        ...prev,
+        error: projectFormState.editing ? 'Failed to update project' : 'Failed to create project',
+      }));
     } finally {
-      setFormLoading(false);
+      setProjectFormState((prev) => ({ ...prev, loading: false }));
     }
   }
 
   async function handleDelete(id: string) {
-    if (!window.confirm("Are you sure you want to delete this project?"))
-      return;
-    setLoading(true);
+    if (!window.confirm("Are you sure you want to delete this project?")) return;
+    // Optimistic remove
+    setProjects((prev) => prev.filter((p) => p.id !== id));
     try {
       await deleteProject(id);
+      // Reload from server for consistency
       const data = await getProjects();
-      const formatted = data.map((project: Project) => {
-        let flashcards: any = [];
-        if (project.flashcards) {
-          if (typeof project.flashcards === "string") {
-            try {
-              flashcards = JSON.parse(project.flashcards);
-            } catch {
-              flashcards = [];
-            }
-          } else if (Array.isArray(project.flashcards)) {
-            flashcards = project.flashcards;
-          }
-        }
-        return {
-          ...project,
-          flashcards,
-          formattedCreatedAt: new Date(project.created_at).toLocaleString(),
-        };
-      });
+      const formatted = data.map((project: Project) => ({
+        ...project,
+        flashcards: parseFlashcards(project.flashcards),
+        formattedCreatedAt: new Date(project.created_at).toLocaleString(),
+      }));
       setProjects(formatted);
     } catch {
       setError("Failed to delete project");
-    } finally {
-      setLoading(false);
     }
   }
 
   return (
-    <div className="min-h-screen bg-base-100">
-      <div className="container mx-auto p-8">
+    <div className="min-h-screen flex bg-base-100">
+      {/* Sidebar */}
+      <aside className="w-64 bg-base-200 border-r border-base-300 flex flex-col p-4 gap-2">
+        <button
+          className={`btn btn-ghost justify-start ${activeTab === 'all' ? 'bg-base-300' : ''}`}
+          onClick={() => handleTab('all')}
+        >
+          <Layers className="w-4 h-4 mr-2" /> All Projects
+        </button>
+        <button
+          className={`btn btn-ghost justify-start ${activeTab === 'create' ? 'bg-base-300' : ''}`}
+          onClick={() => handleTab('create')}
+        >
+          <Plus className="w-4 h-4 mr-2" /> Create New
+        </button>
+        {/* Future: <button className="btn btn-ghost justify-start">Archived</button> */}
+      </aside>
+      {/* Main Content */}
+      <main className="flex-1 p-8">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-3xl font-bold">Your Projects</h1>
-          <button className="btn btn-primary" onClick={openCreateModal}>
-            + New Project
-          </button>
         </div>
         {loading ? (
-          <p>Loading...</p>
+          <div className="flex items-center gap-2"><Loader2 className="animate-spin w-5 h-5" /> Loading...</div>
         ) : (
-          <ul className="space-y-4">
+          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project) => (
               <li
                 key={project.id}
-                className="p-4 bg-base-200 rounded-box relative"
+                className="bg-base-200 rounded-xl shadow p-5 flex flex-col gap-3 border border-base-300 relative"
               >
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h2 className="text-xl font-semibold">{project.name}</h2>
-                    <p>{project.description}</p>
-                    <p className="text-xs text-base-content/50">
-                      Created: {project.formattedCreatedAt}
-                    </p>
-                    {Array.isArray(project.flashcards) &&
-                      project.flashcards.length > 0 && (
-                        <div className="mt-2">
-                          <span className="font-semibold text-sm">
-                            Flashcards:
-                          </span>
-                          <ul className="list-disc ml-6 mt-1">
-                            {project.flashcards.map((fc, idx) => (
-                              <li key={idx} className="text-sm">
-                                <span className="font-semibold">Q:</span>{" "}
-                                {fc.question}{" "}
-                                <span className="font-semibold">A:</span>{" "}
-                                {fc.answer}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                  </div>
-                  <div className="flex flex-col gap-2 ml-4">
-                    <button
-                      className="btn btn-sm btn-outline"
-                      onClick={() => openEditModal(project)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="btn btn-sm btn-error"
-                      onClick={() => handleDelete(project.id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-bold flex-1 truncate">{project.name}</h2>
+                  <span className="badge badge-info badge-sm ml-2 flex items-center gap-1">
+                    <BookOpen className="w-3 h-3" />
+                    {Array.isArray(project.flashcards) ? project.flashcards.length : 0} Flashcards
+                  </span>
                 </div>
+                <p className="text-base-content/80 mb-1 line-clamp-2">{project.description}</p>
+                <p className="text-xs text-base-content/50 mb-2">Created: {project.formattedCreatedAt}</p>
+                <div className="flex gap-2">
+                  <button
+                    className="btn btn-xs btn-outline flex items-center gap-1"
+                    onClick={() => openEditPanel(project)}
+                  >
+                    <Edit2 className="w-3 h-3" /> Edit
+                  </button>
+                  <button
+                    className="btn btn-xs btn-error flex items-center gap-1"
+                    onClick={() => handleDelete(project.id)}
+                  >
+                    <Trash2 className="w-3 h-3" /> Delete
+                  </button>
+                </div>
+                {Array.isArray(project.flashcards) && project.flashcards.length > 0 && (
+                  <div className="mt-2">
+                    <div className="font-semibold text-sm mb-1 flex items-center gap-1">
+                      <BookOpen className="w-4 h-4 text-info" /> Flashcards
+                    </div>
+                    <div className="grid grid-cols-1 gap-2">
+                      {project.flashcards.map((fc, idx) => (
+                        <div key={idx} className="rounded-lg bg-blue-50/80 border border-blue-200 px-4 py-2 flex flex-col transition-all">
+                          <div className="font-bold text-blue-900 flex items-center gap-1">
+                            Q:
+                            <span className="font-normal text-blue-800">{fc.question}</span>
+                          </div>
+                          <div className="text-green-900 mt-1 flex items-center gap-1">
+                            <span className="font-bold">A:</span>
+                            <span className="font-normal text-green-800">{fc.answer}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </li>
             ))}
           </ul>
         )}
         {error && <p className="text-error mt-4">{error}</p>}
 
-        {/* Modal for create/edit project */}
-        {modalOpen && (
-          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-            <div className="bg-base-100 p-6 rounded-lg shadow-lg w-full max-w-lg relative">
-              <button
-                className="absolute top-2 right-2 btn btn-sm btn-ghost"
-                onClick={closeModal}
-                aria-label="Close"
-              >
+        {/* In-page drawer/panel for create/edit */}
+        {projectFormState.open && (
+          <div className="fixed right-0 top-0 h-full w-full max-w-md bg-base-100 border-l border-base-300 shadow-lg z-50 animate-slide-in flex flex-col">
+            <div className="flex items-center justify-between p-4 border-b border-base-300">
+              <h2 className="text-xl font-bold">
+                {projectFormState.editing ? 'Edit Project' : 'New Project'}
+              </h2>
+              <button className="btn btn-sm btn-ghost" onClick={closePanel} aria-label="Close">
                 ✕
               </button>
-              <h2 className="text-2xl font-bold mb-4">
-                {editingProject ? "Edit Project" : "New Project"}
-              </h2>
-              <form onSubmit={handleFormSubmit} className="flex flex-col gap-3">
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Project Name"
-                  value={form.name}
-                  onChange={handleFormChange}
-                  required
-                  className="input input-bordered"
-                  disabled={formLoading}
-                />
-                <textarea
-                  name="description"
-                  placeholder="Description"
-                  value={form.description}
-                  onChange={handleFormChange}
-                  className="textarea textarea-bordered"
-                  disabled={formLoading}
-                />
-                <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="font-semibold">Flashcards</span>
-                    <button
-                      type="button"
-                      className="btn btn-xs btn-primary"
-                      onClick={addFlashcard}
-                      disabled={formLoading}
-                    >
-                      + Add Flashcard
-                    </button>
-                  </div>
-                  {form.flashcards.length === 0 && (
-                    <p className="text-xs text-base-content/50">
-                      No flashcards yet.
-                    </p>
-                  )}
-                  <ul className="space-y-2">
-                    {form.flashcards.map((fc, idx) => (
-                      <li key={idx} className="flex gap-2 items-center">
+            </div>
+            <form onSubmit={handleFormSubmit} className="flex flex-col gap-3 p-4 flex-1 overflow-y-auto">
+              <input
+                type="text"
+                name="name"
+                placeholder="Project Name"
+                value={projectFormState.form.name}
+                onChange={handleFormChange}
+                required
+                className="input input-bordered"
+                disabled={projectFormState.loading}
+              />
+              <textarea
+                name="description"
+                placeholder="Description"
+                value={projectFormState.form.description}
+                onChange={handleFormChange}
+                className="textarea textarea-bordered"
+                disabled={projectFormState.loading}
+              />
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="font-semibold">Flashcards</span>
+                  <button
+                    type="button"
+                    className="btn btn-xs btn-primary"
+                    onClick={addFlashcard}
+                    disabled={projectFormState.loading}
+                  >
+                    <Plus className="w-3 h-3" /> Add Flashcard
+                  </button>
+                </div>
+                {projectFormState.form.flashcards.length === 0 && (
+                  <p className="text-xs text-base-content/50">No flashcards yet.</p>
+                )}
+                <ul className="space-y-2">
+                  {projectFormState.form.flashcards.map((fc, idx) => (
+                    <li key={idx} className="rounded bg-blue-50/80 border border-blue-200 px-3 py-2 flex flex-col gap-1 relative">
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-blue-900">Q:</span>
                         <input
                           type="text"
                           placeholder="Question"
                           value={fc.question}
-                          onChange={(e) =>
-                            handleFlashcardChange(
-                              idx,
-                              "question",
-                              e.target.value
-                            )
-                          }
+                          onChange={(e) => handleFlashcardChange(idx, 'question', e.target.value)}
                           className="input input-bordered input-xs flex-1"
-                          disabled={formLoading}
+                          disabled={projectFormState.loading}
                         />
+                      </div>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className="font-bold text-green-900">A:</span>
                         <input
                           type="text"
                           placeholder="Answer"
                           value={fc.answer}
-                          onChange={(e) =>
-                            handleFlashcardChange(idx, "answer", e.target.value)
-                          }
+                          onChange={(e) => handleFlashcardChange(idx, 'answer', e.target.value)}
                           className="input input-bordered input-xs flex-1"
-                          disabled={formLoading}
+                          disabled={projectFormState.loading}
                         />
                         <button
                           type="button"
-                          className="btn btn-xs btn-error"
+                          className="btn btn-xs btn-error ml-2"
                           onClick={() => removeFlashcard(idx)}
-                          disabled={formLoading}
+                          disabled={projectFormState.loading}
                         >
-                          ✕
+                          <Trash2 className="w-3 h-3" />
                         </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="flex gap-2 mt-2">
-                  <button
-                    type="submit"
-                    className="btn btn-primary flex-1"
-                    disabled={formLoading}
-                  >
-                    {formLoading
-                      ? editingProject
-                        ? "Saving..."
-                        : "Creating..."
-                      : editingProject
-                      ? "Save Changes"
-                      : "Create Project"}
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-ghost flex-1"
-                    onClick={closeModal}
-                    disabled={formLoading}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="flex gap-2 mt-2">
+                <button
+                  type="submit"
+                  className="btn btn-primary flex-1"
+                  disabled={projectFormState.loading}
+                >
+                  {projectFormState.loading ? (
+                    <Loader2 className="animate-spin w-4 h-4 inline-block mr-1" />
+                  ) : projectFormState.editing ? (
+                    <Check className="w-4 h-4 inline-block mr-1" />
+                  ) : (
+                    <Plus className="w-4 h-4 inline-block mr-1" />
+                  )}
+                  {projectFormState.editing ? 'Save Changes' : 'Create Project'}
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-ghost flex-1"
+                  onClick={closePanel}
+                  disabled={projectFormState.loading}
+                >
+                  Cancel
+                </button>
+              </div>
+              {projectFormState.error && <p className="text-error mt-2">{projectFormState.error}</p>}
+            </form>
           </div>
         )}
-      </div>
+      </main>
     </div>
   );
 }
-
-export default ProjectsPage;
