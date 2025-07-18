@@ -6,16 +6,15 @@ import { createClient } from "@/utils/supabase/server";
 /* TODO: add more robust validation as needed */
 
 function validateEmail(email: string) {
-  // Simple email regex for demonstration
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 function validatePassword(password: string) {
-  // Example: at least 6 characters
   return typeof password === "string" && password.length >= 6;
 }
 
 export async function login(formData: FormData) {
+  console.log("loginActions: login called", formData);
   const supabase = await createClient();
 
   const email = formData.get("email") as string;
@@ -32,7 +31,6 @@ export async function login(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
-    // Return error message for client to display
     return { error: error.message };
   }
 
@@ -40,6 +38,7 @@ export async function login(formData: FormData) {
 }
 
 export async function signup(formData: FormData) {
+  console.log("loginActions: signup called", formData);
   const supabase = await createClient();
 
   const email = formData.get("email") as string;
@@ -64,6 +63,7 @@ export async function signup(formData: FormData) {
 }
 
 export async function signInWithGithub() {
+  console.log("loginActions: signInWithGithub called");
   const supabase = await createClient();
 
   let siteUrl = "https://cognify-chaosweasl.vercel.app";

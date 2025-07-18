@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useToast } from "@/components/toast-provider";
 import { createProject, getProjects } from "./actions";
 
 type Project = {
@@ -11,28 +12,38 @@ type Project = {
 };
 
 export default function ProjectsPage() {
-  const [projects, setProjects] = useState<Project[]>([]);
+  console.log("ProjectsPage: render");
+  const [projects, setProjects] = useState<
+    (Project & { formattedCreatedAt: string })[]
+  >([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { showToast } = useToast();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
   useEffect(() => {
+    console.log("ProjectsPage: useEffect fetchProjects");
     async function fetchProjects() {
       setLoading(true);
       try {
         const data = await getProjects();
-        setProjects(data);
+        // Format created_at on the client for hydration safety
+        const formatted = data.map((project: Project) => ({
+          ...project,
+          formattedCreatedAt: new Date(project.created_at).toLocaleString(),
+        }));
+        setProjects(formatted);
       } catch {
-        setError("Failed to load projects");
+        showToast("Failed to load projects", "error");
       } finally {
         setLoading(false);
       }
     }
     fetchProjects();
-  }, []);
+  }, [showToast]);
 
   async function handleCreate(e: React.FormEvent<HTMLFormElement>) {
+    console.log("ProjectsPage: handleCreate called", { name, description });
     e.preventDefault();
     setLoading(true);
     try {
@@ -40,9 +51,13 @@ export default function ProjectsPage() {
       setName("");
       setDescription("");
       const data = await getProjects();
-      setProjects(data);
+      const formatted = data.map((project: Project) => ({
+        ...project,
+        formattedCreatedAt: new Date(project.created_at).toLocaleString(),
+      }));
+      setProjects(formatted);
     } catch {
-      setError("Failed to create project");
+      showToast("Failed to create project", "error");
     } finally {
       setLoading(false);
     }
@@ -72,14 +87,13 @@ export default function ProjectsPage() {
           </button>
         </form>
         {loading && <p>Loading...</p>}
-        {error && <p className="text-error">{error}</p>}
         <ul className="space-y-4">
           {projects.map((project) => (
             <li key={project.id} className="p-4 bg-base-200 rounded-box">
               <h2 className="text-xl font-semibold">{project.name}</h2>
               <p>{project.description}</p>
               <p className="text-xs text-base-content/50">
-                Created: {new Date(project.created_at).toLocaleString()}
+                Created: {project.formattedCreatedAt}
               </p>
             </li>
           ))}

@@ -1,34 +1,40 @@
 "use client";
 
 import { useState } from "react";
+import { useToast } from "@/components/toast-provider";
 import { Github } from "lucide-react";
 import { signInWithGithub, login, signup } from "./actions";
 import { CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 
 export default function LoginPage() {
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  console.log("LoginPage: render");
   const [signupSuccess, setSignupSuccess] = useState(false);
+  const { showToast } = useToast();
 
   async function handleLogin(formData: FormData) {
-    setErrorMsg(null);
+    console.log("LoginPage: handleLogin called", formData);
     const result = await login(formData);
     if (result?.error) {
-      setErrorMsg(result.error);
+      showToast(result.error, "error");
+    } else {
+      showToast("Login successful!", "success");
     }
   }
 
   async function handleSignup(formData: FormData) {
-    setErrorMsg(null);
+    console.log("LoginPage: handleSignup called", formData);
     const result = await signup(formData);
     if (result?.error) {
-      setErrorMsg(result.error);
+      showToast(result.error, "error");
     } else if (result?.success) {
       setSignupSuccess(true);
+      showToast("Account created! Please check your email.", "success");
     }
   }
 
   async function handleGithubLogin(e: React.MouseEvent) {
+    console.log("LoginPage: handleGithubLogin called");
     e.preventDefault();
     await signInWithGithub();
   }
@@ -82,11 +88,7 @@ export default function LoginPage() {
                   />
                 </div>
 
-                {errorMsg && (
-                  <div className="alert alert-error">
-                    <span>{errorMsg}</span>
-                  </div>
-                )}
+                {/* ...removed errorMsg alert, now using toast */}
 
                 <div className="flex flex-col sm:flex-row gap-3 pt-2">
                   <button

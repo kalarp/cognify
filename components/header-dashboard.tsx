@@ -46,8 +46,8 @@ export function Header() {
           >
             <div className="flex items-center justify-between px-4 py-3 border-b border-base-200">
               <Link
-                href="/dashboard"
-                className="flex items-center gap-2 text-xl font-bold"
+                href="/projects"
+                className="btn btn-ghost flex items-center gap-2 text-xl font-bold"
                 onClick={() => setDrawerOpen(false)}
               >
                 <Image
@@ -146,8 +146,8 @@ export function Header() {
         </div>
         {/* Logo (always visible) */}
         <Link
-          href="/dashboard"
-          className="flex items-center gap-2 text-xl font-bold px-2 md:px-0"
+          href="/projects"
+          className="btn btn-ghost flex items-center gap-2 text-xl font-bold px-2 md:px-0"
         >
           <Image
             src="/favicon.svg"
@@ -205,7 +205,9 @@ export function Header() {
               ) : (
                 <Moon className="w-5 h-5" />
               )
-            ) : null}
+            ) : (
+              <Sun className="w-5 h-5" />
+            )}
           </button>
           {/* User Dropdown */}
           <div className="dropdown dropdown-end">
@@ -223,7 +225,7 @@ export function Header() {
                   className="object-cover w-full h-full"
                   priority
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = "/favicon.svg";
+                    (e.target as HTMLImageElement).src = "/assets/nopfp.png";
                   }}
                 />
               </div>

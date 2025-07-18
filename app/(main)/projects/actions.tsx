@@ -3,6 +3,7 @@
 import { createClient } from "@/utils/supabase/server";
 
 export async function getProjects() {
+  console.log("projectsActions: getProjects called");
   const supabase = await createClient();
   const {
     data: { user },
@@ -26,6 +27,7 @@ export async function createProject({
   name: string;
   description: string;
 }) {
+  console.log("projectsActions: createProject called", { name, description });
   const supabase = await createClient();
   const {
     data: { user },

@@ -1,22 +1,23 @@
 "use client";
 
 import React, { useState } from "react";
+import { useToast } from "@/components/toast-provider";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import Image from "next/image";
 import { User, FileText, Save, X, Eye } from "lucide-react";
 import { useSettingsActions } from "./actions";
 
 const SettingsPage = () => {
+  console.log("SettingsPage: render");
   const { userProfile, isLoading: profileLoading } = useUserProfile();
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
-  const [displayName, setDisplayName] = useState<string>(userProfile?.display_name || "");
+  const [displayName, setDisplayName] = useState<string>(
+    userProfile?.display_name || ""
+  );
   const [bio, setBio] = useState<string>(userProfile?.bio || "");
   const [validationError, setValidationError] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState<string>("");
-  const [messageType, setMessageType] = useState<"success" | "error" | "info">(
-    "info"
-  );
+  const { showToast } = useToast();
   const [showPreview, setShowPreview] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
@@ -24,6 +25,7 @@ const SettingsPage = () => {
 
   // Update local state when profile loads
   React.useEffect(() => {
+    console.log("SettingsPage: useEffect userProfile", userProfile);
     if (userProfile) {
       setDisplayName(userProfile.display_name || "");
       setBio(userProfile.bio || "");
@@ -31,45 +33,41 @@ const SettingsPage = () => {
   }, [userProfile]);
 
   React.useEffect(() => {
-    // Real-time validation
+    // Validation logic, but do not show until Save is clicked
+    let error = "";
     if (displayName.length > 32) {
-      setValidationError("Display name must be 32 characters or less.");
+      error = "Display name must be 32 characters or less.";
     } else if (/\s/.test(displayName)) {
-      setValidationError("Display name cannot contain whitespace.");
+      error = "Display name cannot contain whitespace.";
     } else if (bio.length > 500) {
-      setValidationError("Bio must be 500 characters or less.");
-    } else {
-      setValidationError("");
+      error = "Bio must be 500 characters or less.";
     }
+    setValidationError(error);
   }, [displayName, bio]);
 
   const onSave = () => {
-    if (validationError) return;
+    console.log("SettingsPage: onSave called", {
+      displayName,
+      bio,
+      profilePicture,
+    });
+    if (validationError) {
+      showToast(validationError, "error");
+      return;
+    }
     handleSave({
       profilePicture,
       displayName,
       bio,
       setIsLoading,
-      setMessage,
-      setMessageType,
       setProfilePicture,
       setPreviewUrl,
+      showToast,
     });
   };
 
   const onFileSelect = (file: File | null) =>
     handleFileSelect({ file, setProfilePicture, setPreviewUrl });
-
-  const getAlertClass = () => {
-    switch (messageType) {
-      case "success":
-        return "alert-success";
-      case "error":
-        return "alert-error";
-      default:
-        return "alert-info";
-    }
-  };
 
   if (profileLoading) {
     return (
@@ -101,26 +99,7 @@ const SettingsPage = () => {
           </p>
         </div>
 
-        {/* Toast Message */}
-        {message && (
-          <div className={`alert ${getAlertClass()} mb-6`}>
-            <div className="flex items-center justify-between w-full">
-              <span>{message}</span>
-              <button
-                className="btn btn-sm btn-circle btn-ghost"
-                onClick={() => setMessage("")}
-                title="Close message"
-              >
-                <X size={16} />
-              </button>
-            </div>
-          </div>
-        )}
-        {validationError && (
-          <div className="alert alert-error mb-6">
-            <span>{validationError}</span>
-          </div>
-        )}
+        {/* No real-time validation error display. Toast will show on Save. */}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Profile Avatar Card */}
@@ -309,7 +288,7 @@ const SettingsPage = () => {
                 {/* Save Button */}
                 <button
                   onClick={onSave}
-                  disabled={isLoading || !!validationError}
+                  disabled={isLoading}
                   className={`btn btn-primary btn-lg w-full ${
                     isLoading ? "loading" : ""
                   }`}
