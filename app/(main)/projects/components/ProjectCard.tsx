@@ -33,7 +33,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   deleteLoading,
 }) => {
   return (
-    <li
+    <div
       className={`bg-base-200 rounded-xl shadow p-5 flex flex-col gap-3 border border-base-300 relative h-full min-h-[180px] transition-transform duration-150 hover:scale-[1.025] ${
         isPreviewing ? "ring-2 ring-primary" : ""
       }`}
@@ -96,6 +96,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           Study
         </button>
       </div>
-    </li>
+    </div>
   );
 };

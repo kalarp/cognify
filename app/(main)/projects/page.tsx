@@ -74,6 +74,20 @@ export default function ProjectsPage() {
   const [previewProjectId, setPreviewProjectId] = useState<string | null>(null);
   const [deleteLoadingId, setDeleteLoadingId] = useState<string | null>(null);
 
+  // Unsaved changes protection state
+  const [originalForm, setOriginalForm] = useState<{
+    name: string;
+    description: string;
+    flashcards: Flashcard[];
+  } | null>(null);
+  const hasUnsavedChanges =
+    projectFormState.open &&
+    originalForm &&
+    (projectFormState.form.name !== originalForm.name ||
+      projectFormState.form.description !== originalForm.description ||
+      JSON.stringify(projectFormState.form.flashcards) !==
+        JSON.stringify(originalForm.flashcards));
+
   useEffect(() => {
     async function fetchProjects() {
       setLoading(true);
@@ -95,8 +109,30 @@ export default function ProjectsPage() {
     fetchProjects();
   }, []);
 
+  // Warn on browser/tab close if unsaved changes
+  useEffect(() => {
+    function handleBeforeUnload(e: BeforeUnloadEvent) {
+      if (hasUnsavedChanges) {
+        e.preventDefault();
+        e.returnValue =
+          "You have unsaved changes. Are you sure you want to leave? Unsaved changes will be lost.";
+        return e.returnValue;
+      }
+    }
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [hasUnsavedChanges]);
+
   // Sidebar navigation
   function handleTab(tab: "all" | "create") {
+    if (hasUnsavedChanges) {
+      const confirmLeave = window.confirm(
+        "You have unsaved changes. Are you sure you want to leave? Unsaved changes will be lost."
+      );
+      if (!confirmLeave) return;
+    }
     setActiveTab(tab);
     setProjectFormState((prev) => ({
       ...prev,
@@ -107,26 +143,40 @@ export default function ProjectsPage() {
       error: null,
     }));
     setPreviewProjectId(null);
+    if (tab === "create") {
+      setOriginalForm({ name: "", description: "", flashcards: [] });
+    } else {
+      setOriginalForm(null);
+    }
   }
 
   function openEditPanel(project: Project & { formattedCreatedAt?: string }) {
     setActiveTab("edit");
+    const form = {
+      name: project.name,
+      description: project.description,
+      flashcards: Array.isArray(project.flashcards) ? project.flashcards : [],
+    };
     setProjectFormState({
       open: true,
       editing: true,
       projectId: project.id,
-      form: {
-        name: project.name,
-        description: project.description,
-        flashcards: Array.isArray(project.flashcards) ? project.flashcards : [],
-      },
+      form,
       loading: false,
       error: null,
     });
+    setOriginalForm(form);
     setPreviewProjectId(null);
   }
 
-  function closePanel() {
+  // Only prompt if the panel is being closed by user action, not after save
+  function closePanel({ force = false } = {}) {
+    if (!force && hasUnsavedChanges) {
+      const confirmClose = window.confirm(
+        "You have unsaved changes. Are you sure you want to close? Unsaved changes will be lost."
+      );
+      if (!confirmClose) return;
+    }
     setActiveTab("all");
     setProjectFormState((prev) => ({
       ...prev,
@@ -136,6 +186,7 @@ export default function ProjectsPage() {
       form: { name: "", description: "", flashcards: [] },
       error: null,
     }));
+    setOriginalForm(null);
   }
 
   function handleFormChange(
@@ -221,7 +272,8 @@ export default function ProjectsPage() {
           flashcards: projectFormState.form.flashcards,
         });
       }
-      closePanel();
+      setOriginalForm(null);
+      closePanel({ force: true }); // Don't prompt after save
       // Reload from server for consistency
       const data = await getProjects();
       const formatted = data.map((project: Project) => ({
@@ -242,25 +294,50 @@ export default function ProjectsPage() {
     }
   }
 
-  async function handleDelete(id: string) {
+  // Soft delete with undo
+  function handleDelete(id: string) {
     setDeleteLoadingId(id);
-    // TODO: Soft delete with undo toast
+    const deletedProject = projects.find((p) => p.id === id);
     setProjects((prev) => prev.filter((p) => p.id !== id));
-    try {
-      await deleteProject(id);
-      // Reload from server for consistency
-      const data = await getProjects();
-      const formatted = data.map((project: Project) => ({
-        ...project,
-        flashcards: parseFlashcards(project.flashcards),
-        formattedCreatedAt: new Date(project.created_at).toLocaleString(),
-      }));
-      setProjects(formatted);
-    } catch {
-      setError("Failed to delete project");
-    } finally {
-      setDeleteLoadingId(null);
-    }
+    let undo = false;
+    toast(
+      (t) => (
+        <div>
+          <span>Project deleted.</span>
+          <button
+            className="btn btn-xs btn-ghost ml-2"
+            onClick={() => {
+              undo = true;
+              setProjects((prev) => [deletedProject!, ...prev]);
+              setDeleteLoadingId(null);
+              toast.dismiss(t.id);
+            }}
+          >
+            Undo
+          </button>
+        </div>
+      ),
+      { duration: 5000 }
+    );
+    setTimeout(async () => {
+      if (!undo) {
+        try {
+          await deleteProject(id);
+          // Reload from server for consistency
+          const data = await getProjects();
+          const formatted = data.map((project: Project) => ({
+            ...project,
+            flashcards: parseFlashcards(project.flashcards),
+            formattedCreatedAt: formatDate(project.created_at),
+          }));
+          setProjects(formatted);
+        } catch {
+          setError("Failed to delete project");
+        } finally {
+          setDeleteLoadingId(null);
+        }
+      }
+    }, 5000);
   }
 
   return (
