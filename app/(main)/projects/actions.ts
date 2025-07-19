@@ -1,8 +1,22 @@
-"use server";
+// --- Types ---
+export type Flashcard = {
+  question: string;
+  answer: string;
+};
+
+export type Project = {
+  id: string;
+  name: string;
+  description: string;
+  created_at: string;
+  flashcards?: Flashcard[];
+  formattedCreatedAt?: string;
+};
+("use server");
 
 import { createClient } from "@/utils/supabase/server";
 
-export async function getProjects() {
+export async function getProjects(): Promise<Project[]> {
   const supabase = await createClient();
   const {
     data: { user },
@@ -15,8 +29,11 @@ export async function getProjects() {
     .select("id, name, description, created_at, flashcards")
     .eq("user_id", user.id)
     .order("created_at", { ascending: false });
-  if (error) return [];
-  return data || [];
+  if (error || !data) return [];
+  return data.map((project) => ({
+    ...project,
+    flashcards: Array.isArray(project.flashcards) ? project.flashcards : [],
+  }));
 }
 
 export async function createProject({
@@ -26,7 +43,7 @@ export async function createProject({
 }: {
   name: string;
   description: string;
-  flashcards?: any[];
+  flashcards?: Flashcard[];
 }) {
   const supabase = await createClient();
   const {
@@ -55,7 +72,7 @@ export async function updateProject({
   id: string;
   name: string;
   description: string;
-  flashcards?: any[];
+  flashcards?: Flashcard[];
 }) {
   console.log("projectsActions: updateProject called", {
     id,
