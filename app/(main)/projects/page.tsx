@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { formatDate } from "./actions";
+import { formatDate } from "./utils/formatDate";
 import { Loader2, BookOpen } from "lucide-react";
 import {
   createProject,
@@ -94,13 +94,11 @@ export default function ProjectsPage() {
       setError(null);
       try {
         const data = await getProjects();
-        const formatted = await Promise.all(
-          data.map(async (project: Project) => ({
-            ...project,
-            flashcards: parseFlashcards(project.flashcards),
-            formattedCreatedAt: await formatDate(project.created_at),
-          }))
-        );
+        const formatted = data.map((project: Project) => ({
+          ...project,
+          flashcards: parseFlashcards(project.flashcards),
+          formattedCreatedAt: formatDate(project.created_at),
+        }));
         setProjects(formatted);
       } catch {
         setError("Failed to load projects");
@@ -257,20 +255,17 @@ export default function ProjectsPage() {
       } else {
         // Optimistic add
         const tempId = "temp-" + Date.now();
-        (async () => {
-          const formattedCreatedAt = await formatDate(new Date());
-          setProjects((prev) => [
-            {
-              id: tempId,
-              name: projectFormState.form.name,
-              description: projectFormState.form.description,
-              flashcards: projectFormState.form.flashcards,
-              created_at: new Date().toISOString(),
-              formattedCreatedAt,
-            },
-            ...prev,
-          ]);
-        })();
+        setProjects((prev) => [
+          {
+            id: tempId,
+            name: projectFormState.form.name,
+            description: projectFormState.form.description,
+            flashcards: projectFormState.form.flashcards,
+            created_at: new Date().toISOString(),
+            formattedCreatedAt: formatDate(new Date()),
+          },
+          ...prev,
+        ]);
         await createProject({
           name: projectFormState.form.name,
           description: projectFormState.form.description,
@@ -281,13 +276,11 @@ export default function ProjectsPage() {
       closePanel({ force: true }); // Don't prompt after save
       // Reload from server for consistency
       const data = await getProjects();
-      const formatted = await Promise.all(
-        data.map(async (project: Project) => ({
-          ...project,
-          flashcards: parseFlashcards(project.flashcards),
-          formattedCreatedAt: await formatDate(project.created_at),
-        }))
-      );
+      const formatted = data.map((project: Project) => ({
+        ...project,
+        flashcards: parseFlashcards(project.flashcards),
+        formattedCreatedAt: formatDate(project.created_at),
+      }));
       setProjects(formatted);
     } catch {
       setProjectFormState((prev) => ({
@@ -332,13 +325,11 @@ export default function ProjectsPage() {
           await deleteProject(id);
           // Reload from server for consistency
           const data = await getProjects();
-          const formatted = await Promise.all(
-            data.map(async (project: Project) => ({
-              ...project,
-              flashcards: parseFlashcards(project.flashcards),
-              formattedCreatedAt: await formatDate(project.created_at),
-            }))
-          );
+          const formatted = data.map((project: Project) => ({
+            ...project,
+            flashcards: parseFlashcards(project.flashcards),
+            formattedCreatedAt: formatDate(project.created_at),
+          }));
           setProjects(formatted);
         } catch {
           setError("Failed to delete project");

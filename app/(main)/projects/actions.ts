@@ -16,6 +16,7 @@ export type Project = {
 };
 
 import { createClient } from "@/utils/supabase/server";
+import { formatDate } from "./utils/formatDate";
 
 export async function getProjects(): Promise<Project[]> {
   const supabase = await createClient();
@@ -111,12 +112,4 @@ export async function deleteProject(id: string) {
     .eq("id", id)
     .eq("user_id", user.id);
   if (error) throw error;
-}
-
-export async function formatDate(
-  date: string | Date,
-  options?: Intl.DateTimeFormatOptions
-) {
-  const d = typeof date === "string" ? new Date(date) : date;
-  return d.toLocaleString(undefined, options);
 }
