@@ -16,7 +16,6 @@ export type Project = {
 };
 
 import { createClient } from "@/utils/supabase/server";
-import { formatDate } from "./utils/formatDate";
 
 export async function getProjects(): Promise<Project[]> {
   const supabase = await createClient();
