@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { formatDate } from "./utils/formatDate";
+import { formatDate } from "./actions";
 import { Loader2, BookOpen } from "lucide-react";
 import {
   createProject,

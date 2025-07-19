@@ -1,5 +1,5 @@
 import React from "react";
-import { Plus, Loader2, Check, Trash2 } from "lucide-react";
+import { Plus, Loader2, Check } from "lucide-react";
 import { FlashcardInput } from "./FlashcardInput";
 
 type Flashcard = {
