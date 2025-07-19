@@ -250,11 +250,18 @@ export function Header() {
                   <Settings className="w-4 h-4" /> Settings
                 </Link>
               </li>
-              <li className="divider my-1" />
               <li>
-                <button className="flex items-center gap-2 px-2 py-2 rounded-md hover:bg-error hover:text-error-content transition-colors w-full justify-start">
-                  <LogOut className="w-4 h-4" /> Logout
-                </button>
+                <form
+                  action={require("@/app/(main)/dashboard/actions").signOut}
+                  className="w-full m-0 p-0 hover:bg-error hover:text-error-content "
+                >
+                  <button
+                    type="submit"
+                    className="flex items-center gap-2 px-2 py-2 rounded-md transition-colors w-full justify-start bg-transparent border-0 shadow-none"
+                  >
+                    <LogOut className="w-4 h-4" /> Logout
+                  </button>
+                </form>
               </li>
             </ul>
           </div>
