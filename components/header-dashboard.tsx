@@ -253,11 +253,11 @@ export function Header() {
               <li>
                 <form
                   action={require("@/app/(main)/dashboard/actions").signOut}
-                  className="w-full m-0 p-0 hover:bg-error hover:text-error-content "
+                  className="w-full m-0 p-0 flex items-center gap-2 px-2 py-2 rounded-md transition-colors hover:bg-error hover:text-error-content cursor-pointer"
                 >
                   <button
                     type="submit"
-                    className="flex items-center gap-2 px-2 py-2 rounded-md transition-colors w-full justify-start bg-transparent border-0 shadow-none"
+                    className="w-full h-full flex items-center gap-2 bg-transparent border-0 shadow-none p-0 m-0 text-left justify-start cursor-pointer"
                   >
                     <LogOut className="w-4 h-4" /> Logout
                   </button>
