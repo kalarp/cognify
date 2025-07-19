@@ -8,6 +8,10 @@ import { useTheme } from "@/hooks/useTheme";
 import { useDashboardHeader } from "@/hooks/useDashboardHeader";
 import { useState, useEffect } from "react";
 
+function getSignOutAction() {
+  return require("@/app/(main)/dashboard/actions").signOut;
+}
+
 export function Header() {
   const { theme, toggleTheme } = useTheme();
   const { user, drawerOpen, setDrawerOpen } = useDashboardHeader();
@@ -252,7 +256,7 @@ export function Header() {
               </li>
               <li>
                 <form
-                  action={require("@/app/(main)/dashboard/actions").signOut}
+                  action={getSignOutAction()}
                   className="w-full m-0 p-0 flex items-center gap-2 px-2 py-2 rounded-md transition-colors hover:bg-error hover:text-error-content cursor-pointer"
                 >
                   <button
