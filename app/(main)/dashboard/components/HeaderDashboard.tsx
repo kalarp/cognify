@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useTheme } from "@/hooks/useTheme";
 import { useDashboardHeader } from "@/hooks/useDashboardHeader";
 import { useState, useEffect } from "react";
+import { signOut } from "../actions";
 
 export function Header() {
   const { theme, toggleTheme } = useTheme();
@@ -250,11 +251,18 @@ export function Header() {
                   <Settings className="w-4 h-4" /> Settings
                 </Link>
               </li>
-              <li className="divider my-1" />
               <li>
-                <button className="flex items-center gap-2 px-2 py-2 rounded-md hover:bg-error hover:text-error-content transition-colors w-full justify-start">
-                  <LogOut className="w-4 h-4" /> Logout
-                </button>
+                <form
+                  action={signOut}
+                  className="w-full m-0 p-0 flex items-center gap-2 px-2 py-2 rounded-md transition-colors hover:bg-error hover:text-error-content cursor-pointer"
+                >
+                  <button
+                    type="submit"
+                    className="w-full h-full flex items-center gap-2 bg-transparent border-0 shadow-none p-0 m-0 text-left justify-start cursor-pointer"
+                  >
+                    <LogOut className="w-4 h-4" /> Logout
+                  </button>
+                </form>
               </li>
             </ul>
           </div>
