@@ -1,3 +1,5 @@
+"use server";
+
 // --- Types ---
 export type Flashcard = {
   question: string;
@@ -12,7 +14,6 @@ export type Project = {
   flashcards?: Flashcard[];
   formattedCreatedAt?: string;
 };
-("use server");
 
 import { createClient } from "@/utils/supabase/server";
 
