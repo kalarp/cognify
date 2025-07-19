@@ -95,7 +95,7 @@ export async function deleteProject(id: string) {
   if (error) throw error;
 }
 
-export function formatDate(
+export async function formatDate(
   date: string | Date,
   options?: Intl.DateTimeFormatOptions
 ) {
