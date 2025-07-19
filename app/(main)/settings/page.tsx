@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { useToast } from "@/components/toast-provider";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import Image from "next/image";
-import { User } from "lucide-react";
 import { ProfileSettingsForm } from "./components/ProfileSettingsForm";
 import { useSettingsActions } from "./actions";
 
@@ -141,7 +140,6 @@ const SettingsPage = () => {
               profilePicture={profilePicture}
               displayName={displayName}
               bio={bio}
-              validationError={validationError}
               isLoading={isLoading}
               showPreview={showPreview}
               previewUrl={previewUrl}

@@ -6,7 +6,6 @@ export interface ProfileSettingsFormProps {
   profilePicture: File | null;
   displayName: string;
   bio: string;
-  validationError: string;
   isLoading: boolean;
   showPreview: boolean;
   previewUrl: string | null;
@@ -21,7 +20,6 @@ export const ProfileSettingsForm: React.FC<ProfileSettingsFormProps> = ({
   profilePicture,
   displayName,
   bio,
-  validationError,
   isLoading,
   showPreview,
   previewUrl,

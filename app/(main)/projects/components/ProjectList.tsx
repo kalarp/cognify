@@ -1,6 +1,32 @@
 import { ProjectCard } from "./ProjectCard";
 import { motion, AnimatePresence } from "framer-motion";
 
+type Flashcard = {
+  question: string;
+  answer: string;
+};
+
+type Project = {
+  id: string;
+  name: string;
+  description: string;
+  created_at: string;
+  flashcards?: Flashcard[] | string;
+  formattedCreatedAt?: string;
+};
+
+interface ProjectListProps {
+  projects: Project[];
+  previewProjectId: string | null;
+  deleteLoadingId: string | null;
+  openEditPanel: (project: Project) => void;
+  handleDelete: (id: string) => void;
+  setPreviewProjectId: (id: string | null) => void;
+  parseFlashcards: (
+    flashcards: Flashcard[] | string | undefined
+  ) => Flashcard[];
+}
+
 export function ProjectList({
   projects,
   previewProjectId,
@@ -9,15 +35,7 @@ export function ProjectList({
   handleDelete,
   setPreviewProjectId,
   parseFlashcards,
-}: {
-  projects: any[];
-  previewProjectId: string | null;
-  deleteLoadingId: string | null;
-  openEditPanel: (project: any) => void;
-  handleDelete: (id: string) => void;
-  setPreviewProjectId: (id: string | null) => void;
-  parseFlashcards: (flashcards: any) => any[];
-}) {
+}: ProjectListProps) {
   return (
     <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {projects.map((project) => {
